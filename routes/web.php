@@ -28,7 +28,7 @@ Auth::routes();
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::resource('roles', RoleController::class);
+    Route::resource('roles', RoleController::class)->middleware('permission:super-admin');
     Route::resource('users', UserController::class);
     Route::resource('products', ProductController::class);
 });

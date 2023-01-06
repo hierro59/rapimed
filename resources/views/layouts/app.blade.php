@@ -7,79 +7,69 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('img/fav-ico.png') }}">
+
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Fonts -->
+    <!-- Assets -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendor/jqvmap/css/jqvmap.min.css') }}" rel="stylesheet">
+	<link href="{{ asset('vendor/chartist/css/chartist.min.css') }} rel="stylesheet"">
+    <link href="{{ asset('vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
+	<link href="{{ asset('vendor/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet">
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
 <body>
-    <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav me-auto">
-
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ms-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                            @if (Route::has('login'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                                </li>
-                            @endif
-
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
-                        @else
-                        <li><a class="nav-link" href="{{ route('users.index') }}">Manage Users</a></li>
-                        <li><a class="nav-link" href="{{ route('roles.index') }}">Manage Role</a></li>
-                        <li><a class="nav-link" href="{{ route('products.index') }}">Manage Product</a></li>
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }}
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
-                        @endguest
-                    </ul>
-                </div>
-            </div>
-        </nav>
-
-        <main class="py-4">
-            <div class="container">
-                @yield('content')
-            </div>
-        </main>
+    <!--*******************
+        Preloader start
+    ********************-->
+    <div id="preloader">
+        <div class="sk-three-bounce">
+            <div class="sk-child sk-bounce1"></div>
+            <div class="sk-child sk-bounce2"></div>
+            <div class="sk-child sk-bounce3"></div>
+        </div>
     </div>
+    <!--*******************
+        Preloader end
+    ********************-->
+    <div id="app">
+        <div id="main-wrapper">
+            @auth
+                @include('layouts.dashboard.navbar')
+                @include('layouts.dashboard.sidebar')
+                <main class="py-4">
+                    <div class="container">
+                        @yield('content')
+                    </div>
+                </main>
+            @else
+                <main class="py-4">
+                    <div class="container">
+                        @yield('content')
+                    </div>
+                </main>
+            @endauth
+        </div>
+    </div>
+
+    <!-- Required vendors -->
+    <script src="{{ asset('vendor/global/global.min.js') }}"></script>
+	<script src="{{ asset('vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
+	<script src="{{ asset('vendor/chart.js/Chart.bundle.min.js') }}"></script>
+    <script src="{{ asset('js/custom.min.js') }}"></script>
+	<script src="{{ asset('js/deznav-init.js') }}"></script>
+
+	<!-- Chart piety plugin files -->
+    <script src="{{ asset('vendor/peity/jquery.peity.min.js') }}"></script>
+
+	<!-- Apex Chart -->
+	<script src="{{ asset('vendor/apexchart/apexchart.js') }}"></script>
+	<!-- Dashboard 1 -->
+	<script src="{{ asset('js/dashboard/patient-details.js') }}"></script>
 </body>
 </html>
