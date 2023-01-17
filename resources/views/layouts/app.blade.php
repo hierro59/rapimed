@@ -19,6 +19,7 @@
 	<link href="{{ asset('vendor/chartist/css/chartist.min.css') }} rel="stylesheet"">
     <link href="{{ asset('vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
 	<link href="{{ asset('vendor/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/13d4eb0966.js" crossorigin="anonymous"></script>
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
@@ -39,6 +40,14 @@
     ********************-->
     <div id="app">
         <div id="main-wrapper">
+            @if(session()->has('success'))
+                <div x-data="{ show: true}"
+                    x-init="setTimeout(() => show = false, 4000)"
+                    x-show="show"
+                    class="position-fixed bg-success rounded right-3 text-sm py-2 px-4">
+                <p class="m-0">{{ session('success')}}</p>
+                </div>
+            @endif
             @auth
                 @include('layouts.dashboard.navbar')
                 @include('layouts.dashboard.sidebar')

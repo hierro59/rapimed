@@ -14,7 +14,7 @@
                     <span class="nav-text">Citas</span>
                 </a>
                 <ul aria-expanded="false">
-                    <li><a href="{{ route('citas.create') }}">Nueva cita</a></li>
+                    <li><a href="javascript:void(0)" data-toggle="modal" data-target="#addOrderModal">Nueva cita</a></li>
                     <li><a href="{{ route('citas.index') }}">Mis citas</a></li>
                 </ul>
             </li>
@@ -69,7 +69,6 @@
             </li>
         @endcan
         </ul>
-
         <div class="copyright">
             <p><strong>RapiMed</strong> © 2023 All Rights Reserved</p>
             <p>Made with ♥ by <a style="text-decoration: none" href="https://quantlas.tech" target="_BLANK">Quantlas</a></p>

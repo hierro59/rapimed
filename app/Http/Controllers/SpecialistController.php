@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Models\User;
-use Spatie\Permission\Models\Role;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
+use App\Models\Specialist;
 use Illuminate\Support\Arr;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 
 class SpecialistController extends Controller
 {
@@ -19,9 +20,9 @@ class SpecialistController extends Controller
      */
     public function index(Request $request)
     {
-        /* $data = User::orderBy('id', 'DESC')->paginate(5);
-        return view('users.index', compact('data'))
-            ->with('i', ($request->input('page', 1) - 1) * 5); */
+        $data = Specialist::orderBy('id', 'DESC')->paginate(5);
+        return view('specialist.index', compact('data'))
+            ->with('i', ($request->input('page', 1) - 1) * 5);
     }
 
     /**
@@ -31,8 +32,8 @@ class SpecialistController extends Controller
      */
     public function create()
     {
-        /* $roles = Role::pluck('name', 'name')->all();
-        return view('users.create', compact('roles')); */
+        $roles = Role::pluck('name', 'name')->all();
+        return view('specialist.create', compact('roles'));
     }
 
     /**
@@ -43,9 +44,11 @@ class SpecialistController extends Controller
      */
     public function store(Request $request)
     {
-        /* $this->validate($request, [
+        $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
+            'specialty' => 'required',
+            'bio' => 'required',
             'password' => 'required|same:confirm-password',
             'roles' => 'required'
         ]);
@@ -53,11 +56,12 @@ class SpecialistController extends Controller
         $input = $request->all();
         $input['password'] = Hash::make($input['password']);
 
+        $user = Specialist::create($input);
         $user = User::create($input);
         $user->assignRole($request->input('roles'));
 
-        return redirect()->route('users.index')
-            ->with('success', 'User created successfully'); */
+        return redirect()->route('specialist.index')
+            ->with('success', 'User created successfully');
     }
 
     /**
@@ -68,9 +72,8 @@ class SpecialistController extends Controller
      */
     public function show($id)
     {
-        /* $user = User::find($id);
-        return view('users.show', compact('user')); */
-        return view('specialist.my');
+        $specialist = DB::Table('specialists')->select('id', 'name', 'email', 'degree', 'specialty')->where('status', '=', 1)->get();
+        return view('specialist.my', compact('specialist', 'id'));
     }
 
     /**
