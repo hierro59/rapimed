@@ -20,8 +20,9 @@ class SpecialistController extends Controller
      */
     public function index(Request $request)
     {
+        $ide = User::where('status', '=', 1)->get();
         $data = Specialist::orderBy('id', 'DESC')->paginate(5);
-        return view('specialist.index', compact('data'))
+        return view('specialist.index', compact('data', 'ide'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }
 

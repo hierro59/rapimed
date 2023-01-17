@@ -53,16 +53,17 @@
                 </td>
                 <td>
                     <?php
-                        $ide = DB::Table('users')->select('id')->where('email', '=', $user->email)->get();
                         foreach ($ide as $key => $value) {
-                           echo $value->id;
+                            if ($value->email == $user->email) {
+                                $ideSpe = $value->id;
+                            }
                         }
                     ?>
-                    {{-- <a class="btn btn-info" href="{{ route('users.show',$usuario->id) }}">Show</a>
-                    <a class="btn btn-primary" href="{{ route('specialist.edit',$user->id) }}">Edit</a>
-                        {!! Form::open(['method' => 'DELETE','route' => ['specialist.destroy', $user->id],'style'=>'display:inline']) !!}
+                    <a class="btn btn-info" href="{{ route('users.show',$ideSpe) }}">Show</a>
+                    <a class="btn btn-primary" href="{{ route('specialist.edit',$ideSpe) }}">Edit</a>
+                        {!! Form::open(['method' => 'DELETE','route' => ['specialist.destroy', $ideSpe],'style'=>'display:inline']) !!}
                             {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
-                        {!! Form::close() !!} --}}
+                        {!! Form::close() !!}
                 </td>
             </tr>
         @endforeach
@@ -70,3 +71,4 @@
         {!! $data->render() !!}
     </div>
 @endsection
+
