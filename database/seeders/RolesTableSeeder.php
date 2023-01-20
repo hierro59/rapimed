@@ -16,7 +16,6 @@ class RolesTableSeeder extends Seeder
     public function run()
     {
         $roles = [
-            'SuperAdmin',
             'Customer',
             'Especialista',
             'Company'

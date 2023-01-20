@@ -37,8 +37,7 @@ class PermissionTableSeeder extends Seeder
             'customer-edit-profile',
             'customer-delete-account',
             'specialist-edit-profile',
-            'specialist-delete-profile',
-            'admin'
+            'specialist-delete-profile'
         ];
 
         foreach ($permissions as $permission) {
