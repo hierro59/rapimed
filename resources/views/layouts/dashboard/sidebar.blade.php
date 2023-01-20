@@ -38,7 +38,7 @@
                     <span class="nav-text">Mis Especialistas</span>
                 </a>
             </li>
-        @can('admin')
+        @can('super-admin')
         <hr style="width: 80%">
             <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
                     <i class="flaticon-381-settings-2"></i>
