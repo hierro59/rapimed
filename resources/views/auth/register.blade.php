@@ -4,7 +4,6 @@
     <div class="container h-100">
         <div class="row justify-content-center h-100 align-items-center">
             <div class="col-sm-4 text-center">
-
                 <a href="{{ route('home') }}"><img src="{{ asset('img/LogoRapiMed.svg') }}" alt="Logo RapiMed" style="height: 120px;"></a><br>
                 <span style="font-size: 2rem; color: #555; font-weight: 800;">RapiMed</span>
                 <div style="margin: 5% 0"></div>
@@ -46,6 +45,7 @@
                                         <label class="mb-1 text-white"><strong>Repita contraseña</strong></label>
                                         <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                                     </div>
+                                    <input type="text" name="roles" value="Customer" hidden>
                                     <div class="text-center mt-4">
                                         <button type="submit" class="btn bg-white text-primary btn-block">
                                             {{ __('Register') }}

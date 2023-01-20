@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Faker\Provider\Lorem;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
@@ -16,28 +17,28 @@ class PermissionTableSeeder extends Seeder
     public function run()
     {
         $permissions = [
-            'admin',
-            'appointment-create-others',
-            'appointment-create-own',
-            'appointment-delete-others',
-            'appointment-delete-own',
-            'appointment-edit-others',
-            'appointment-edit-own',
-            'appointment-show-all',
-            'appointment-show-own',
-            'customer-delete-account',
-            'customer-edit-profile',
-            'product-create',
-            'product-delete',
-            'product-edit',
-            'product-list',
-            'role-create',
-            'role-delete',
-            'role-edit',
             'role-list',
-            'specialist-delete-profile',
+            'role-create',
+            'role-edit',
+            'role-delete',
+            'product-list',
+            'product-create',
+            'product-edit',
+            'product-delete',
+            'super-admin',
+            'appointment-show-own',
+            'appointment-show-all',
+            'appointment-create-own',
+            'appointment-edit-own',
+            'appointment-create-others',
+            'appointment-edit-others',
+            'appointment-delete-own',
+            'appointment-delete-others',
+            'customer-edit-profile',
+            'customer-delete-account',
             'specialist-edit-profile',
-            'super-admin'
+            'specialist-delete-profile',
+            'admin'
         ];
 
         foreach ($permissions as $permission) {
