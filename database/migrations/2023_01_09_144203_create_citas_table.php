@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('user_id');
             $table->integer('specialist_id');
             $table->timestamp('fecha_cita')->nullable();
+            $table->string('hora_cita', 50)->nullable();
             $table->string('tipo');
             $table->integer('score')->nullable();
             $table->integer('status')->default(0);
