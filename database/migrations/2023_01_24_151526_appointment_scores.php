@@ -13,13 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('specialists', function (Blueprint $table) {
+        Schema::create('appointment_scores', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('degree');
-            $table->string('specialty');
-            $table->mediumText('bio');
+            $table->integer('cita_id');
+            $table->integer('customer_id')->nullable();
+            $table->integer('specialist_id')->nullable();
+            $table->integer('score');
+            $table->string('commit')->nullable();
             $table->integer('status')->default(1);
             $table->timestamps();
         });
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('specialists');
+        Schema::dropIfExists('appointment_scores');
     }
 };

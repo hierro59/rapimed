@@ -14,7 +14,9 @@
                     <span class="nav-text">Citas</span>
                 </a>
                 <ul aria-expanded="false">
-                    <li><a href="javascript:void(0)" data-toggle="modal" data-target="#addOrderModal">Nueva cita</a></li>
+                    @can('customer-view')
+                        <li><a href="javascript:void(0)" data-toggle="modal" data-target="#addOrderModal">Nueva cita</a></li>
+                    @endcan
                     <li><a href="{{ route('citas.index') }}">Mis citas</a></li>
                 </ul>
             </li>
@@ -33,11 +35,13 @@
                     <span class="nav-text">Mi Perfil</span>
                 </a>
             </li>
+            @can('customer-view')
             <li><a href="{{ route('specialist.show', Auth::user()->id) }}" class="ai-icon" aria-expanded="false">
                     <i class="flaticon-381-heart"></i>
                     <span class="nav-text">Mis Especialistas</span>
                 </a>
             </li>
+            @endcan
         @can('super-admin')
         <hr style="width: 80%">
             <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">

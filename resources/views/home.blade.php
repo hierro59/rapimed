@@ -25,6 +25,7 @@
                     </a>
                 </div>
             </div>
+            @can('customer-view')
             <div class="col-xl-3 col-sm-6">
                 <div class="card">
                     <a href="javascript:void(0)" style="text-decoration: none; display: flex; color: #111;" data-toggle="modal" data-target="#addOrderModal">
@@ -54,6 +55,7 @@
                     </a>
                 </div>
             </div>
+            @endcan
             <div class="col-xl-3 col-sm-6">
                 <div class="card">
                     <a href="{{ route('users.show', Auth::user()->id) }}" style="text-decoration: none; display: flex; color: #111;">
@@ -132,58 +134,6 @@
             </div>
         @endcan
         </div>
-        <!-- Add Order -->
-        {{-- <div class="modal fade" id="addOrderModal">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Solicitar cita</h5>
-                        <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        {!! Form::open(array('route' => 'citas.store','method'=>'POST')) !!}
-                            <div class="form-group">
-                                <label class="text-black font-w500">Especialidad</label>
-                                @php
-                                    $line = [];
-                                    foreach ($specialist as $key => $value) {
-                                        $line[$value->id] = $value->specialty . " | " . $value->degree . " " . $value->name;
-                                        array_push($line);
-                                    }
-                                @endphp
-                                {!! Form::select('specialist_id', $line,[], array('placeholder' => 'Seleccione un especialista','class' => 'form-control')) !!}
-                            </div>
-                            <div class="form-group">
-                                <label class="text-black font-w500">Fecha de cita</label>
-                                {!! Form::date('fecha_cita', null, array('placeholder' => 'Fecha de la cita','class' => 'form-control')) !!}
-                            </div>
-                            <div class="form-group">
-                                <label class="text-black font-w500">Hora de cita</label>
-                                {!! Form::time('hora_cita', null, array('placeholder' => 'Hora de la cita','class' => 'form-control')) !!}
-                            </div>
-                            <div class="form-group">
-                                <label class="text-black font-w500">Tipo de cita</label>
-                                @php
-                                    $optionsTipo = [
-                                        'Domicilio' => 'En mi casa',
-                                        'Consultorio' => 'En el consultorio',
-                                        'Virtual' => 'Virtual'
-                                    ];
-                                @endphp
-                                {!! Form::select('tipo', $optionsTipo,[], array('placeholder' => 'Seleccione el tipo de cita','class' => 'form-control','simple')) !!}
-                            </div>
-
-                            {!! Form::text('user_id', $id, array('hidden')) !!}
-                            <small>Le notificaremos cuando le sea asignado un especialista y sea aceptada su solicitud.</small>
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-primary">Solicitar</button>
-                            </div>
-                        {!! Form::close() !!}
-                    </div>
-                </div>
-            </div>
-        </div> --}}
         <div class="row">
             {{-- ESTADISTICAS DE PACIENTES --}}
             {{-- <div class="col-xl-6">
@@ -598,7 +548,6 @@
                     </div>
                 </div>
             </div> --}}
-        @can('admin')
             <div class="col-xl-12">
                 <div class="row">
                     <div class="col-xl-12">
@@ -627,72 +576,151 @@
                                         </div>
                                     </div>
                                     <div class="col-xl-6 col-xxl-12  col-md-6 height415 dz-scroll" id="appointment-schedule">
-                                        <div class="d-flex pb-3 border-bottom mb-3 align-items-end">
+                    @can('super-admin')
+                        @php
+                            setlocale(LC_ALL, 'Spanish_Venezuela');
+                            for ($i=0; $i < count($datos); $i++) {
+                                        echo '<div class="d-flex pb-3 border-bottom mb-3 align-items-end">
                                             <div class="mr-auto">
-                                                <p class="text-black font-w600 mb-2">Wednesday, June 3th</p>
+                                                <p class="text-black font-w600 mb-2">'. utf8_encode(strftime("%A, %d de %B", strtotime($datos[$i]['cita_fecha']))) .'</p>
                                                 <ul>
-                                                    <li><i class="las la-clock"></i>09:00 - 10:30 AM</li>
-                                                    <li><i class="las la-user"></i>Dr. Samantha</li>
-                                                </ul>
-                                            </div>
-                                            <a href="javascript:void(0)" class="text-success mr-3 mb-2">
-                                                <i class="las la-check-circle scale5"></i>
-                                            </a>
-                                            <a href="javascript:void(0)" class="text-danger mb-2">
-                                                <i class="las la-times-circle scale5"></i>
-                                            </a>
-                                        </div>
-                                        <div class="d-flex pb-3 border-bottom mb-3 align-items-end">
+                                                    <li><i class="las la-clock"></i>' . $datos[$i]['cita_hora'] . '</li>
+                                                    <li><i class="las la-stethoscope"></i>' . $datos[$i]['specialist_degree'] . " " . $datos[$i]['specialist_name'] . '</li>
+                                                    <li><i class="las la-user"></i>' . $datos[$i]['paciente_name'] . '</li>
+                                                    <li><i class="las la-eye"></i>' . $datos[$i]['cita_tipo'] . '</li>';
+                                                    switch ($datos[$i]['cita_status']) {
+                                                        case 0:
+                                                            echo '<li class="btn btn-warning text-nowrap btn-sm">Solicitada</li>';
+                                                            break;
+                                                        case 1:
+                                                        case 7:
+                                                            echo '<li class="btn btn-success text-nowrap btn-sm">Aceptada</li>';
+                                                            break;
+                                                        case 2:
+                                                        case 3:
+                                                            echo '<li class="btn btn-danger text-nowrap btn-sm light">Rechazada</li>';
+                                                            break;
+                                                        case 4:
+                                                        case 5:
+                                                        case 6:
+                                                            echo '<li class="btn btn-danger text-nowrap btn-sm">Cancelada</li>';
+                                                            break;
+                                                        case 8:
+                                                            echo '<li class="btn btn-info text-nowrap btn-sm">Realizada</li>';
+                                                            break;
+                                                    }
+                                            echo    '</ul>
+                                            </div>';
+                                            switch ($datos[$i]['cita_status']) {
+                                                case 0:
+                                                    echo    Form::submit('Reprogramar', ['class' => 'btn btn-info']);
+                                                    $cancelar = array('cita' => $datos[$i]['cita_id'], 'id' => $datos[$i]['cita_id'], 'status' => 4);
+                                                    echo Form::open(['method' => 'PATCH','route' => ['citas.update', $cancelar], 'style'=>'display:inline']);
+                                                    echo    Form::submit('Cancelar', ['class' => 'btn btn-danger light']);
+                                                    echo Form::close();
+                                                    break;
+                                                case 1:
+                                                case 7:
+                                                    echo    Form::submit('Reprogramar', ['class' => 'btn btn-info']);
+                                                    $cancelar = array('cita' => $datos[$i]['cita_id'], 'id' => $datos[$i]['cita_id'], 'status' => 4);
+                                                    echo Form::open(['method' => 'PATCH','route' => ['citas.update', $cancelar], 'style'=>'display:inline']);
+                                                    echo    Form::submit('Cancelar', ['class' => 'btn btn-danger light']);
+                                                    echo Form::close();
+                                                    break;
+                                                case 2:
+                                                case 3:
+                                                    echo    Form::submit('Reprogramar', ['class' => 'btn btn-info']);
+                                                    break;
+                                            }
+
+                                            echo '
+                                        </div>';
+                            }
+                        @endphp
+                    @elsecan('specialist-view')
+                        @php
+                            setlocale(LC_ALL, 'Spanish_Venezuela');
+                            for ($i=0; $i < count($datos); $i++) {
+                                        echo '<div class="d-flex pb-3 border-bottom mb-3 align-items-end">
                                             <div class="mr-auto">
-                                                <p class="text-black font-w600 mb-2">Tuesday,  June 16th</p>
+                                                <p class="text-black font-w600 mb-2">'. utf8_encode(strftime("%A, %d de %B", strtotime($datos[$i]['cita_fecha']))) .'</p>
                                                 <ul>
-                                                    <li><i class="las la-clock"></i>09:00 - 10:30 AM</li>
-                                                    <li><i class="las la-user"></i>Dr. Samantha</li>
-                                                </ul>
-                                            </div>
-                                            <a href="javascript:void(0)" class="text-success mr-3 mb-2">
-                                                <i class="las la-check-circle scale5"></i>
-                                            </a>
-                                            <a href="javascript:void(0)" class="text-danger mb-2">
-                                                <i class="las la-times-circle scale5"></i>
-                                            </a>
-                                        </div>
-                                        <div class="d-flex pb-3 border-bottom mb-3 align-items-end">
-                                            <div class="mr-auto">
-                                                <p class="text-black font-w600 mb-2">Saturday, June 27th</p>
-                                                <ul>
-                                                    <li><i class="las la-clock"></i>09:00 - 10:30 AM</li>
-                                                    <li><i class="las la-user"></i>Dr. Samantha</li>
-                                                </ul>
-                                            </div>
-                                            <a href="javascript:void(0)" class="text-success mr-3 mb-2">
-                                                <i class="las la-check-circle scale5"></i>
-                                            </a>
-                                            <a href="javascript:void(0)" class="text-danger mb-2">
-                                                <i class="las la-times-circle scale5"></i>
-                                            </a>
-                                        </div>
-                                        <div class="d-flex pb-3 border-bottom mb-3 align-items-end">
-                                            <div class="mr-auto">
-                                                <p class="text-black font-w600 mb-2">Wednesday, June 3th</p>
-                                                <ul>
-                                                    <li><i class="las la-clock"></i>09:00 - 10:30 AM</li>
-                                                    <li><i class="las la-user"></i>Dr. Samantha</li>
-                                                </ul>
-                                            </div>
-                                            <a href="javascript:void(0)" class="text-success mr-3 mb-2">
-                                                <i class="las la-check-circle scale5"></i>
-                                            </a>
-                                            <a href="javascript:void(0)" class="text-danger mb-2">
-                                                <i class="las la-times-circle scale5"></i>
-                                            </a>
-                                        </div>
+                                                    <li><i class="las la-clock"></i>' . $datos[$i]['cita_hora'] . '</li>
+                                                    <li><i class="las la-stethoscope"></i>' . $datos[$i]['specialist_degree'] . " " . $datos[$i]['specialist_name'] . '</li>
+                                                    <li><i class="las la-user"></i>' . $datos[$i]['paciente_name'] . '</li>
+                                                    <li><i class="las la-eye"></i>' . $datos[$i]['cita_tipo'] . '</li>';
+                                                    switch ($datos[$i]['cita_status']) {
+                                                        case 0:
+                                                            echo '<li class="btn btn-warning text-nowrap btn-sm">Solicitada</li>';
+                                                            break;
+                                                        case 1:
+                                                        case 7:
+                                                            echo '<li class="btn btn-success text-nowrap btn-sm">Aceptada</li>';
+                                                            break;
+                                                        case 2:
+                                                        case 3:
+                                                            echo '<li class="btn btn-danger text-nowrap btn-sm light">Rechazada</li>';
+                                                            break;
+                                                        case 4:
+                                                        case 5:
+                                                        case 6:
+                                                            echo '<li class="btn btn-danger text-nowrap btn-sm">Cancelada</li>';
+                                                            break;
+                                                        case 8:
+                                                            echo '<li class="btn btn-info text-nowrap btn-sm">Realizada</li>';
+                                                            break;
+                                                    }
+                                            echo    '</ul>
+                                            </div>';
+                                                switch ($datos[$i]['cita_status']) {
+                                                    case 0:
+                                                    $aceptar = array('cita' => $datos[$i]['cita_id'], 'id' => $datos[$i]['cita_id'], 'status' => 1);
+                                                    echo Form::open(['method' => 'PATCH','route' => ['citas.update', $aceptar], 'style'=>'display:inline']);
+                                                    echo    Form::submit('Aceptar', ['class' => 'btn btn-primary']);
+                                                    echo Form::close();
+                                                    $rechazar = array('cita' => $datos[$i]['cita_id'], 'id' => $datos[$i]['cita_id'], 'status' => 2);
+                                                    echo Form::open(['method' => 'PATCH','route' => ['citas.update', $rechazar], 'style'=>'display:inline']);
+                                                    echo    Form::submit('Rechazar', ['class' => 'btn btn-danger']);
+                                                    echo Form::close();
+                                                    $cancelar = array('cita' => $datos[$i]['cita_id'], 'id' => $datos[$i]['cita_id'], 'status' => 4);
+                                                    echo Form::open(['method' => 'PATCH','route' => ['citas.update', $cancelar], 'style'=>'display:inline']);
+                                                    echo    Form::submit('Cancelar', ['class' => 'btn btn-danger light']);
+                                                    echo Form::close();
+                                                    break;
+                                                case 1:
+                                                case 7:
+                                                    echo    Form::submit('Calificar', ['class' => 'btn btn-warning']);
+                                                    $cancelar = array('cita' => $datos[$i]['cita_id'], 'id' => $datos[$i]['cita_id'], 'status' => 4);
+                                                    echo Form::open(['method' => 'PATCH','route' => ['citas.update', $cancelar], 'style'=>'display:inline']);
+                                                    echo    Form::submit('Cancelar', ['class' => 'btn btn-danger light']);
+                                                    echo Form::close();
+                                                    break;
+                                                case 2:
+                                                case 3:
+                                                    echo    Form::submit('Reprogramar', ['class' => 'btn btn-info']);
+                                                    break;
+                                                case 4:
+                                                case 5:
+                                                case 6:
+                                                    echo    Form::submit('Calificar', ['class' => 'btn btn-warning light']);
+                                                    break;
+                                                case 8:
+                                                    echo    Form::submit('Calificar', ['class' => 'btn btn-warning']);
+                                                    break;
+
+                                            }
+
+                                            echo '
+                                        </div>';
+                            }
+                        @endphp
+                    @endcan
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-12">
+                    {{-- <div class="col-xl-12">
                         <div class="card patient-activity">
                             <div class="card-header border-0 pb-0">
                                 <h3 class="fs-20 text-black mb-0">Actividad Reciente</h3>
@@ -938,10 +966,9 @@
                                 <a href="patient.html" class="btn-link">See More >></a>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
-        @endcan
         </div>
     </div>
 </div>

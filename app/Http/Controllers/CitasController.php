@@ -23,19 +23,17 @@ class CitasController extends Controller
     {
         $id = Auth::user()->id;
         $role = DB::Table('model_has_roles')->where('model_id', '=', $id)->get();
-        if ($role[0]->role_id != 3) {
+        if ($role[0]->role_id === 3) {
+            $specialistEmail = Auth::user()->email;
+            $specialist = DB::Table('specialists')->select('id', 'name', 'email', 'degree', 'specialty')->where('email', '=', $specialistEmail)->get();
+            $citas = DB::Table('citas')->where('specialist_id', '=', $specialist[0]->id)->get();
             $array = [];
-            $citas = DB::Table('citas')->orderBy('created_at', 'DESC')->get();
-            $specialist = DB::Table('specialists')->select('id', 'name', 'email', 'degree', 'specialty')->where('status', '=', 1)->get();
             for ($i = 0; $i < count($citas); $i++) {
-                $myspecialist = DB::Table('specialists')->select('id', 'name', 'email', 'degree', 'specialty')->where('id', '=', $citas[$i]->specialist_id)->get();
-                array_push($array, $myspecialist);
+                $paciente = DB::Table('users')->select('id', 'name', 'email')->where('id', '=', $citas[$i]->user_id)->get();
+                array_push($array, $paciente);
             }
-            return view('citas.index', compact('citas', 'array', 'specialist', 'id'));
-        } elseif ($role[0]->role_id == 4) {
-            $citas = DB::Table('citas')->where('specialist_id', '=', $id)->get();
-            return view('citas.index', compact('citas'));
-        } else {
+            return view('citas.index', compact('citas', 'specialist', 'array', 'id'));
+        } elseif ($role[0]->role_id === 2) {
             $array = [];
             $citas = DB::Table('citas')->where('user_id', '=', $id)->orderBy('created_at', 'DESC')->get();
             $specialist = DB::Table('specialists')->select('id', 'name', 'email', 'degree', 'specialty')->where('status', '=', 1)->get();
@@ -43,7 +41,20 @@ class CitasController extends Controller
                 $myspecialist = DB::Table('specialists')->select('id', 'name', 'email', 'degree', 'specialty')->where('id', '=', $citas[$i]->specialist_id)->get();
                 array_push($array, $myspecialist);
             }
-            return view('citas.index', compact('citas', 'specialist', 'id', 'array'));
+            return view('citas.index', compact('citas', 'array', 'specialist', 'id'));
+        } else {
+            $array = [];
+            $citas = DB::Table('citas')->orderBy('created_at', 'DESC')->get();
+            $specialist = DB::Table('specialists')->select('id', 'name', 'email', 'degree', 'specialty')->where('status', '=', 1)->get();
+            for ($i = 0; $i < count($citas); $i++) {
+                $myspecialist = DB::Table('specialists')->select('id', 'name', 'email', 'degree', 'specialty')->where('id', '=', $citas[$i]->specialist_id)->get();
+                array_push($array, $myspecialist);
+            }
+            /* for ($i = 0; $i < count($citas); $i++) {
+                $paciente = DB::Table('users')->select('id', 'name', 'email')->where('id', '=', $citas[$i]->user_id)->get();
+                array_push($array, $paciente);
+            } */
+            return view('citas.index', compact('citas', 'array', 'specialist', 'id'));
         }
     }
 
@@ -65,6 +76,11 @@ class CitasController extends Controller
      */
     public function store(Request $request)
     {
+        var_dump($request->action);
+
+        if (isset($request->action)) {
+            # code...
+        }
         $this->validate($request, [
             'specialist_id' => 'required',
             'fecha_cita' => 'required',
@@ -110,7 +126,17 @@ class CitasController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'id' => 'required',
+            'status' => 'required'
+        ]);
+
+        $input = $request->all();
+        $citas = Citas::find($request->cita);
+        $citas->update($input);
+
+        return redirect()->route('citas.index')
+            ->with('success', 'Cita modificada correctamente');
     }
 
     /**
