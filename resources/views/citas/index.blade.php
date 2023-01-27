@@ -30,7 +30,7 @@
             <div class="col-12">
                 <div class="table-responsive card-table"  style="min-height: 200px;">
                     <table id="example5" class="display dataTablesCard table-responsive-xl">
-                    @can('super-admin')
+                @can('super-admin')
                     <thead>
                         <tr>
                             <th>Estatus</th>
@@ -68,7 +68,7 @@
                                                 echo '<span class="btn btn-danger text-nowrap btn-sm">Cancelada</span>';
                                                 break;
                                             case 8:
-                                                echo '<span class="btn btn-info text-nowrap btn-sm">Realizada</span>';
+                                                echo '<span class="btn btn-info text-nowrap btn-sm">Concluida</span>';
                                                 break;
                                         }
                                         echo "</td>";
@@ -109,7 +109,7 @@
                             }
                         @endphp
                     </tbody>
-                    @elsecan('customer-view')
+                @elsecan('customer-view')
                         <thead>
                             <tr>
                                 <th>Estatus</th>
@@ -124,6 +124,8 @@
                         </thead>
                         <tbody>
                             @php
+                            setlocale(LC_ALL, 'Spanish_Venezuela');
+                            $user_id = Auth::user()->id;
                                 for ($i=0; $i < count($array); $i++) {
                                     echo "<tr>";
                                         for ($j=0; $j < count($array[$i]); $j++) {
@@ -146,7 +148,7 @@
                                                     echo '<span class="btn btn-danger text-nowrap btn-sm">Cancelada</span>';
                                                     break;
                                                 case 8:
-                                                    echo '<span class="btn btn-info text-nowrap btn-sm">Realizada</span>';
+                                                    echo '<span class="btn btn-info text-nowrap btn-sm">Concluida</span>';
                                                     break;
                                             }
                                             echo "</td>";
@@ -165,29 +167,150 @@
                                                     break;
                                                 case 1:
                                                 case 7:
-                                                    echo    Form::submit('Calificar', ['class' => 'btn btn-warning']);
+                                                    echo '<div class="modal fade" id="calificar'.$i.'">
+                                                        <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">Calificar</h5>
+                                                                <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">';
+                                                    echo        Form::open(array('route' => 'score.store','method'=>'POST'));
+                                                    echo        '<div class="form-group">
+                                                                        <h3 class="text-black font-w500">¿Cómo le fue con el ' . $array[$i][$j]->degree . " " . $array[$i][$j]->name . '</h3>
+                                                                        <h5>en la cita del '. utf8_encode(strftime("%A %d de %B", strtotime($citas[$i]->fecha_cita))) .'?</h5>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="text-black font-w500">¿Cuantos <i class="fa-solid fa-heart" style="color: red"></i> le da?</label>';
+                                                                        $optionsTipo = [
+                                                                            '3' => '3',
+                                                                            '2' => '2',
+                                                                            '0' => '0',
+                                                                            '-1' => '-1',
+                                                                            '-2' => '-2',
+                                                                            '-3' => '-3'
+                                                                        ];
+                                                    echo        Form::select('score', $optionsTipo,[], array('placeholder' => 'Escoja su puntuación','class' => 'form-control','simple','fa'));
+                                                    echo            '</div>
+                                                                    <div class="form-group">';
+                                                    echo        Form::textarea('commit', null, array('placeholder' => 'Escriba aquí una breve opinión sobre su experiencia','class' => 'form-control'));
+                                                    echo            '</div>';
+                                                    echo        Form::text('customer_id', $user_id, array('hidden'));
+                                                    echo        Form::text('specialist_id', $array[$i][$j]->id, array('hidden'));
+                                                    echo        Form::text('cita_id', $citaid, array('hidden'));
+                                                    echo            '<small style="padding: 2%;">Para nosotros su opinion es muy importante.</small>
+                                                                    <div class="form-group">
+                                                                        <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Calificar</button>
+                                                                    </div>';
+                                                    echo        Form::close();
+                                                    echo    '</div>
+                                                        </div>
+                                                    </div></div>';
+                                                    echo '<a href="javascript:void(0)" class="btn btn-warning" data-toggle="modal" data-target="#calificar'.$i.'">Calificar</a>';
                                                     $cancelar = array('cita' => $citaid, 'id' => $citaid, 'status' => 4);
                                                     echo Form::open(['method' => 'PATCH','route' => ['citas.update', $cancelar], 'style'=>'display:inline']);
                                                     echo    Form::submit('Cancelar', ['class' => 'btn btn-danger light']);
                                                     echo Form::close();
                                                     break;
-                                                case 2:
                                                 case 3:
-                                                    echo    Form::submit('Calificar', ['class' => 'btn btn-warning']);
+                                                    echo '<div class="modal fade" id="calificar'.$i.'">
+                                                        <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">Calificar</h5>
+                                                                <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">';
+                                                    echo        Form::open(array('route' => 'score.store','method'=>'POST'));
+                                                    echo        '<div class="form-group">
+                                                                        <h3 class="text-black font-w500">¿Cómo le fue con el ' . $array[$i][$j]->degree . " " . $array[$i][$j]->name . '</h3>
+                                                                        <h5>en la cita del '. utf8_encode(strftime("%A %d de %B", strtotime($citas[$i]->fecha_cita))) .'?</h5>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="text-black font-w500">¿Cuantos <i class="fa-solid fa-heart" style="color: red"></i> le da?</label>';
+                                                                        $optionsTipo = [
+                                                                            '3' => '3',
+                                                                            '2' => '2',
+                                                                            '0' => '0',
+                                                                            '-1' => '-1',
+                                                                            '-2' => '-2',
+                                                                            '-3' => '-3'
+                                                                        ];
+                                                    echo        Form::select('score', $optionsTipo,[], array('placeholder' => 'Escoja su puntuación','class' => 'form-control','simple','fa'));
+                                                    echo            '</div>
+                                                                    <div class="form-group">';
+                                                    echo        Form::textarea('commit', null, array('placeholder' => 'Escriba aquí una breve opinión sobre su experiencia','class' => 'form-control'));
+                                                    echo            '</div>';
+                                                    echo        Form::text('customer_id', $user_id, array('hidden'));
+                                                    echo        Form::text('specialist_id', $array[$i][$j]->id, array('hidden'));
+                                                    echo        Form::text('cita_id', $citaid, array('hidden'));
+                                                    echo            '<small style="padding: 2%;">Para nosotros su opinion es muy importante.</small>
+                                                                    <div class="form-group">
+                                                                        <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Calificar</button>
+                                                                    </div>';
+                                                    echo        Form::close();
+                                                    echo    '</div>
+                                                        </div>
+                                                    </div></div>';
+                                                    echo '<a href="javascript:void(0)" class="btn btn-warning" data-toggle="modal" data-target="#calificar'.$i.'">Calificar</a>';
                                                     break;
                                                 case 4:
                                                 case 5:
                                                 case 6:
-                                                    echo    Form::submit('Calificar', ['class' => 'btn btn-warning light']);
+                                                    echo '<div class="modal fade" id="calificar'.$i.'">
+                                                        <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">Calificar</h5>
+                                                                <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">';
+                                                    echo        Form::open(array('route' => 'score.store','method'=>'POST'));
+                                                    echo        '<div class="form-group">
+                                                                        <h3 class="text-black font-w500">¿Cómo le fue con el ' . $array[$i][$j]->degree . " " . $array[$i][$j]->name . '</h3>
+                                                                        <h5>en la cita del '. utf8_encode(strftime("%A %d de %B", strtotime($citas[$i]->fecha_cita))) .'?</h5>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="text-black font-w500">¿Cuantos <i class="fa-solid fa-heart" style="color: red"></i> le da?</label>';
+                                                                        $optionsTipo = [
+                                                                            '3' => '3',
+                                                                            '2' => '2',
+                                                                            '0' => '0',
+                                                                            '-1' => '-1',
+                                                                            '-2' => '-2',
+                                                                            '-3' => '-3'
+                                                                        ];
+                                                    echo        Form::select('score', $optionsTipo,[], array('placeholder' => 'Escoja su puntuación','class' => 'form-control','simple','fa'));
+                                                    echo            '</div>
+                                                                    <div class="form-group">';
+                                                    echo        Form::textarea('commit', null, array('placeholder' => 'Escriba aquí una breve opinión sobre su experiencia','class' => 'form-control'));
+                                                    echo            '</div>';
+                                                    echo        Form::text('customer_id', $user_id, array('hidden'));
+                                                    echo        Form::text('specialist_id', $array[$i][$j]->id, array('hidden'));
+                                                    echo        Form::text('cita_id', $citaid, array('hidden'));
+                                                    echo            '<small style="padding: 2%;">Para nosotros su opinion es muy importante.</small>
+                                                                    <div class="form-group">
+                                                                        <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Calificar</button>
+                                                                    </div>';
+                                                    echo        Form::close();
+                                                    echo    '</div>
+                                                        </div>
+                                                    </div></div>';
+                                                    echo '<a href="javascript:void(0)" class="btn btn-warning" data-toggle="modal" data-target="#calificar'.$i.'">Calificar</a>';
                                                     break;
-                                                case 8:
-                                                    echo    Form::submit('Calificar', ['class' => 'btn btn-warning']);
-                                                    break;
-                                            }
-                                            echo "</td>";
-                                                echo    '<td>
-                                                        <i class="fa-solid fa-heart'. ($citas[$i]->score < (0) ? "-crack" : "") .'" style="color:'. ($citas[$i]->score < (0) ? "black" : "red") .'">' . (isset($citas[$i]->score) ? $citas[$i]->score : " Sin calificar") . '</i>
+                                                }
+                                                echo "</td>";
+                                            for ($s=0; $s < count($score); $s++) {
+                                                if ($citas[$i]->id == $score[$s]['cita_id']) {
+                                                    $citas[$i]->id;
+                                                    echo    '<td>
+                                                        <i class="fa-solid fa-heart'. ($score[$s]['score'] < (0) ? "-crack" : "") .'" style="color:'. ($score[$s]['score'] < (0) ? "black" : "red") .'">' . (isset($score[$s]['score']) ? $score[$s]['score'] : " Sin calificar") . '</i>
                                                     </td>';
+                                                }
+                                            }
                                             }
                                     echo "</tr>";
                                 }
@@ -207,7 +330,6 @@
                         </tr>
                     </thead>
                     <tbody>
-
                         @php
                             for ($i=0; $i < count($array); $i++) {
                                     for ($j=0; $j < count($array[$i]); $j++) {
@@ -230,7 +352,7 @@
                                                 echo '<span class="btn btn-danger text-nowrap btn-sm">Cancelada</span>';
                                                 break;
                                             case 8:
-                                                echo '<span class="btn btn-info text-nowrap btn-sm">Realizada</span>';
+                                                echo '<span class="btn btn-info text-nowrap btn-sm">Concluida</span>';
                                                 break;
                                         }
                                         echo "</td>";

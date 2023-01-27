@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Citas;
+use App\Models\Score;
 use Illuminate\Http\Request;
 
-class AppoimentScore extends Controller
+class ScoreController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +15,7 @@ class AppoimentScore extends Controller
      */
     public function index()
     {
-        //
+        //return view('welcome');
     }
 
     /**
@@ -24,7 +25,7 @@ class AppoimentScore extends Controller
      */
     public function create()
     {
-        return view('home');
+        //
     }
 
     /**
@@ -41,7 +42,11 @@ class AppoimentScore extends Controller
             'score' => 'required',
         ]);
         $input = $request->all();
-        AppoimentScore::create($input);
+        Citas::where('id', '=', $request['cita_id'])
+            ->update([
+                'status' => 8
+            ]);
+        Score::create($input);
         return redirect()->route('home')
             ->with('success', 'Calificación realizada correctamente');
     }
@@ -49,10 +54,10 @@ class AppoimentScore extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Score  $score
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Score $score)
     {
         //
     }
@@ -60,10 +65,10 @@ class AppoimentScore extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Score  $score
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Score $score)
     {
         //
     }
@@ -72,10 +77,10 @@ class AppoimentScore extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\Score  $score
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Score $score)
     {
         //
     }
@@ -83,10 +88,10 @@ class AppoimentScore extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Score  $score
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Score $score)
     {
         //
     }

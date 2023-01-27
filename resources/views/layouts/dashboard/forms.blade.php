@@ -1,7 +1,6 @@
 <!--**********************************
     Nueva Cita start
 ***********************************-->
-<!-- Add Order -->
 <div class="modal fade" id="addOrderModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

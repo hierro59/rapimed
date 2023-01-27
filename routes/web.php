@@ -1,7 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Auth;
+use App\Models\LogUser;
 
+use App\Models\Operation;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RoleController;
@@ -9,6 +11,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CitasController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SpecialistController;
+use App\Http\Controllers\ScoreController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +38,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('products', ProductController::class);
     Route::resource('specialist', SpecialistController::class);
     Route::resource('citas', CitasController::class);
+    Route::resource('score', ScoreController::class);
+    Route::post('loguser', [LogUser::class, 'store'])->name('loguser');
 });
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
