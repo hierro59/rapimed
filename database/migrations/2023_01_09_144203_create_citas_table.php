@@ -20,7 +20,6 @@ return new class extends Migration
             $table->timestamp('fecha_cita')->nullable();
             $table->string('hora_cita', 50)->nullable();
             $table->string('tipo');
-            $table->integer('score')->nullable();
             $table->integer('status')->default(0);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
