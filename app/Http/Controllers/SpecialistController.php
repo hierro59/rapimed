@@ -6,10 +6,12 @@ use App\Models\User;
 use App\Models\Specialist;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
+use App\Mail\NewSpecialistEmail;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class SpecialistController extends Controller
 {
@@ -61,8 +63,15 @@ class SpecialistController extends Controller
         $user = User::create($input);
         $user->assignRole($request->input('roles'));
 
+        $objData = new \stdClass();
+        $objData->sender = 'Ricardo León - CEO RapiMed';
+        $objData->receiver = $request['name'];
+        $objData->email = $request['email'];
+        $objData->pass = $request['password'];
+        Mail::to($request['email'])->send(new NewSpecialistEmail($objData));
+
         return redirect()->route('specialist.index')
-            ->with('success', 'User created successfully');
+            ->with('success', 'Specialist created successfully');
     }
 
     /**

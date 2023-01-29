@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ScoreCustomer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -27,14 +28,15 @@ class HomeController extends Controller
     {
         $id = Auth::user()->id;
         $role = DB::Table('model_has_roles')->where('model_id', '=', $id)->get();
-        if ($role[0]->role_id === 3) {
+        if ($role[0]->role_id === 3) { // Especialista
             $datos = [];
             $specialistEmail = Auth::user()->email;
             $specialist = DB::Table('specialists')->select('id', 'name', 'email', 'degree', 'specialty')->where('email', '=', $specialistEmail)->get();
-            $citas = DB::Table('citas')->where('specialist_id', '=', $specialist[0]->id,)->where('status', '!=', 8)->orderBy('created_at', 'DESC')->get();
+            $citas = DB::Table('citas')->where('specialist_id', '=', $specialist[0]->id,)->where('status', '!=', 8)->where('status', '!=', 3)->where('status', '!=', 2)->orderBy('created_at', 'DESC')->get();
             for ($i = 0; $i < count($citas); $i++) {
                 $myspecialist = DB::Table('specialists')->select('id', 'name', 'email', 'degree', 'specialty')->where('id', '=', $citas[$i]->specialist_id)->get();
                 $paciente = DB::Table('users')->select('id', 'name', 'email')->where('id', '=', $citas[$i]->user_id)->get();
+                $score_customers = ScoreCustomer::where('cita_id', '=', $citas[$i]->id)->get();
                 $array =
                     [
                         'cita_id' => $citas[$i]->id,
@@ -49,20 +51,22 @@ class HomeController extends Controller
                         'specialist_specialty' => $specialist[0]->specialty,
                         'paciente_id' => $paciente[0]->id,
                         'paciente_name' => $paciente[0]->name,
+                        'score_customers' => (isset($score_customers[0]->score) ? $score_customers[0]->score : "NULL"),
+                        'score_customers_commit' => (isset($score_customers[0]->commit) ? $score_customers[0]->commit : "Sin opinión."),
                     ];
                 array_push($datos, $array);
             }
             return view('home', compact('datos', 'specialist', 'id'));
-            $array = [];
-            for ($i = 0; $i < count($citas); $i++) {
+            //$array = [];
+            /*  for ($i = 0; $i < count($citas); $i++) {
                 $paciente = DB::Table('users')->select('id', 'name', 'email')->where('id', '=', $citas[$i]->user_id)->get();
                 array_push($array, $paciente);
             }
-            return view('home', compact('citas', 'specialist', 'array', 'id'));
-        } elseif ($role[0]->role_id === 2) {
+            return view('home', compact('citas', 'specialist', 'array', 'id')); */
+        } elseif ($role[0]->role_id === 2) { //Customer
             $datos = [];
             $specialist = DB::Table('specialists')->select('id', 'name', 'email', 'degree', 'specialty')->where('status', '=', 1)->get();
-            $citas = DB::Table('citas')->where('user_id', '=', $id)->where('status', '!=', 8)->orderBy('created_at', 'DESC')->get();
+            $citas = DB::Table('citas')->where('user_id', '=', $id)->where('status', '!=', 8)->where('status', '!=', 2)->where('status', '!=', 3)->orderBy('created_at', 'DESC')->get();
             $paciente = DB::Table('users')->select('id', 'name', 'email')->where('id', '=', $id)->get();
             for ($i = 0; $i < count($citas); $i++) {
                 $myspecialist = DB::Table('specialists')->select('id', 'name', 'email', 'degree', 'specialty')->where('id', '=', $citas[$i]->specialist_id)->get();

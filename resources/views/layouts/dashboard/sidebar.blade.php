@@ -36,11 +36,11 @@
                 </a>
             </li>
             @can('customer-view')
-            <li><a href="{{ route('specialist.show', Auth::user()->id) }}" class="ai-icon" aria-expanded="false">
+            {{-- <li><a href="{{ route('specialist.show', Auth::user()->id) }}" class="ai-icon" aria-expanded="false">
                     <i class="flaticon-381-heart"></i>
                     <span class="nav-text">Mis Especialistas</span>
                 </a>
-            </li>
+            </li> --}}
             @endcan
         @can('super-admin')
         <hr style="width: 80%">

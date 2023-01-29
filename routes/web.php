@@ -6,12 +6,15 @@ use App\Models\Operation;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MailController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CitasController;
+use App\Http\Controllers\ScoreController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SpecialistController;
-use App\Http\Controllers\ScoreController;
+use App\Http\Controllers\ScoreCustomerController;
+use App\Mail\SendMail;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +31,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+/* Route::get('/verify', function () {
+    return view('auth.verify');
+}); */
+
 Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
@@ -39,7 +46,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('specialist', SpecialistController::class);
     Route::resource('citas', CitasController::class);
     Route::resource('score', ScoreController::class);
+    Route::resource('scorecustomer', ScoreCustomerController::class);
     Route::post('loguser', [LogUser::class, 'store'])->name('loguser');
+    Route::get('mails/send', [MailController::class, 'send']);
 });
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
