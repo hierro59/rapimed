@@ -1,7 +1,44 @@
 @extends('layouts.app')
 @section('content')
 @include('layouts.dashboard.forms')
+@include('layouts.dashboard.up-photo-perfil')
+@include('layouts.dashboard.up-metadata-user')
+<style>
+.btn-editar {
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.5);
+    color: #666;
+    border-radius: 5px;
+    position: absolute;
+    margin-left: -5%;
+    margin-top: 1%;
+}
+.btn-editar:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+    color: rgb(0, 0, 0);
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px rgb(148, 148, 148);
+}
+
+.btn-editar-historial {
+    padding: 5px;
+    background-color: rgba(255, 255, 255, 0.5);
+    color: #666;
+}
+.btn-editar-historial:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+    color: rgb(0, 0, 0);
+    border-radius: 5px;
+}
+
+@media (max-width: 560px){
+    .btn-editar {
+     margin-left: -15%;
+    }
+}
+</style>
 <div class="content-body">
+    
     <!-- row -->
     <div class="container-fluid">
         <div class="form-head page-titles d-flex align-items-center mb-sm-4 mb-3">
@@ -18,18 +55,31 @@
                 <div class="row">
                     <div class="col-xl-12">
                         <div class="card details-card">
-                            <img src="{{ asset('assets/img/portada01.jpg') }}" alt="" class="bg-img">
+                            <div>
+                            <img src="{{ asset('thumbnail/profile/' . $data['portada']) }}" alt="" class="bg-img">
+                            <a class="btn-editar" href="javascript:void(0)" data-toggle="modal" data-target="#upPhotoPortada"><i class="fa-solid fa-pen"></i></a>
+
+                            </div>
                             <div class="card-body">
                                 <div class="d-sm-flex mb-3">
                                     <div class="img-card mb-sm-0 mb-3">
-                                        <img src="{{ asset('assets/img/people01.jpg') }}" alt="">
+                                        <img src="{{ asset('thumbnail/profile/' . $data['avatar'] ) }}" alt="">
+                                        <a class="btn-editar" href="javascript:void(0)" data-toggle="modal" data-target="#upPhotoPerfil"><i class="fa-solid fa-pen"></i></a>
                                         <div class="info d-flex align-items-center p-md-3 p-2 bg-primary">
                                             <svg class="mr-3 d-sm-inline-block d-none" width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M28.75 12.5C28.7538 11.8116 28.568 11.1355 28.213 10.5458C27.8581 9.95597 27.3476 9.47527 26.7376 9.15632C26.1276 8.83737 25.4415 8.69248 24.7547 8.73752C24.0678 8.78257 23.4065 9.01581 22.8434 9.4117C22.2803 9.80758 21.837 10.3508 21.5621 10.9819C21.2872 11.613 21.1913 12.3076 21.2849 12.9896C21.3785 13.6715 21.6581 14.3146 22.0929 14.8482C22.5277 15.3819 23.101 15.7855 23.75 16.015V20C23.75 21.6576 23.0915 23.2473 21.9194 24.4194C20.7473 25.5915 19.1576 26.25 17.5 26.25C15.8424 26.25 14.2527 25.5915 13.0806 24.4194C11.9085 23.2473 11.25 21.6576 11.25 20V18.65C13.3301 18.3482 15.2323 17.3083 16.6092 15.7203C17.9861 14.1322 18.746 12.1019 18.75 10V2.5C18.75 2.16848 18.6183 1.85054 18.3839 1.61612C18.1495 1.3817 17.8315 1.25 17.5 1.25H13.75C13.4185 1.25 13.1005 1.3817 12.8661 1.61612C12.6317 1.85054 12.5 2.16848 12.5 2.5C12.5 2.83152 12.6317 3.14946 12.8661 3.38388C13.1005 3.6183 13.4185 3.75 13.75 3.75H16.25V10C16.25 11.6576 15.5915 13.2473 14.4194 14.4194C13.2473 15.5915 11.6576 16.25 10 16.25C8.34239 16.25 6.75268 15.5915 5.58058 14.4194C4.40848 13.2473 3.75 11.6576 3.75 10V3.75H6.25C6.58152 3.75 6.89946 3.6183 7.13388 3.38388C7.3683 3.14946 7.5 2.83152 7.5 2.5C7.5 2.16848 7.3683 1.85054 7.13388 1.61612C6.89946 1.3817 6.58152 1.25 6.25 1.25H2.5C2.16848 1.25 1.85054 1.3817 1.61612 1.61612C1.3817 1.85054 1.25 2.16848 1.25 2.5V10C1.25402 12.1019 2.01386 14.1322 3.3908 15.7203C4.76773 17.3083 6.6699 18.3482 8.75 18.65V20C8.75 22.3206 9.67187 24.5462 11.3128 26.1872C12.9538 27.8281 15.1794 28.75 17.5 28.75C19.8206 28.75 22.0462 27.8281 23.6872 26.1872C25.3281 24.5462 26.25 22.3206 26.25 20V16.015C26.9792 15.7599 27.6114 15.2848 28.0591 14.6552C28.5069 14.0256 28.7483 13.2726 28.75 12.5Z" fill="white"/>
                                             </svg>
                                             <div>
-                                                <p class="fs-14 text-white op5 mb-1">Diagnóstico</p>
-                                                <span class="fs-18 text-white">Cold & Flu</span>
+                                                {{-- <p class="fs-14 text-white op5 mb-1">Diagnóstico</p> --}}
+                                                @can('specialist-view')
+                                                <span class="fs-18 text-white">Especialista</span>
+                                                @endcan
+                                                @can('customer-view')
+                                                <span class="fs-18 text-white">Paciente</span>
+                                                @endcan
+                                                @can('super-admin')
+                                                <span class="fs-18 text-white">Administrador</span>
+                                                @endcan
                                             </div>
                                         </div>
                                     </div>
@@ -41,20 +91,23 @@
                                             <i class="las la-clock"></i>
                                             Fecha de registro {{ $user->created_at }}</span>
                                         </div>
-                                        <span class="mr-ico bg-primary">
-                                            <i class="las la-mars"></i>
-                                        </span>
+                                        <a href="javascript:void(0)" class="mr-ico bg-primary" data-toggle="modal" data-target="#upSex">
+                                            <i class="las {{ $data['genero'] }}"></i>
+                                        </a>
                                     </div>
                                 </div>
-                                <h4 class="fs-20 text-black font-w600">Historial médico</h4>
-                                <div style="padding: 1%; border: solid 1px #eee; border-radius: 5px; color: #111">
+                                @can('specialist-view')
+                                <h4 class="fs-20 text-black font-w600">Habilidades<a class="btn-editar-historial" href="javascript:void(0)" data-toggle="modal" data-target="#upHistorial"><i class="fa-solid fa-pen"></i></a></h4>
+                                @endcan
+                                @can('customer-view')
+                                <h4 class="fs-20 text-black font-w600">Historial médico<a class="btn-editar-historial" href="javascript:void(0)" data-toggle="modal" data-target="#upHistorial"><i class="fa-solid fa-pen"></i></a></h4>
+
+                                <div style="padding: 1%; border: solid 1px #eee; border-radius: 5px; color: #aaa; margin: 2% 0%;">
                                     <small>Tu historial médico solo podrá ser visto por los especialistas que tengas asignado y con los que tengas consultas activas.</small>
                                 </div>
+                                @endcan
                                 <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-                                </p>
-                                <p>
-                                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi
+                                    {{ $data['historial'] }}
                                 </p>
                             </div>
                         </div>
@@ -67,8 +120,8 @@
                                         <div class="d-flex">
                                             <i class="las la-map-marker text-primary fs-34 mr-3"></i>
                                             <div>
-                                                <span class="d-block mb-1">Dirección</span>
-                                                <p class="fs-18 mb-0 text-black">Cota 905, Caracas Distrito Capital, <strong class="d-block">Caracas</strong></p>
+                                                <span class="d-block mb-1">Dirección <a class="btn-editar-historial" href="javascript:void(0)" data-toggle="modal" data-target="#upDireccion"><i class="fa-solid fa-pen"></i></a></span>
+                                                <p class="fs-18 mb-0 text-black">{{ $data['direccion'] }}, {{ $data['ciudad'] }}, <strong class="d-block">{{ $data['estado'] }}</strong></p>
                                                 <small><a href="https://www.openstreetmap.org/#map=7/8.135/-66.456" targ>Ver mapa más grande</a></small>
                                             </div>
                                         </div>
@@ -93,8 +146,8 @@
                                         <div class="media align-items-center">
                                             <i class="las la-phone fs-30 text-primary mr-3"></i>
                                             <div class="media-body">
-                                                <span class="d-block mb-1">Teléfono</span>
-                                                <p class="fs-18 mb-0 text-black">+12 5123 5512 66</p>
+                                                <span class="d-block mb-1">Teléfono <a class="btn-editar-historial" href="javascript:void(0)" data-toggle="modal" data-target="#upPhone"><i class="fa-solid fa-pen"></i></a></span>
+                                                <p class="fs-18 mb-0 text-black">{{ $data['phone'] }}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -117,7 +170,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-3 col-xxl-12">
+            {{-- <div class="col-xl-3 col-xxl-12">
                 <div class="row">
                     <div class="col-xl-12 col-xxl-4 col-lg-5">
                         <div class="card">
@@ -246,7 +299,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 </div>

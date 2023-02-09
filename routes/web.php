@@ -1,7 +1,8 @@
 <?php
 
-use App\Models\LogUser;
+use App\Mail\SendMail;
 
+use App\Models\LogUser;
 use App\Models\Operation;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -11,10 +12,11 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CitasController;
 use App\Http\Controllers\ScoreController;
+use App\Http\Controllers\ResizeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SpecialistController;
 use App\Http\Controllers\ScoreCustomerController;
-use App\Mail\SendMail;
+use App\Models\UserUploadImages;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,6 +51,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('scorecustomer', ScoreCustomerController::class);
     Route::post('loguser', [LogUser::class, 'store'])->name('loguser');
     Route::get('mails/send', [MailController::class, 'send']);
+    Route::get('/file-resize', [ResizeController::class, 'index']);
+    Route::post('/resize-file', [ResizeController::class, 'resizeImage'])->name('resizeImage');
 });
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
