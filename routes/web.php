@@ -11,6 +11,7 @@ use App\Http\Controllers\MailController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CitasController;
+use App\Http\Controllers\NavController;
 use App\Http\Controllers\ScoreController;
 use App\Http\Controllers\ResizeController;
 use App\Http\Controllers\ProductController;

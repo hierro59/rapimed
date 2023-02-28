@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Notification;
 use App\Models\ScoreCustomer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -28,6 +29,7 @@ class HomeController extends Controller
     {
         $id = Auth::user()->id;
         $role = DB::Table('model_has_roles')->where('model_id', '=', $id)->get();
+        $notificaciones = Notification::where('to_id', $id)->get();
         if ($role[0]->role_id === 3) { // Especialista
             $datos = [];
             $specialistEmail = Auth::user()->email;
@@ -56,13 +58,7 @@ class HomeController extends Controller
                     ];
                 array_push($datos, $array);
             }
-            return view('home', compact('datos', 'specialist', 'id'));
-            //$array = [];
-            /*  for ($i = 0; $i < count($citas); $i++) {
-                $paciente = DB::Table('users')->select('id', 'name', 'email')->where('id', '=', $citas[$i]->user_id)->get();
-                array_push($array, $paciente);
-            }
-            return view('home', compact('citas', 'specialist', 'array', 'id')); */
+            return view('home', compact('datos', 'specialist', 'id', 'notificaciones'));
         } elseif ($role[0]->role_id === 2) { //Customer
             $datos = [];
             $specialist = DB::Table('specialists')->select('id', 'name', 'email', 'degree', 'specialty')->where('status', '=', 1)->get();
@@ -87,13 +83,7 @@ class HomeController extends Controller
                     ];
                 array_push($datos, $array);
             }
-            /* return view('home', compact('datos', 'specialist', 'id'));
-            $array = [];
-            for ($i = 0; $i < count($citas); $i++) {
-                $paciente = DB::Table('users')->select('id', 'name', 'email')->where('id', '=', $citas[$i]->user_id)->get();
-                array_push($array, $paciente);
-            } */
-            return view('home', compact('citas', 'specialist', 'datos', 'id'));
+            return view('home', compact('citas', 'specialist', 'datos', 'id', 'notificaciones'));
         } else { //SuperAdmin
             $datos = [];
             $citas = DB::Table('citas')->orderBy('created_at', 'DESC')->get();
@@ -117,10 +107,7 @@ class HomeController extends Controller
                     ];
                 array_push($datos, $array);
             }
-            return view('home', compact('datos', 'specialist', 'id'));
+            return view('home', compact('datos', 'specialist', 'id', 'notificaciones'));
         }
-        /* $id = Auth::user()->id;
-        $specialist = DB::Table('specialists')->select('id', 'name', 'email', 'degree', 'specialty')->where('status', '=', 1)->get();
-        return view('home', compact('specialist', 'id')); */
     }
 }

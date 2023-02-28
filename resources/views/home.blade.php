@@ -8,6 +8,7 @@
                 <h2 class="text-black font-w600">RapiMed</h2>
                 <p class="mb-0">Dashboard</p>
             </div>
+           
         </div>
         @if (count($errors) > 0)
             <div class="alert alert-danger">
@@ -35,6 +36,7 @@
                     </a>
                 </div>
             </div>
+
             @can('customer-view')
             <div class="col-xl-3 col-sm-6">
                 <div class="card">

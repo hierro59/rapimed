@@ -16,6 +16,7 @@ use App\Mail\CancelledCitaEmail;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
+use App\Models\Notification;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -33,10 +34,11 @@ class CitasController extends Controller
     {
         $id = Auth::user()->id;
         $role = DB::Table('model_has_roles')->where('model_id', '=', $id)->get();
+        $notificaciones = Notification::where('to_id', $id)->get();
         if ($role[0]->role_id === 3) { // Especialistas
             $datos = [];
             $specialistEmail = Auth::user()->email;
-            $specialist = DB::Table('specialists')->select('id', 'name', 'email', 'degree', 'specialty')->where('email', '=', $specialistEmail)->get();
+            $specialist = DB::Table('specialists')->select('id', 'user_id', 'name', 'email', 'degree', 'specialty')->where('email', '=', $specialistEmail)->get();
             $citas = DB::Table('citas')->where('specialist_id', '=', $specialist[0]->id,)->orderBy('created_at', 'DESC')->get();
             for ($i = 0; $i < count($citas); $i++) {
                 $myspecialist = DB::Table('specialists')->select('id', 'name', 'email', 'degree', 'specialty')->where('id', '=', $citas[$i]->specialist_id)->get();
@@ -50,6 +52,7 @@ class CitasController extends Controller
                         'cita_tipo' => $citas[$i]->tipo,
                         'cita_status' => $citas[$i]->status,
                         'specialist_id' => $specialist[0]->id,
+                        'specialist_user_id' => $specialist[0]->user_id,
                         'specialist_name' => $specialist[0]->name,
                         'specialist_email' => $specialist[0]->email,
                         'specialist_degree' => $specialist[0]->degree,
@@ -61,23 +64,14 @@ class CitasController extends Controller
                     ];
                 array_push($datos, $array);
             }
-            return view('citas.index', compact('datos', 'specialist', 'id'));
-            /*  $specialistEmail = Auth::user()->email;
-            $specialist = DB::Table('specialists')->select('id', 'name', 'email', 'degree', 'specialty')->where('email', '=', $specialistEmail)->get();
-            $citas = DB::Table('citas')->where('specialist_id', '=', $specialist[0]->id)->get();
-            $array = [];
-            for ($i = 0; $i < count($citas); $i++) {
-                $paciente = DB::Table('users')->select('id', 'name', 'email')->where('id', '=', $citas[$i]->user_id)->get();
-                array_push($array, $paciente);
-            }
-            return view('citas.index', compact('citas', 'specialist', 'array', 'id')); */
+            return view('citas.index', compact('datos', 'specialist', 'id', 'notificaciones'));
         } elseif ($role[0]->role_id === 2) { // Customers
             $datos = [];
-            $specialist = DB::Table('specialists')->select('id', 'name', 'email', 'degree', 'specialty')->where('status', '=', 1)->get();
+            $specialist = DB::Table('specialists')->select('id', 'user_id', 'name', 'email', 'degree', 'specialty')->where('status', '=', 1)->get();
             $citas = DB::Table('citas')->where('user_id', '=', $id)->where('status', '!=', 3)->orderBy('created_at', 'DESC')->get();
             $paciente = DB::Table('users')->select('id', 'name', 'email')->where('id', '=', $id)->get();
             for ($i = 0; $i < count($citas); $i++) {
-                $myspecialist = DB::Table('specialists')->select('id', 'name', 'email', 'degree', 'specialty')->where('id', '=', $citas[$i]->specialist_id)->get();
+                $myspecialist = DB::Table('specialists')->select('id', 'user_id', 'name', 'email', 'degree', 'specialty')->where('id', '=', $citas[$i]->specialist_id)->get();
                 $score = Score::where('cita_id', '=', $citas[$i]->id)->get();
                 $array =
                     [
@@ -87,6 +81,7 @@ class CitasController extends Controller
                         'cita_tipo' => $citas[$i]->tipo,
                         'cita_status' => $citas[$i]->status,
                         'specialist_id' => $myspecialist[0]->id,
+                        'specialist_user_id' => $myspecialist[0]->user_id,
                         'specialist_name' => $myspecialist[0]->name,
                         'specialist_email' => $myspecialist[0]->email,
                         'specialist_degree' => $myspecialist[0]->degree,
@@ -98,22 +93,7 @@ class CitasController extends Controller
                     ];
                 array_push($datos, $array);
             }
-            /* return view('home', compact('datos', 'specialist', 'id'));
-            $array = [];
-            for ($i = 0; $i < count($citas); $i++) {
-                $paciente = DB::Table('users')->select('id', 'name', 'email')->where('id', '=', $citas[$i]->user_id)->get();
-                array_push($array, $paciente);
-            } */
-            return view('citas.index', compact('citas', 'specialist', 'datos', 'id'));
-            /* $array = [];
-            $score = Score::where('customer_id', '=', $id)->get();
-            $citas = DB::Table('citas')->where('user_id', '=', $id)->orderBy('created_at', 'DESC')->get();
-            $specialist = DB::Table('specialists')->select('id', 'name', 'email', 'degree', 'specialty')->where('status', '=', 1)->get();
-            for ($i = 0; $i < count($citas); $i++) {
-                $myspecialist = DB::Table('specialists')->select('id', 'name', 'email', 'degree', 'specialty')->where('id', '=', $citas[$i]->specialist_id)->get();
-                array_push($array, $myspecialist);
-            }
-            return view('citas.index', compact('citas', 'array', 'specialist', 'score', 'id')); */
+            return view('citas.index', compact('citas', 'specialist', 'datos', 'id', 'notificaciones'));
         } else {
             $array = [];
             $citas = DB::Table('citas')->orderBy('created_at', 'DESC')->get();
@@ -122,11 +102,7 @@ class CitasController extends Controller
                 $myspecialist = DB::Table('specialists')->select('id', 'name', 'email', 'degree', 'specialty')->where('id', '=', $citas[$i]->specialist_id)->get();
                 array_push($array, $myspecialist);
             }
-            /* for ($i = 0; $i < count($citas); $i++) {
-                $paciente = DB::Table('users')->select('id', 'name', 'email')->where('id', '=', $citas[$i]->user_id)->get();
-                array_push($array, $paciente);
-            } */
-            return view('citas.index', compact('citas', 'array', 'specialist', 'id'));
+            return view('citas.index', compact('citas', 'array', 'specialist', 'id', 'notificaciones'));
         }
     }
 
@@ -149,6 +125,7 @@ class CitasController extends Controller
     public function store(Request $request)
     {
         $user_id = Auth::user()->id;
+        $patient_name = Auth::user()->name;
 
         if (isset($request->action)) {
             $score = Score::create($request);
@@ -162,7 +139,7 @@ class CitasController extends Controller
         $input = $request->all();
         $cita = Citas::create($input);
 
-        $specialist = DB::Table('specialists')->select('name', 'email', 'degree')->where('id', '=', $request['specialist_id'])->get();
+        $specialist = DB::Table('specialists')->select('id', 'name', 'email', 'degree')->where('id', '=', $request['specialist_id'])->get();
 
         $objData = new \stdClass();
         $objData->sender = 'RapiMed';
@@ -182,6 +159,18 @@ class CitasController extends Controller
             "details" => "Solicitud |$cita->id| Correcta"
         ];
         $save = LogUser::create($log);
+
+        $datosNotificacion = [
+            "to_id" => (int)$request['specialist_id'],
+            "data" => json_encode([
+                "titulo" => "Solicitud de consulta.",
+                "detalle" => "El paciente $patient_name ha solicitado una cita con usted.",
+                "tipo" => $request['tipo'],
+                "id_cita" => $cita->id
+            ])
+        ];
+        Notification::create($datosNotificacion);
+
         return redirect()->route('citas.index')
             ->with('success', 'Cita created successfully');
     }
@@ -277,6 +266,16 @@ class CitasController extends Controller
                 $detail = "Cita |$request->id| Realizada";
                 break;
         }
+        $datosNotificacion = [
+            "to_id" => $citas->user_id,
+            "data" => json_encode([
+                "titulo" => "Solicitud de consulta.",
+                "detalle" => $detail,
+                "tipo" => $citas->tipo,
+                "id_cita" => $citas->id
+            ])
+        ];
+        Notification::create($datosNotificacion);
 
         $log = [
             "type_log" => "success",

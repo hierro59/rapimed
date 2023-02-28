@@ -577,6 +577,7 @@ class ComposerStaticInit0aa68b7696d6bccff8f675ebe198e6e1
         'App\\Models\\Citas' => __DIR__ . '/../..' . '/app/Models/Citas.php',
         'App\\Models\\LogUser' => __DIR__ . '/../..' . '/app/Models/LogUser.php',
         'App\\Models\\Mail' => __DIR__ . '/../..' . '/app/Models/Mail.php',
+        'App\\Models\\MetadataUsers' => __DIR__ . '/../..' . '/app/Models/MetadataUsers.php',
         'App\\Models\\Product' => __DIR__ . '/../..' . '/app/Models/Product.php',
         'App\\Models\\Score' => __DIR__ . '/../..' . '/app/Models/Score.php',
         'App\\Models\\ScoreCustomer' => __DIR__ . '/../..' . '/app/Models/ScoreCustomer.php',

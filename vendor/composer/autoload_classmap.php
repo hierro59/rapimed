@@ -46,6 +46,7 @@ return array(
     'App\\Models\\Citas' => $baseDir . '/app/Models/Citas.php',
     'App\\Models\\LogUser' => $baseDir . '/app/Models/LogUser.php',
     'App\\Models\\Mail' => $baseDir . '/app/Models/Mail.php',
+    'App\\Models\\MetadataUsers' => $baseDir . '/app/Models/MetadataUsers.php',
     'App\\Models\\Product' => $baseDir . '/app/Models/Product.php',
     'App\\Models\\Score' => $baseDir . '/app/Models/Score.php',
     'App\\Models\\ScoreCustomer' => $baseDir . '/app/Models/ScoreCustomer.php',

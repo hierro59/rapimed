@@ -112,6 +112,7 @@
                 @elsecan('customer-view')
                         <thead>
                             <tr>
+                                <th>Nº</th>
                                 <th>Estatus</th>
                                 <th>Fecha</th>
                                 <th>Especialista</th>
@@ -128,6 +129,7 @@
                             $user_id = Auth::user()->id;
                                 for ($i=0; $i < count($datos); $i++) {
                                     echo "<tr>";
+                                        echo "<td>" . $datos[$i]['cita_id'] . "</td>";
                                         echo "<td>";
                                         switch ($datos[$i]['cita_status']) {
                                             case 0:
@@ -152,7 +154,7 @@
                                         }
                                         echo "</td>";
                                         echo "<td>" . strftime("%d/%m/%Y, ", strtotime($datos[$i]['cita_fecha'])) . $datos[$i]['cita_hora'] . "</td>";
-                                        echo "<td>" . $datos[$i]['specialist_degree'] . " " . $datos[$i]['specialist_name'] . "</td>";
+                                        echo "<td><a href='" .  route('users.show', $datos[$i]['specialist_user_id'])  . "'>" . $datos[$i]['specialist_degree'] . " " . $datos[$i]['specialist_name'] . "</a></td>";
                                         echo "<td>" . $datos[$i]['specialist_specialty'] . "</td>";
                                         echo "<td>" . $datos[$i]['cita_tipo'] . "</td>";
                                         $citaid = $datos[$i]['cita_id'];
@@ -355,10 +357,10 @@
                 @elsecan('specialist-view')
                     <thead>
                         <tr>
+                            <th>Nº</th>
                             <th>Estatus</th>
                             <th>Fecha</th>
                             <th>Paciente</th>
-                            {{-- <th>Especialidad</th> --}}
                             <th>Tipo</th>
                             <th>Acción</th>
                             <th>Calificación</th>
@@ -370,7 +372,9 @@
                         setlocale(LC_ALL, 'Spanish_Venezuela');
                         $user_id = Auth::user()->id;
                             for ($i=0; $i < count($datos); $i++) {
-                                echo "<tr><td>";
+                                echo "<tr>";
+                                echo "<td>" . $datos[$i]['cita_id'] . "</td>";
+                                echo    "<td>";
                                 switch ($datos[$i]['cita_status']) {
                                     case 0:
                                         echo '<span class="btn btn-warning text-nowrap btn-sm">Solicitada</span>';
@@ -394,7 +398,7 @@
                                 }
                                 echo "</td>";
                                 echo "<td>" . strftime("%d/%m/%Y, ", strtotime($datos[$i]['cita_fecha'])) . $datos[$i]['cita_hora'] . "</td>";
-                                echo "<td>" . $datos[$i]['paciente_name'] . "</td>";
+                                echo "<td><a href='" .  route('users.show', $datos[$i]['paciente_id'])  . "'>" . $datos[$i]['paciente_name'] . "</a></td>";
                                 echo "<td>" . $datos[$i]['cita_tipo'] . "</td>";
                                 echo "<td>";
                                 $citaid = $datos[$i]['cita_id'];

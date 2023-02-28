@@ -3,14 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Specialist;
 use Illuminate\Support\Arr;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use App\Models\MetadataUsers;
 use App\Models\UserUploadImages;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
-use App\Models\Specialist;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -72,6 +73,8 @@ class UserController extends Controller
      */
     public function show($id)
     {
+        $auth_id = Auth::user()->id;
+        $notificaciones = Notification::where('to_id', $auth_id)->get();
         $role = DB::Table('model_has_roles')->where('model_id', '=', $id)->get();
         if ($role[0]->role_id === 3) { // Especialistas
             $getAvatar = UserUploadImages::where('customer_id', '=', $id)->where('type', '=', 'avatar')->orderBy('created_at', 'DESC')->get();
@@ -100,6 +103,7 @@ class UserController extends Controller
             (count($getMetadata) >= 1 ? $phone = $getMetadata[0]['phone'] : $phone = "Sin teléfono");
 
             $data = [
+                'role' => 'Especialista',
                 'avatar' => $avatar,
                 'portada' => $portada,
                 'genero' => $genero,
@@ -110,9 +114,9 @@ class UserController extends Controller
                 'pais' => $pais,
                 'phone' => $phone
             ];
-            //$specialist = DB::Table('specialists')->select('id', 'name', 'email', 'degree', 'specialty')->where('status', '=', 1)->get();
+
             $user = User::find($id);
-            return view('users.show', compact('user', 'specialist', 'id', 'data'));
+            return view('users.show', compact('user', 'specialist', 'id', 'data', 'notificaciones'));
         } elseif ($role[0]->role_id === 2) { //Paciente
             $getAvatar = UserUploadImages::where('customer_id', '=', $id)->where('type', '=', 'avatar')->orderBy('created_at', 'DESC')->get();
             $getPortada = UserUploadImages::where('customer_id', '=', $id)->where('type', '=', 'portada')->orderBy('created_at', 'DESC')->get();
@@ -138,6 +142,7 @@ class UserController extends Controller
             (count($getMetadata) >= 1 ? $phone = $getMetadata[0]['phone'] : $phone = "Sin teléfono");
 
             $data = [
+                'role' => 'Paciente',
                 'avatar' => $avatar,
                 'portada' => $portada,
                 'genero' => $genero,
@@ -150,7 +155,7 @@ class UserController extends Controller
             ];
             $specialist = DB::Table('specialists')->select('id', 'name', 'email', 'degree', 'specialty')->where('status', '=', 1)->get();
             $user = User::find($id);
-            return view('users.show', compact('user', 'specialist', 'id', 'data'));
+            return view('users.show', compact('user', 'specialist', 'id', 'data', 'notificaciones'));
         } elseif ($role[0]->role_id === 4) { //Company
             // data
         } elseif ($role[0]->role_id === 1) { //SuperAdmin
@@ -178,6 +183,7 @@ class UserController extends Controller
             (count($getMetadata) >= 1 ? $phone = $getMetadata[0]['phone'] : $phone = "Sin teléfono");
 
             $data = [
+                'role' => 'SuperAdmin',
                 'avatar' => $avatar,
                 'portada' => $portada,
                 'genero' => $genero,
@@ -190,7 +196,7 @@ class UserController extends Controller
             ];
             $specialist = DB::Table('specialists')->select('id', 'name', 'email', 'degree', 'specialty')->where('status', '=', 1)->get();
             $user = User::find($id);
-            return view('users.show', compact('user', 'specialist', 'id', 'data'));
+            return view('users.show', compact('user', 'specialist', 'id', 'data', 'notificaciones'));
         }
     }
 
