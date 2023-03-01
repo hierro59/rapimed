@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\Notification;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Permission;
 
 class RoleController extends Controller
 {
@@ -31,8 +33,10 @@ class RoleController extends Controller
      */
     public function index(Request $request)
     {
+        $auth_id = Auth::user()->id;
+        $notificaciones = Notification::where('to_id', $auth_id)->get();
         $roles = Role::orderBy('id', 'DESC')->paginate(5);
-        return view('roles.index', compact('roles'))
+        return view('roles.index', compact('roles', 'notificaciones'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }
 
@@ -43,8 +47,10 @@ class RoleController extends Controller
      */
     public function create()
     {
+        $auth_id = Auth::user()->id;
+        $notificaciones = Notification::where('to_id', $auth_id)->get();
         $permission = Permission::get();
-        return view('roles.create', compact('permission'));
+        return view('roles.create', compact('permission', 'notificaciones'));
     }
 
     /**
@@ -74,12 +80,14 @@ class RoleController extends Controller
      */
     public function show($id)
     {
+        $auth_id = Auth::user()->id;
+        $notificaciones = Notification::where('to_id', $auth_id)->get();
         $role = Role::find($id);
         $rolePermissions = Permission::join("role_has_permissions", "role_has_permissions.permission_id", "=", "permissions.id")
             ->where("role_has_permissions.role_id", $id)
             ->get();
 
-        return view('roles.show', compact('role', 'rolePermissions'));
+        return view('roles.show', compact('role', 'rolePermissions', 'notificaciones'));
     }
 
     /**
@@ -90,13 +98,15 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
+        $auth_id = Auth::user()->id;
+        $notificaciones = Notification::where('to_id', $auth_id)->get();
         $role = Role::find($id);
         $permission = Permission::get();
         $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id", $id)
             ->pluck('role_has_permissions.permission_id', 'role_has_permissions.permission_id')
             ->all();
 
-        return view('roles.edit', compact('role', 'permission', 'rolePermissions'));
+        return view('roles.edit', compact('role', 'permission', 'rolePermissions', 'notificaciones'));
     }
 
     /**

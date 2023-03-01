@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Specialist;
 use Illuminate\Support\Arr;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use App\Mail\NewSpecialistEmail;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
@@ -22,9 +24,11 @@ class SpecialistController extends Controller
      */
     public function index(Request $request)
     {
+        $auth_id = Auth::user()->id;
+        $notificaciones = Notification::where('to_id', $auth_id)->get();
         $ide = User::where('status', '=', 1)->get();
         $data = Specialist::orderBy('id', 'DESC')->paginate(5);
-        return view('specialist.index', compact('data', 'ide'))
+        return view('specialist.index', compact('data', 'ide', 'notificaciones'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }
 
@@ -35,8 +39,10 @@ class SpecialistController extends Controller
      */
     public function create()
     {
+        $auth_id = Auth::user()->id;
+        $notificaciones = Notification::where('to_id', $auth_id)->get();
         $roles = Role::pluck('name', 'name')->all();
-        return view('specialist.create', compact('roles'));
+        return view('specialist.create', compact('roles', 'notificaciones'));
     }
 
     /**

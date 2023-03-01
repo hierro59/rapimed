@@ -24,8 +24,10 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
+        $auth_id = Auth::user()->id;
+        $notificaciones = Notification::where('to_id', $auth_id)->get();
         $data = User::orderBy('id', 'DESC')->paginate(5);
-        return view('users.index', compact('data'))
+        return view('users.index', compact('data', 'notificaciones'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }
 
@@ -36,8 +38,10 @@ class UserController extends Controller
      */
     public function create()
     {
+        $auth_id = Auth::user()->id;
+        $notificaciones = Notification::where('to_id', $auth_id)->get();
         $roles = Role::pluck('name', 'name')->all();
-        return view('users.create', compact('roles'));
+        return view('users.create', compact('roles', 'notificaciones'));
     }
 
     /**
@@ -208,11 +212,13 @@ class UserController extends Controller
      */
     public function edit($id)
     {
+        $auth_id = Auth::user()->id;
+        $notificaciones = Notification::where('to_id', $auth_id)->get();
         $user = User::find($id);
         $roles = Role::pluck('name', 'name')->all();
         $userRole = $user->roles->pluck('name', 'name')->all();
 
-        return view('users.edit', compact('user', 'roles', 'userRole'));
+        return view('users.edit', compact('user', 'roles', 'userRole', 'notificaciones'));
     }
 
     /**
