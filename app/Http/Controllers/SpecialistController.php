@@ -64,9 +64,10 @@ class SpecialistController extends Controller
 
         $input = $request->all();
         $input['password'] = Hash::make($input['password']);
-
-        $user = Specialist::create($input);
+        $email = $input['email'];
+        $specialist = Specialist::create($input);
         $user = User::create($input);
+        DB::table('specialists')->where('email', '=', $email)->update(['user_id'=>$user->id]);
         $user->assignRole($request->input('roles'));
 
         $objData = new \stdClass();

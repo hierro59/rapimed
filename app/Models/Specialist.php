@@ -27,6 +27,7 @@ class Specialist extends Authenticatable
         'degree',
         'specialty',
         'bio',
+        'user_id'
     ];
 
     /**
