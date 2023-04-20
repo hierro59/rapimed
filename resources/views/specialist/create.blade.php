@@ -53,6 +53,44 @@
                     {!! Form::textarea('bio', null, array('placeholder' => 'Bio','class' => 'form-control')) !!}
                 </div>
             </div>
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group">
+                    <strong>Consulta a domicilio:</strong>
+                    {!! Form::select('tipo_consulta', ['Domicilio' => 'Domicilio', 'Virtual' => 'Virtual', 'Consultorio' => 'Consultorio'],[], array('class' => 'form-control','multiple')) !!}
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group">
+                    {{-- <input type="checkbox" class="btn-check" id="btn-check-2-outlined" checked autocomplete="off"> --}}
+                    <br>
+                    <strong>Tipo de consulta:</strong><br>
+                    <span class="p-4">
+                        {!! Form::checkbox('tc_domicilio', 1, 'Domicilio', array('class' => 'btn-check', 'id' => 'btn-check-1-outlined', 'autocomplete' => 'off')) !!}
+                        <label class="btn btn-outline-secondary" for="btn-check-1-outlined">Domicilio</label>
+                    </span>
+                    <span class="p-4">
+                        {!! Form::checkbox('tc_virtual', 1, 'Virtual', array('class' => 'btn-check', 'id' => 'btn-check-2-outlined', 'autocomplete' => 'off')) !!}
+                        <label class="btn btn-outline-secondary" for="btn-check-2-outlined">Virtual</label>
+                    </span>
+                    <span class="p-4">
+                        {!! Form::checkbox('tc_consultorio', 1, 'Consultorio', array('class' => 'btn-check', 'id' => 'btn-check-3-outlined', 'autocomplete' => 'off')) !!}
+                        <label class="btn btn-outline-secondary" for="btn-check-3-outlined">Consultorio</label>
+                    </span>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group">
+                    <strong>Fecha de nacimiento:</strong>
+                    {!! Form::date('dob', null, array('placeholder' => 'Fecha de nacimiento','class' => 'form-control')) !!}
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group">
+                    <strong>Fecha de grado:</strong>
+                    {!! Form::date('dog', null, array('placeholder' => 'Fecha de grado','class' => 'form-control')) !!}
+                </div>
+            </div>
+            
             {{-- <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>Photo: </strong>

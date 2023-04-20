@@ -14,7 +14,7 @@ class RegisterEmail extends Mailable
     /**
      * The demo object instance.
      *
-     * @var Data
+     * @var $data
      */
     public $data;
     /**
@@ -33,13 +33,8 @@ class RegisterEmail extends Mailable
      */
     public function build()
     {
-        return $this->from('noreply@rapimed.online', 'RapiMed')
-            ->subject('Se ha registrado correctamente')
-            ->view('mails.register')
-            ->text('mails.register_plain')
-            ->attach(public_path('/img') . '/logo-rapimed-2023.jpg', [
-                'as' => 'logo-rapimed-2023.jpg',
-                'mime' => 'image/jpeg',
-            ]);
+        return $this->from(env('MAIL_FROM_ADDRESS'), 'RapiMed')
+            ->subject('Bienvenido a RapiMed')
+            ->view('mails.register');
     }
 }

@@ -14,7 +14,7 @@ class NewSpecialistEmail extends Mailable
     /**
      * The demo object instance.
      *
-     * @var Data
+     * @var $data
      */
     public $data;
     /**
@@ -33,7 +33,7 @@ class NewSpecialistEmail extends Mailable
      */
     public function build()
     {
-        return $this->from('noreply@rapimed.online', 'RapiMed')
+        return $this->from(env('MAIL_FROM_ADDRESS'), 'RapiMed')
             ->subject('Bienvenido a RapiMed')
             ->view('mails.newspecialist');
     }

@@ -4,12 +4,20 @@
 <div class="deznav">
     <div class="deznav-scroll">
         <ul class="metismenu" id="menu">
-            <li><a href="{{ url('/home') }}" aria-expanded="false">
+            <li>
+                <a href="{{ url('/home') }}" aria-expanded="false">
                     <i class="flaticon-381-home"></i>
                     <span class="nav-text">Inicio</span>
                 </a>
             </li>
-            <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+            <li>
+                <a href="{{ url('/doctors') }}" aria-expanded="false">
+                    <i class="fa-solid fa-user-doctor"></i>
+                    <span class="nav-text">Especialistas</span>
+                </a>
+            </li>
+            <li>
+                <a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
                     <i class="flaticon-381-notepad"></i>
                     <span class="nav-text">Citas</span>
                 </a>
@@ -20,7 +28,8 @@
                     <li><a href="{{ route('citas.index') }}">Mis citas</a></li>
                 </ul>
             </li>
-            <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+            <li>
+                <a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
                     <i class="flaticon-381-location-1"></i>
                     <span class="nav-text">Servicios</span>
                 </a>
@@ -30,7 +39,8 @@
                     <li><a href="#">Traslados <span class="badge light text-white bg-secondary">Pronto</span></a></li>
                 </ul>
             </li>
-            <li><a href="{{ route('users.show', Auth::user()->id) }}" aria-expanded="false">
+            <li>
+                <a href="{{ route('users.show', Auth::user()->id) }}" aria-expanded="false">
                     <i class="flaticon-381-user-7"></i>
                     <span class="nav-text">Mi Perfil</span>
                 </a>

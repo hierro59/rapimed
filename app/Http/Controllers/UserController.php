@@ -343,6 +343,14 @@ class UserController extends Controller
                 MetadataUsers::create($input);
             }
         }
+        if (isset($request->roles)) {
+            $input = $request->all();
+            
+            $user = User::find($id);
+            $user->update($input);
+            DB::table('model_has_roles')->where('model_id', $id)->delete();
+            $user->assignRole($request->input('roles'));
+        }
         /* $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email|unique:users,email,' . $id,
@@ -362,9 +370,59 @@ class UserController extends Controller
 
         $user->assignRole($request->input('roles'));
 */
-        return back()
-            ->with('success', 'User updated successfully');
+        return back()->with('success', 'User updated successfully');
     }
+
+    public function specialist($id)
+    {
+        $notificaciones = Notification::where('to_id', $id)->get();
+        $getAvatar = UserUploadImages::where('customer_id', '=', $id)->where('type', '=', 'avatar')->orderBy('created_at', 'DESC')->get();
+        $getPortada = UserUploadImages::where('customer_id', '=', $id)->where('type', '=', 'portada')->orderBy('created_at', 'DESC')->get();
+        $specialist = Specialist::where('id', '=', $id)->get();
+        $getMetadata = MetadataUsers::distinct('customer_id')->where('customer_id', '=', $id)->get();
+
+        (count($getAvatar) >= 1 ? $avatar = $getAvatar[0]['image_name'] : $avatar = "generic-user.png");
+        (count($getPortada) >= 1 ? $portada = $getPortada[0]['image_name'] : $portada = "generic-portada.jpg");
+        if (count($getMetadata) >= 1) {
+            if ($getMetadata[0]['sex'] == 1) {
+                $genero = 'la-mars';
+            } elseif ($getMetadata[0]['sex'] == 2) {
+                $genero = 'la-venus';
+            } else {
+                $genero = 'la-transgender';
+            }
+        } else {
+            $genero = 'la-transgender';
+        }
+        (count($getMetadata) >= 1 ? $historial = $getMetadata[0]['medical_history'] : $historial = "Breve reseña de habilidades");
+        (count($getMetadata) >= 1 ? $direccion = $getMetadata[0]['address'] : $direccion = "Sin datos");
+        (count($getMetadata) >= 1 ? $ciudad = $getMetadata[0]['city'] : $ciudad = "Sin datos");
+        (count($getMetadata) >= 1 ? $estado = $getMetadata[0]['state'] : $estado = "Sin datos");
+        (count($getMetadata) >= 1 ? $pais = $getMetadata[0]['country'] : $pais = "Sin datos");
+        (count($getMetadata) >= 1 ? $phone = $getMetadata[0]['phone'] : $phone = "Sin teléfono");
+
+        $user = User::find($id);
+
+        $data = [
+            'role' => 'Especialista',
+            'avatar' => $avatar,
+            'portada' => $portada,
+            'genero' => $genero,
+            'historial' => $historial,
+            'direccion' => $direccion,
+            'ciudad' => $ciudad,
+            'estado' => $estado,
+            'pais' => $pais,
+            'phone' => $phone,
+            'especialista' => $specialist,
+            'user' => $user,
+            'notificaciones' => $notificaciones
+        ];
+
+        return $data;
+        //return view('users.show', compact('user', 'specialist', 'id', 'data', 'notificaciones'));
+    }
+
 
     /**
      * Remove the specified resource from storage.

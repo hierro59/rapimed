@@ -18,7 +18,7 @@ class ResizeController extends Controller
     {
         $this->validate($request, [
             'type' => 'required',
-            'file' => 'required|image|mimes:jpg,jpeg,png,gif,svg|max:2048',
+            'file' => 'required|image|mimes:jpg,jpeg,png,gif,svg,webp|max:2048',
         ]);
 
         $type = ($request->type == 'avatar' ? 'avatar' : 'portada');
@@ -50,5 +50,36 @@ class ResizeController extends Controller
         return back()
             ->with('success', 'Image has successfully uploaded.')
             ->with('fileName', $input['file']);
+    }
+
+    public function uploadAvatarImage(Request $request)
+    {
+        $type = 'avatar';
+
+        $user = Auth::user()->id;
+        $code = bin2hex(random_bytes(10));
+
+        $image = $request->file('file');
+        $input['file'] = $type . '-' . $user . '-' . $code . '.' . $image->getClientOriginalExtension();
+
+        $destinationPath = public_path('/thumbnail/profile');
+        $imgFile = Image::make($image->getRealPath());
+        if ($type == 'avatar') {
+            $imgFile->fit(400)->save($destinationPath . '/' . $input['file']);
+            //$imgFile->save($destinationPath . '/' . $input['file']);
+        } else {
+            $imgFile->fit(900, 200)->save($destinationPath . '/' . $input['file']);
+        }
+        //$destinationPath = public_path('/uploads');
+        //$image->move($destinationPath, $input['file']);
+        $saveDB = [
+            'customer_id' => $user,
+            'type' => $type,
+            'image_name' => $input['file']
+        ];
+
+        UserUploadImages::create($saveDB);
+
+        return true;
     }
 }

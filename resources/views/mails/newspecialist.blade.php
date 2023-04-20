@@ -3,7 +3,7 @@
 
 <p>Para gestionar su cuenta, debe ingrasar desde este enlace:</p>
 
-<a href="https://rapimed.online/login" target="_BLANK">rapimed.online/login</a>
+<a href="https://rapimed.site/login" target="_BLANK">rapimed.site/login</a>
 <br/>
 <b>Usuario:</b> {{ $data->email }}
 <br/>

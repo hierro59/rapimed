@@ -2,7 +2,7 @@
     Nav header start
 ***********************************-->
 <div class="nav-header">
-    <a href="{{ url('/home') }}" class="brand-logo">
+    <a href="{{ route('welcome') }}" class="brand-logo">
         <img class="logo-abbr" src="{{ asset('img/LogoRapiMed.svg') }}" alt="">
         <span class="logo-compact" style="color: black">RapiMed</span>
         <span class="brand-title" style="color: #aaa">Rapi<span style="color: #555">Med</span></span>

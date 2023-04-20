@@ -14,9 +14,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use App\Models\UserUploadImages;
+use Intervention\Image\Facades\Image;
+use App\Http\Controllers\ResizeController;
 
 class SpecialistController extends Controller
 {
+    
+    
     /**
      * Display a listing of the resource.
      *
@@ -53,6 +58,8 @@ class SpecialistController extends Controller
      */
     public function store(Request $request)
     {
+        //$avatarUp = new ResizeController();
+
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
@@ -63,9 +70,10 @@ class SpecialistController extends Controller
         ]);
 
         $input = $request->all();
+
         $input['password'] = Hash::make($input['password']);
         $email = $input['email'];
-        $specialist = Specialist::create($input);
+        Specialist::create($input);
         $user = User::create($input);
         DB::table('specialists')->where('email', '=', $email)->update(['user_id'=>$user->id]);
         $user->assignRole($request->input('roles'));
@@ -76,6 +84,8 @@ class SpecialistController extends Controller
         $objData->email = $request['email'];
         $objData->pass = $request['password'];
         Mail::to($request['email'])->send(new NewSpecialistEmail($objData));
+
+        //$avatarUp->uploadAvatarImage($filePhoto);
 
         return redirect()->route('specialist.index')
             ->with('success', 'Specialist created successfully');

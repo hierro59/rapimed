@@ -1,15 +1,21 @@
-<h1>Hello <i>{{ $demo->receiver }}</i>,</h1>
-<p>This is a demo email for testing purposes! Also, it's the HTML version.</p>
-<p><u>Demo object values:</u></p>
-<div>
-<p><b>Demo One:</b>&nbsp;{{ $demo->demo_one }}</p>
-<p><b>Demo Two:</b>&nbsp;{{ $demo->demo_two }}</p>
-</div>
-<p><u>Values passed by With method:</u></p>
-<div>
-<p><b>testVarOne:</b>&nbsp;{{ $testVarOne }}</p>
-<p><b>testVarTwo:</b>&nbsp;{{ $testVarTwo }}</p>
-</div>
-Thank You,
+<h1>Nueva solicitud de consulta</h1>
+
+<ul>
+    <li>Paciente: {{ $data->nombre }}</li>
+    <li>Correo: {{ $data->email }}</li>
+    <li>Teléfono: {{ $data->telefono }}</li>
+    <li>Fecha: {{ $data->fecha }}</li>
+    <li>Tipo de cita: {{ $data->tipo }}</li>
+    <li>Ciudad: {{ $data->ciudad }}</li>
+    <li>Especialidad: {{ $data->especialidad }}</li>
+    <li>Mensaje: {{ $data->mensaje }}</li>
+</ul>
+
+<p>Esta cita fue solicitada desde el formulario de solicitud en el directorio de médicos.</p>
+
+<a href="https://rapimed.site/login" target="_BLANK">rapimed.site/login</a>
+<img src="https://rapimed.site/img/logo-rapimed-2023.jpg" alt="">
 <br/>
-<i>{{ $demo->sender }}</i>
+<br/>
+Gracias por formar parte de nuestra familia,
+<br/>

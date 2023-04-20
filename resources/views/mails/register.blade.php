@@ -3,7 +3,7 @@
 
 <p>Para disfrutar de todos nuestros beneficios puede acceder edesde este enlace:</p>
 
-<a href="https://rapimed.online/login" target="_BLANK">rapimed.online</a>
+<a href="https://rapimed.site/login" target="_BLANK">rapimed.site</a>
 <br/>
 <br/>
 Gracias,

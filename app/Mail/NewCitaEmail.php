@@ -15,7 +15,7 @@ class NewCitaEmail extends Mailable
     /**
      * The demo object instance.
      *
-     * @var Data
+     * @var $data
      */
     public $data;
     /**
@@ -34,7 +34,7 @@ class NewCitaEmail extends Mailable
      */
     public function build()
     {
-        return $this->from('noreply@rapimed.online', 'RapiMed')
+        return $this->from(env('MAIL_FROM_ADDRESS'), 'RapiMed')
             ->subject('Nueva solicitud de cita')
             ->view('mails.newcita');
     }

@@ -15,7 +15,7 @@ class CancelledCitaEmail extends Mailable
     /**
      * The demo object instance.
      *
-     * @var Data
+     * @var $data
      */
     public $data;
     /**
@@ -34,8 +34,8 @@ class CancelledCitaEmail extends Mailable
      */
     public function build()
     {
-        return $this->from('noreply@rapimed.online', 'RapiMed')
-            ->subject('Solicitud de cita CANCELADA')
+        return $this->from(env('MAIL_FROM_ADDRESS'), 'RapiMed')
+            ->subject('Cita CANCELADA')
             ->view('mails.cancelledcita');
     }
 }

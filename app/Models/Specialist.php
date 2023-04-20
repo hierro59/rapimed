@@ -27,7 +27,12 @@ class Specialist extends Authenticatable
         'degree',
         'specialty',
         'bio',
-        'user_id'
+        'user_id',
+        'tc_domicilio',
+        'tc_virtual',
+        'tc_consultorio',
+        'dob',
+        'dog'
     ];
 
     /**

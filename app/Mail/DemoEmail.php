@@ -14,17 +14,17 @@ class DemoEmail extends Mailable
     /**
      * The demo object instance.
      *
-     * @var Demo
+     * @var $data
      */
-    public $demo;
+    public $data;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($demo)
+    public function __construct($data)
     {
-        $this->demo = $demo;
+        $this->data = $data;
     }
     /**
      * Build the message.
@@ -33,19 +33,8 @@ class DemoEmail extends Mailable
      */
     public function build()
     {
-        return $this->from('noreply@rapimed.online', 'RapiMed')
-            ->subject('Te has registrado')
-            ->view('mails.demo')
-            ->text('mails.demo_plain')
-            ->with(
-                [
-                    'testVarOne' => '1',
-                    'testVarTwo' => '2',
-                ]
-            )
-            ->attach(public_path('/img') . '/demo.jpg', [
-                'as' => 'demo.jpg',
-                'mime' => 'image/jpeg',
-            ]);
+        return $this->from(env('MAIL_FROM_ADDRESS'), 'RapiMed')
+            ->subject('Nueva solicitud de Cita')
+            ->view('mails.demo');
     }
 }

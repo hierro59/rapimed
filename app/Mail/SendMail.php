@@ -14,7 +14,7 @@ class DemoEmail extends Mailable
     /**
      * The demo object instance.
      *
-     * @var Demo
+     * @var $demo
      */
     public $demo;
     /**
@@ -33,7 +33,7 @@ class DemoEmail extends Mailable
      */
     public function build()
     {
-        return $this->from('noreply@rapimed.online')
+        return $this->from(env('MAIL_FROM_ADDRESS'))
             ->view('mails.demo')
             ->text('mails.demo_plain')
             ->with(

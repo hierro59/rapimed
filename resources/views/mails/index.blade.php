@@ -10,7 +10,7 @@
         //var_dump($mailData);
     @endphp
     <h1>{{-- {{ $mailData['title'] }} --}}</h1>
-    <p>Hola! Te an solicitado una nueva cita.</p>
+    <p>Hola! Te han solicitado una nueva cita.</p>
     <p>{{-- {{ $mailData['body'] }} --}}</p>
 </body>
 </html>
