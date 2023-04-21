@@ -42,7 +42,7 @@
             <div class="row">
               <div class="col-sm-8 text-sm">
                 <div class="site-info">
-                  <a href="https://api.whatsapp.com/send?phone=584169590218&text=Hola%2C%20estuve%20viendo%20Rapimed.site%20%C2%BFMe%20podr%C3%ADa%20ayudar%3F%20"><span class="mai-call text-primary"></span> +58 416 959 0218</a>
+                  <a href="https://api.whatsapp.com/send?phone=584169590218&text=Hola%2C%20estuve%20viendo%20Rapimed.website%20%C2%BFMe%20podr%C3%ADa%20ayudar%3F%20"><span class="mai-call text-primary"></span> +58 416 959 0218</a>
                   <span class="divider">|</span>
                   <a href="mailto:info@rapimed.site"><span class="mai-mail text-primary"></span> info@rapimed.site</a>
                 </div>
@@ -167,7 +167,7 @@
             <div class="col-sm-6 col-lg-3 py-3">
                 <h5>Contacto</h5>
                 <p class="footer-link mt-2">Caracas - Venezuela</p>
-                <a href="https://api.whatsapp.com/send?phone=584169590218&text=Hola%2C%20estuve%20viendo%20Rapimed.site%20%C2%BFMe%20podr%C3%ADa%20ayudar%3F%20" class="footer-link">+58 416 959 0218</a>
+                <a href="https://api.whatsapp.com/send?phone=584169590218&text=Hola%2C%20estuve%20viendo%20Rapimed.website%20%C2%BFMe%20podr%C3%ADa%20ayudar%3F%20" class="footer-link">+58 416 959 0218</a>
                 <a href="mailto:info@rapimed.site" class="footer-link">info@rapimed.site</a>
     
                 <h5 class="mt-3">Social Media</h5>

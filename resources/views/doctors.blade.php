@@ -14,7 +14,7 @@
 <div class="container px-4">
     <div class="row gx-2">
         @for ($i = 0; $i < count($data); $i++)
-            <div class="col-3">
+            <div class="col-sm-3">
                 <div class="item">
                     <div class="card-doctor">
                     <div class="header">
