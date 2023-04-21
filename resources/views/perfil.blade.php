@@ -369,49 +369,48 @@
                                                 <div class="profile-personal-info">
                                                     <h4 class="text-primary mb-4">Información Personal</h4>
                                                     <div class="row mb-2">
-                                                        <div class="col-3">
-                                                            <h5 class="f-w-500">Nombre <span class="pull-right">:</span>
+                                                        <div class="col-sm-3">
+                                                            <h5 class="f-w-500 text-muted">Nombre <span class="pull-right">:</span>
                                                             </h5>
                                                         </div>
-                                                        <div class="col-9"><span>{{ $data['nombre'] }}</span>
+                                                        <div class="col-sm-9"><h4>{{ $data['nombre'] }}</h4>
                                                         </div>
                                                     </div>
                                                     <div class="row mb-2">
-                                                        <div class="col-3">
-                                                            <h5 class="f-w-500">Email <span class="pull-right">:</span>
+                                                        <div class="col-sm-3">
+                                                            <h5 class="f-w-500 text-muted">Email <span class="pull-right">:</span>
                                                             </h5>
                                                         </div>
-                                                        <div class="col-9"><span>{{ $data['email'] }}</span>
+                                                        <div class="col-sm-9"><h4>{{ $data['email'] }}</h4>
                                                         </div>
                                                     </div>
                                                     <div class="row mb-2">
-                                                        <div class="col-3">
-                                                            <h5 class="f-w-500">Especialidad <span class="pull-right">:</span></h5>
+                                                        <div class="col-sm-3">
+                                                            <h5 class="f-w-500 text-muted">Especialidad <span class="pull-right">:</span></h5>
                                                         </div>
-                                                        <div class="col-9"><span>{{ $data['especialidad'] }}</span>
+                                                        <div class="col-sm-9"><h4>{{ $data['especialidad'] }}</h4>
                                                         </div>
                                                     </div>
                                                     <div class="row mb-2">
-                                                        <div class="col-3">
-                                                            <h5 class="f-w-500">Age <span class="pull-right">:</span>
+                                                        <div class="col-sm-3">
+                                                            <h5 class="f-w-500 text-muted">Edad <span class="pull-right">:</span>
                                                             </h5>
                                                         </div>
-                                                        <div class="col-9"><span>27</span>
+                                                        <div class="col-sm-9"><h4>{{ $data['dob'] }}</h4>
                                                         </div>
                                                     </div>
                                                     <div class="row mb-2">
-                                                        <div class="col-3">
-                                                            <h5 class="f-w-500">Location <span class="pull-right">:</span></h5>
+                                                        <div class="col-sm-3">
+                                                            <h5 class="f-w-500 text-muted">Dirección <span class="pull-right">:</span></h5>
                                                         </div>
-                                                        <div class="col-9"><span>Rosemont Avenue Melbourne,
-                                                                Florida</span>
+                                                        <div class="col-sm-9"><h4>{{ $data['direccion'] }}</h4>
                                                         </div>
                                                     </div>
                                                     <div class="row mb-2">
-                                                        <div class="col-3">
-                                                            <h5 class="f-w-500">Year Experience <span class="pull-right">:</span></h5>
+                                                        <div class="col-sm-3">
+                                                            <h5 class="f-w-500 text-muted">Años de experiencia <span class="pull-right">:</span></h5>
                                                         </div>
-                                                        <div class="col-9"><span>07 Year Experiences</span>
+                                                        <div class="col-sm-9"><h4>{{ $data['dog'] }} Años</h4>
                                                         </div>
                                                     </div>
                                                 </div>
