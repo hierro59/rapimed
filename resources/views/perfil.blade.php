@@ -410,7 +410,7 @@
                                                         <div class="col-sm-3">
                                                             <h5 class="f-w-500 text-muted">Años de experiencia <span class="pull-right">:</span></h5>
                                                         </div>
-                                                        <div class="col-sm-9"><h4>{{ $data['dog'] }} Años</h4>
+                                                        <div class="col-sm-9"><h4>{{ $data['dog'] }}</h4>
                                                         </div>
                                                     </div>
                                                 </div>

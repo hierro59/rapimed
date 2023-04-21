@@ -88,19 +88,10 @@ Route::get('/perfil/{id}', function (int $id) {
         $genero = 'la-transgender';
     }
 
-    $now = date_create(date('Y-m-d H:i:s'));
-    
-    $fechaActual = date('Y-m-d'); 
-    $datetime1 = date_create($especialistas[0]['dob']);
-    $datetime2 = date_create($fechaActual);
-    $contador = date_diff($datetime1, $datetime2);
-    $differenceFormat = '%a';
-    
-
-    $datedog = date_create($especialistas[0]['dob']);
-    $contador = date_diff($datedog, $datetime2);
-    $differenceFormatdog = '%a';
-    
+     
+    $now = (int)date('Y-m-d'); 
+    $nacimiento = (int)$especialistas[0]['dob'];
+    $graduacion = (int)$especialistas[0]['dog'];
     
     (count($getMetadata) >= 1 ? $historial = $getMetadata[0]['medical_history'] : $historial = "Breve reseña de habilidades");
     (count($getMetadata) >= 1 ? $direccion = $getMetadata[0]['address'] : $direccion = "Sin datos");
@@ -108,12 +99,14 @@ Route::get('/perfil/{id}', function (int $id) {
     (count($getMetadata) >= 1 ? $estado = $getMetadata[0]['state'] : $estado = "Sin datos");
     (count($getMetadata) >= 1 ? $pais = $getMetadata[0]['country'] : $pais = "Sin datos");
     (count($getMetadata) >= 1 ? $phone = $getMetadata[0]['phone'] : $phone = "Sin teléfono");
-    (isset($especialistas[0]['dob']) ? $dob = $contador->format($differenceFormat) : $dob = "Sin datos");
-    (isset($especialistas[0]['dog']) ? $dog = $contador->format($differenceFormatdog) : $dog = "Sin");
+    (isset($especialistas[0]['dob']) ? $dob = $now - $nacimiento : $dob = "Sin datos");
+    (isset($especialistas[0]['dog']) ? $dog = $now - $graduacion : $dog = "Sin datos");
     (isset($especialistas[0]['tc_domicilio']) ? $tc_domicilio = true : $tc_domicilio = false);
     (isset($especialistas[0]['tc_virtual']) ? $tc_virtual = true : $tc_virtual = false);
     (isset($especialistas[0]['tc_consultorio']) ? $tc_consultorio = true : $tc_consultorio = false);
     
+    //dd($fechaActual);
+
     $data = [
         'specialist_id' => $especialistas[0]['id'],
         'degree' => $especialistas[0]['degree'],
