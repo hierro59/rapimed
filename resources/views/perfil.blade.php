@@ -362,9 +362,15 @@
                                                 </div>
                                                 <div class="profile-skills mb-5">
                                                     <h4 class="text-primary mb-2">Tipo de consulta</h4>
+                                                    @if ($data['tc_domicilio'] == true)
                                                     <a href="javascript:void()" class="btn btn-primary light btn-xs mb-1" data-toggle="modal" data-target="#sendMessageModal"><i class="fa-solid fa-house-medical-circle-check"></i> Domicilio</a>
-                                                    <a href="javascript:void()" class="btn btn-primary light btn-xs mb-1" data-toggle="modal" data-target="#sendMessageModal"><i class="fa-solid fa-headset"></i> Virtual</a>
-                                                    <a href="javascript:void()" class="btn btn-primary light btn-xs mb-1" data-toggle="modal" data-target="#sendMessageModal"><i class="fa-solid fa-hospital"></i> Consultorio</a>
+                                                    @endif
+                                                    @if ($data['tc_virtual'] == true)
+                                                    <a href="javascript:void()" class="btn btn-primary light btn-xs mb-1" data-toggle="modal" data-target="#sendMessageModal"><i class="fa-solid fa-house-medical-circle-check"></i> Virtual</a>
+                                                    @endif
+                                                    @if ($data['tc_consultorio'] == true)
+                                                    <a href="javascript:void()" class="btn btn-primary light btn-xs mb-1" data-toggle="modal" data-target="#sendMessageModal"><i class="fa-solid fa-house-medical-circle-check"></i> Consultorio</a>
+                                                    @endif
                                                 </div>
                                                 <div class="profile-personal-info">
                                                     <h4 class="text-primary mb-4">Información Personal</h4>

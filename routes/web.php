@@ -101,9 +101,9 @@ Route::get('/perfil/{id}', function (int $id) {
     (count($getMetadata) >= 1 ? $phone = $getMetadata[0]['phone'] : $phone = "Sin teléfono");
     (isset($especialistas[0]['dob']) ? $dob = $now - $nacimiento : $dob = "Sin datos");
     (isset($especialistas[0]['dog']) ? $dog = $now - $graduacion : $dog = "Sin datos");
-    (isset($especialistas[0]['tc_domicilio']) ? $tc_domicilio = true : $tc_domicilio = false);
-    (isset($especialistas[0]['tc_virtual']) ? $tc_virtual = true : $tc_virtual = false);
-    (isset($especialistas[0]['tc_consultorio']) ? $tc_consultorio = true : $tc_consultorio = false);
+    ($especialistas[0]['tc_domicilio'] == 1 ? $tc_domicilio = true : $tc_domicilio = false);
+    ($especialistas[0]['tc_virtual'] == 1 ? $tc_virtual = true : $tc_virtual = false);
+    ($especialistas[0]['tc_consultorio'] == 1 ? $tc_consultorio = true : $tc_consultorio = false);
     
     //dd($fechaActual);
 
