@@ -10,8 +10,7 @@
 
 <p>Recuerde ingresar al sistema y gestionar sus citas. Los pacientes esperan pronta respuesta de usted.</p>
 
-<a href="https://rapimed.site/login" target="_BLANK">rapimed.site/login</a>
-<br/>
+<a href="https://rapimed.website/login" target="_BLANK">rapimed.website/login</a><br/>
 <br/>
 Gracias por formar parte de nuestra familia,
 <br/>

@@ -12,8 +12,7 @@
 
 <p>Su opinion es muy importante para nosotros.</p>
 
-<a href="https://rapimed.site/login" target="_BLANK">rapimed.site/login</a>
-<br/>
+<a href="https://rapimed.website/login" target="_BLANK">rapimed.website/login</a><br/>
 <br/>
 Gracias por formar parte de nuestra familia,
 <br/>

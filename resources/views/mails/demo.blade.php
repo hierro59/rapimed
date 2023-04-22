@@ -13,8 +13,8 @@
 
 <p>Esta cita fue solicitada desde el formulario de solicitud en el directorio de médicos.</p>
 
-<a href="https://rapimed.site/login" target="_BLANK">rapimed.site/login</a>
-<img src="https://rapimed.site/img/logo-rapimed-2023.jpg" alt="">
+<a href="https://rapimed.website/login" target="_BLANK">rapimed.website/login</a>
+
 <br/>
 <br/>
 Gracias por formar parte de nuestra familia,
