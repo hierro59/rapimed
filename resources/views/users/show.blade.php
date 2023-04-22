@@ -140,7 +140,7 @@
                             </div>
                         </div>
                     </div>
-                @can('customer-view')
+                {{-- @can('customer-view') --}}
                     <div class="col-lg-7">
                         <div class="card">
                             <div class="card-body">
@@ -208,7 +208,7 @@
                             </div>
                         </div>
                     </div>
-                @endcan
+                {{-- @endcan --}}
                 </div>
             </div>
             {{-- <div class="col-xl-3 col-xxl-12">
