@@ -191,10 +191,6 @@ Route::get('/blog', function () {
     return view('blog');
 })->name('blog');
 
-/* Route::get('/verify', function () {
-    return view('auth.verify');
-}); */
-
 Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');

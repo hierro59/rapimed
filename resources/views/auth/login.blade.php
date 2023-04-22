@@ -46,7 +46,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <a class="text-white" href="#">¿Olvidó su contraseña?</a>
+                                            <a class="text-white" href="{{ route('password.request') }}">¿Olvidó su contraseña?</a>
                                         </div>
                                     </div>
                                     <div class="text-center">

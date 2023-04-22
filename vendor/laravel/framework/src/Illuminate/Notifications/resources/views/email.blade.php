@@ -6,7 +6,7 @@
 @if ($level === 'error')
 # @lang('Whoops!')
 @else
-# @lang('Hello!')
+# @lang('Hola!')
 @endif
 @endif
 
@@ -42,6 +42,8 @@
 @lang('Regards'),<br>
 {{ config('app.name') }}
 @endif
+
+<img src="https://rapimed.website/img/logo-rapimed-2023.jpg" width="150">
 
 {{-- Subcopy --}}
 @isset($actionText)

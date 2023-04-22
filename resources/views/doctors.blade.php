@@ -1,6 +1,5 @@
 @extends('layouts.page')
 @section('content')
-
 <div class="container px-4">
     <div class="row gx-2">
         <div class="profile-skills mb-5">

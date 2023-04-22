@@ -159,7 +159,7 @@
                     {!! Form::text('ciudad', $data['ciudad'], array('placeholder' => 'Ciudad/Municipio','class' => 'form-control')) !!}
                     <strong class="label">Estado/Provincia:</strong>
                     {!! Form::text('estado', $data['estado'], array('placeholder' => 'Estado/Provincia','class' => 'form-control')) !!}
-                    {!! Form::text('pais', 'VE', array('placeholder' => 'Pais','class' => 'form-control', 'hidden')) !!}
+                    {!! Form::text('country', 'VE', array('placeholder' => 'Pais','class' => 'form-control', 'hidden')) !!}
 
                     <button type="submit" name="submit" class="btn btn-outline-danger btn-block mt-4">
                         Guardar
