@@ -92,7 +92,7 @@
 <!--**********************************
     FORMULARIO GUARDAR bio
 ***********************************-->
-@if (Auth::user()->id == $id)
+@if (Auth::user()->id == $id AND $data['role'] == 'Especialista')
 <div class="modal fade" id="upBio">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
