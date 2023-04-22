@@ -577,8 +577,8 @@
                                         </svg>
                                     </div>
                                     <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item text-black" href="javascript:;">Info</a>
-                                        <a class="dropdown-item text-black" href="javascript:;">Details</a>
+                                        {{-- <a class="dropdown-item text-black" href="javascript:;">Info</a> --}}
+                                        <a class="dropdown-item text-black" href="{{ route('citas.index') }}">Ver todas</a>
                                     </div>
                                 </div>
                             </div>
@@ -704,7 +704,7 @@
                                                         break;
                                                     case 1:
                                                     case 7:
-                                                    if ($datos[$i]['score_customers'] == 'NULL') {
+                                                    
                                                         echo '<div class="modal fade" id="calificar'.$i.'">
                                                             <div class="modal-dialog" role="document">
                                                             <div class="modal-content">
@@ -750,10 +750,7 @@
                                                         echo Form::open(['method' => 'PATCH','route' => ['citas.update', $cancelar], 'style'=>'display:inline']);
                                                         echo    Form::submit('Cancelar', ['class' => 'btn btn-danger light']);
                                                         echo Form::close();
-                                                    } else {
-                                                        echo '<div style="width: 30%;">Usted dio <i class="fa-solid fa-heart'. ($datos[$i]['score_customers'] < (0) ? "-crack" : "") .'" style="color:'. ($datos[$i]['score_customers'] < (0) ? "black" : "red") .'"> ' . (isset($datos[$i]['score_customers']) ? $datos[$i]['score_customers'] : " Sin calificar") . '</i>';
-                                                        echo '<br>Comentario: <br><p>' . $datos[$i]['score_customers_commit'] . '</div>';
-                                                    }
+                                                    
                                                         break;
                                                     case 4:
                                                     case 5:
@@ -801,6 +798,7 @@
                                                         echo '<a href="javascript:void(0)" class="btn btn-warning" data-toggle="modal" data-target="#calificar'.$i.'"><i class="fa-solid fa-heart"></i>Calificar</a>';
                                                         break;
                                                     case 8:
+                                                        if ($datos[$i]['score'] == NULL) {
                                                         echo '<div class="modal fade" id="calificar'.$i.'">
                                                             <div class="modal-dialog" role="document">
                                                             <div class="modal-content">
@@ -842,7 +840,7 @@
                                                             </div>
                                                         </div></div>';
                                                         echo '<a href="javascript:void(0)" class="btn btn-warning" data-toggle="modal" data-target="#calificar'.$i.'"><i class="fa-solid fa-heart"></i> Calificar</a>';
-
+                                                        }
                                                         break;
                                                 }
                                             echo '
@@ -902,7 +900,7 @@
                                                                     </button>
                                                                 </div>
                                                                 <div class="modal-body">';
-                                                        echo        Form::open(array('route' => 'score.store','method'=>'POST'));
+                                                        echo        Form::open(array('route' => 'scorecustomer.store','method'=>'POST'));
                                                         echo        '<div class="form-group">
                                                                             <h3 class="text-black font-w500">¿Cómo le fue con el ' . $datos[$i]['specialist_degree'] . " " . $datos[$i]['specialist_name'] . '?</h3>
                                                                             <h5>En la cita del '. utf8_encode(strftime("%A, %d de %B", strtotime($datos[$i]['cita_fecha']))) .'</h5>
@@ -927,7 +925,7 @@
                                                         echo        Form::text('cita_id', $datos[$i]['cita_id'], array('hidden'));
                                                         echo            '<small>Le notificaremos cuando le sea asignado un especialista y sea aceptada su solicitud.</small>
                                                                         <div class="form-group">
-                                                                            <button type="submit" class="btn btn-primary">Solicitar</button>
+                                                                            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-heart"></i> Calificar</button>
                                                                         </div>';
                                                         echo        Form::close();
                                                         echo    '</div>
@@ -954,7 +952,7 @@
                                                                     </button>
                                                                 </div>
                                                                 <div class="modal-body">';
-                                                        echo        Form::open(array('route' => 'score.store','method'=>'POST'));
+                                                        echo        Form::open(array('route' => 'scorecustomer.store','method'=>'POST'));
                                                         echo        '<div class="form-group">
                                                                             <h3 class="text-black font-w500">¿Cómo le fue con el ' . $datos[$i]['specialist_degree'] . " " . $datos[$i]['specialist_name'] . '?</h3>
                                                                             <h5>En la cita del '. utf8_encode(strftime("%A, %d de %B", strtotime($datos[$i]['cita_fecha']))) .'</h5>
@@ -979,7 +977,7 @@
                                                         echo        Form::text('cita_id', $datos[$i]['cita_id'], array('hidden'));
                                                         echo            '<small>Le notificaremos cuando le sea asignado un especialista y sea aceptada su solicitud.</small>
                                                                         <div class="form-group">
-                                                                            <button type="submit" class="btn btn-primary">Solicitar</button>
+                                                                            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-heart"></i> Calificar</button>
                                                                         </div>';
                                                         echo        Form::close();
                                                         echo    '</div>
@@ -988,6 +986,7 @@
                                                         echo '<a href="javascript:void(0)" class="btn btn-warning" data-toggle="modal" data-target="#calificar'.$i.'"><i class="fa-solid fa-heart"></i>Calificar</a>';
                                                         break;
                                                     case 8:
+                                                    if ($datos[$i]['score_customers'] == NULL) {
                                                         echo '<div class="modal fade" id="calificar'.$i.'">
                                                             <div class="modal-dialog" role="document">
                                                             <div class="modal-content">
@@ -997,7 +996,7 @@
                                                                     </button>
                                                                 </div>
                                                                 <div class="modal-body">';
-                                                        echo        Form::open(array('route' => 'score.store','method'=>'POST'));
+                                                        echo        Form::open(array('route' => 'scorecustomer.store','method'=>'POST'));
                                                         echo        '<div class="form-group">
                                                                             <h3 class="text-black font-w500">¿Cómo le fue con el ' . $datos[$i]['specialist_degree'] . " " . $datos[$i]['specialist_name'] . '?</h3>
                                                                             <h5>En la cita del '. utf8_encode(strftime("%A, %d de %B", strtotime($datos[$i]['cita_fecha']))) .'</h5>
@@ -1022,14 +1021,14 @@
                                                         echo        Form::text('cita_id', $datos[$i]['cita_id'], array('hidden'));
                                                         echo            '<small>Le notificaremos cuando le sea asignado un especialista y sea aceptada su solicitud.</small>
                                                                         <div class="form-group">
-                                                                            <button type="submit" class="btn btn-primary">Solicitar</button>
+                                                                            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-heart"></i> Calificar</button>
                                                                         </div>';
                                                         echo        Form::close();
                                                         echo    '</div>
                                                             </div>
                                                         </div></div>';
                                                         echo '<a href="javascript:void(0)" class="btn btn-warning" data-toggle="modal" data-target="#calificar'.$i.'"><i class="fa-solid fa-heart"></i>Calificar</a>';
-
+                                                    }
                                                     break;
                                             }
                                             echo '
@@ -1042,10 +1041,10 @@
                             </div>
                         </div>
                     </div>
-                    {{-- <div class="col-xl-12">
+                    <div class="col-xl-12">
                         <div class="card patient-activity">
                             <div class="card-header border-0 pb-0">
-                                <h3 class="fs-20 text-black mb-0">Actividad Reciente</h3>
+                                <h3 class="fs-20 text-black mb-0"><i class="fa-solid fa-heart" style="color: red"></i> Calificaciones</h3>
                                 <div class="dropdown ml-auto">
                                     <div class="btn-link" data-toggle="dropdown">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1055,8 +1054,8 @@
                                         </svg>
                                     </div>
                                     <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item text-black" href="javascript:;">Info</a>
-                                        <a class="dropdown-item text-black" href="javascript:;">Details</a>
+                                        {{-- <a class="dropdown-item text-black" href="javascript:;">Info</a> --}}
+                                        <a class="dropdown-item text-black" href="javascript:;">Ver todas</a>
                                     </div>
                                 </div>
                             </div>
@@ -1064,231 +1063,57 @@
                                 <div class="table-responsive height720 dz-scroll" id="patient-activity">
                                     <table class="table table-responsive-sm">
                                         <tbody>
-                                            <tr>
+                            @php
+                                for ($sc=0; $sc < count($datos); $sc++) { 
+                                    if ($datos[$sc]['score_customers'] != NULL) {
+                                        echo '<tr>
                                                 <td>
                                                     <div class="d-flex">
-                                                        <img src="{{ asset('img/users/6.jpg') }}" alt="" class="img-2 mr-3">
+                                                        <img src="thumbnail/profile/' . $datos[$sc]['paciente_avatar'] . '" alt="" class="img-2 mr-3">
                                                         <div>
-                                                            <h6 class="fs-16 mb-1"><a href="patient.html" class="text-black">Roby Romeo</a></h6>
-                                                            <span class="fs-14">41 Years Old</span>
+                                                            
+                                                            <h6 class="fs-16 mb-1"><a href="' . route('users.show', ($datos[$sc]['role'] != "Customer" ? $datos[$sc]['paciente_id'] : $datos[$sc]['specialist_user_id'])) . '" class="text-black">' . ($datos[$sc]['role'] != "Customer" ? $datos[$sc]['paciente_name'] : $datos[$sc]['specialist_name']) . '</a></h6>
+                                                            <small class="text-muted">Fecha: ' . $datos[$sc]['score_customers_date'] . '</small>
                                                         </div>
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <div>
-                                                        <p class="fs-14 mb-1">Disease</p>
-                                                        <span class="text-primary font-w600 mb-auto">Allergies & Asthma</span>
+                                                        <p class="fs-14 mb-1">Comentario</p>
+                                                        <span class="text-primary font-w600 mb-auto">' . $datos[$sc]['score_customers_commit'] . '</span>
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <div>
-                                                        <p class="fs-14 mb-1">Status</p>
-                                                        <span class="text-primary font-w600 mb-2 d-block text-nowrap">Recovered</span>
-                                                        <p class="mb-0 fs-12">22/03/2020 12:34 AM</p>
+                                                        <p class="fs-14 mb-1">Calificación</p>
+                                                        <span class="font-w600 mb-2 d-block text-nowrap"><i class="fa-solid fa-heart';
+                                                    if ($datos[$sc]['score_customers'] < 0) {
+                                                        echo '-crack';
+                                                    } else {
+                                                        echo '';
+                                                    }
+                                                    echo        '" style="color:'; 
+                                                    if ($datos[$sc]['score_customers'] < 0) {
+                                                        echo 'black';
+                                                    } else {
+                                                        echo 'red';
+                                                    }
+                                                    echo '"></i> ' . $datos[$sc]['score_customers'] . '</span>
                                                     </div>
                                                 </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex">
-                                                        <img src="{{ asset('img/users/7.jpg') }}" alt="" class="img-2 mr-3">
-                                                        <div>
-                                                            <h6 class="fs-16 mb-1"><a href="patient.html" class="text-black">Angela Nurhayati</a></h6>
-                                                            <span class="fs-14">21 Years Old</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div>
-                                                        <p class="fs-14 mb-1">Disease</p>
-                                                        <span class="text-primary font-w600 mb-auto">Sleep Problem</span>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div>
-                                                        <p class="fs-14 mb-1">Status</p>
-                                                        <span class="text-danger font-w600 mb-2 text-nowrap d-block">New Patient</span>
-                                                        <p class="mb-0 fs-12">22/03/2020 12:34 AM</p>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex">
-                                                        <img src="{{ asset('img/users/8.jpg') }}" alt="" class="img-2 mr-3">
-                                                        <div>
-                                                            <h6 class="fs-16 mb-1"><a href="patient.html" class="text-black">James Robinson</a></h6>
-                                                            <span class="fs-14">41 Years Old</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div>
-                                                        <p class="fs-14 mb-1">Disease</p>
-                                                        <span class="text-primary font-w600 mb-auto">Dental Care</span>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div>
-                                                        <p class="fs-14 mb-1">Status</p>
-                                                        <span class="text-warning font-w600 mb-2 text-nowrap d-block">In Treatment</span>
-                                                        <p class="mb-0 fs-12">22/03/2020 12:34 AM</p>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex">
-                                                        <img src="{{ asset('img/users/9.jpg') }}" alt="" class="img-2 mr-3">
-                                                        <div>
-                                                            <h6 class="fs-16 mb-1"><a href="patient.html" class="text-black">Thomas Jaja</a></h6>
-                                                            <span class="fs-14">7 Years Old</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div>
-                                                        <p class="fs-14 mb-1">Disease</p>
-                                                        <span class="text-primary font-w600 mb-auto">Diabetes</span>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div>
-                                                        <p class="fs-14 mb-1">Status</p>
-                                                        <span class="text-danger font-w600 mb-2 text-nowrap d-block">New Patient</span>
-                                                        <p class="mb-0 fs-12">22/03/2020 12:34 AM</p>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex">
-                                                        <img src="{{ asset('img/users/10.jpg') }}" alt="" class="img-2 mr-3">
-                                                        <div>
-                                                            <h6 class="fs-16 mb-1"><a href="patient.html" class="text-black">Cindy Brownleee</a></h6>
-                                                            <span class="fs-14">71 Years Old</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div>
-                                                        <p class="fs-14 mb-1">Disease</p>
-                                                        <span class="text-primary font-w600 mb-auto">Covid-19 Suspect</span>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div>
-                                                        <p class="fs-14 mb-1">Status</p>
-                                                        <span class="text-warning font-w600 text-nowrap mb-2 d-block">In Treatment</span>
-                                                        <p class="mb-0 fs-12">22/03/2020 12:34 AM</p>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex">
-                                                        <img src="{{ asset('img/users/11.jpg') }}" alt="" class="img-2 mr-3">
-                                                        <div>
-                                                            <h6 class="fs-16 mb-1"><a href="patient.html" class="text-black">Oconner Jr.</a></h6>
-                                                            <span class="fs-14">17 Years Old</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div>
-                                                        <p class="fs-14 mb-1">Disease</p>
-                                                        <span class="text-primary font-w600 mb-auto">Dental Care</span>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div>
-                                                        <p class="fs-14 mb-1">Status</p>
-                                                        <span class="text-primary font-w600 mb-2 text-nowrap d-block">Recovered</span>
-                                                        <p class="mb-0 fs-12">22/03/2020 12:34 AM</p>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex">
-                                                        <img src="{{ asset('img/users/7.jpg') }}" alt="" class="img-2 mr-3">
-                                                        <div>
-                                                            <h6 class="fs-16 mb-1"><a href="patient.html" class="text-black">Angela Nurhayati</a></h6>
-                                                            <span class="fs-14">21 Years Old</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div>
-                                                        <p class="fs-14 mb-1">Disease</p>
-                                                        <span class="text-primary font-w600 mb-auto">Sleep Problem</span>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div>
-                                                        <p class="fs-14 mb-1">Status</p>
-                                                        <span class="text-danger font-w600 mb-2 text-nowrap d-block">New Patient</span>
-                                                        <p class="mb-0 fs-12">22/03/2020 12:34 AM</p>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex">
-                                                        <img src="{{ asset('img/users/8.jpg') }}" alt="" class="img-2 mr-3">
-                                                        <div>
-                                                            <h6 class="fs-16 mb-1"><a href="patient.html" class="text-black">James Robinson</a></h6>
-                                                            <span class="fs-14">41 Years Old</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div>
-                                                        <p class="fs-14 mb-1">Disease</p>
-                                                        <span class="text-primary font-w600 mb-auto">Dental Care</span>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div>
-                                                        <p class="fs-14 mb-1">Status</p>
-                                                        <span class="text-warning font-w600 mb-2 d-block text-nowrap">In Treatment</span>
-                                                        <p class="mb-0 fs-12">22/03/2020 12:34 AM</p>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex">
-                                                        <img src="{{ asset('img/users/9.jpg') }}" alt="" class="img-2 mr-3">
-                                                        <div>
-                                                            <h6 class="fs-16 mb-1"><a href="patient.html" class="text-black">Thomas Jaja</a></h6>
-                                                            <span class="fs-14">7 Years Old</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div>
-                                                        <p class="fs-14 mb-1">Disease</p>
-                                                        <span class="text-primary font-w600 mb-auto">Diabetes</span>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div>
-                                                        <p class="fs-14 mb-1">Status</p>
-                                                        <span class="text-danger font-w600 mb-2 d-block text-nowrap">New Patient</span>
-                                                        <p class="mb-0 fs-12">22/03/2020 12:34 AM</p>
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                            </tr>';
+                                    }
+                                }
+                            @endphp
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                             <div class="card-footer text-center border-0">
-                                <a href="patient.html" class="btn-link">See More >></a>
+                                <a href="#" class="btn-link">See More >></a>
                             </div>
                         </div>
-                    </div> --}}
+                    </div>
                 </div>
             </div>
         </div>

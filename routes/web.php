@@ -4,6 +4,7 @@ use App\Mail\SendMail;
 
 use App\Models\LogUser;
 use App\Models\Operation;
+use App\Models\ScoreCustomer;
 use App\Models\Specialist;
 use App\Models\MetadataUsers;
 use App\Models\Citas;
@@ -72,7 +73,7 @@ Route::get('/perfil/{id}', function (int $id) {
     $getPortada = UserUploadImages::where('customer_id', '=', $especialistas[0]['user_id'])->where('type', '=', 'portada')->orderBy('created_at', 'DESC')->get();
     $getMetadata = MetadataUsers::distinct('customer_id')->where('customer_id', '=', $especialistas[0]['user_id'])->get();
     $getCitas = Citas::distinct('user_id')->where('specialist_id', '=', $especialistas[0]['id'])->count('user_id');
-    $getScore = Score::where('specialist_id', '=', $especialistas[0]['id'])->where('score', ">", 0)->get()->sum('score');
+    $getScore = ScoreCustomer::where('specialist_id', '=', $especialistas[0]['id'])->where('score', ">", 0)->get()->sum('score');
 
     (count($getAvatar) >= 1 ? $avatar = $getAvatar[0]['image_name'] : $avatar = "generic-user.png");
     (count($getPortada) >= 1 ? $portada = $getPortada[0]['image_name'] : $portada = "generic-portada.jpg");
