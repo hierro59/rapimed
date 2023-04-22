@@ -83,7 +83,7 @@ class UserController extends Controller
         if ($role[0]->role_id === 3) { // Especialistas
             $getAvatar = UserUploadImages::where('customer_id', '=', $id)->where('type', '=', 'avatar')->orderBy('created_at', 'DESC')->get();
             $getPortada = UserUploadImages::where('customer_id', '=', $id)->where('type', '=', 'portada')->orderBy('created_at', 'DESC')->get();
-            $specialist = Specialist::where('id', '=', $id)->get();
+            $specialist = Specialist::where('user_id', '=', $id)->get();
             $getMetadata = MetadataUsers::distinct('customer_id')->where('customer_id', '=', $id)->get();
 
             (count($getAvatar) >= 1 ? $avatar = $getAvatar[0]['image_name'] : $avatar = "generic-user.png");
@@ -112,6 +112,7 @@ class UserController extends Controller
                 'portada' => $portada,
                 'genero' => $genero,
                 'historial' => $historial,
+                'bio' => $specialist[0]['bio'],
                 'direccion' => $direccion,
                 'ciudad' => $ciudad,
                 'estado' => $estado,
@@ -246,20 +247,36 @@ class UserController extends Controller
                 $create = MetadataUsers::create($input);
             }
         }
-        if (isset($request->bio)) {
+        if (isset($request->historial)) {
             $getMetadata = MetadataUsers::where('customer_id', '=', $id)->get();
             if (count($getMetadata) >= 1) {
                 $input = [
-                    'medical_history' => $request->bio
+                    'medical_history' => $request->historial
                 ];
                 $update = MetadataUsers::find($getMetadata[0]['id']);
                 $update->update($input);
             } else {
                 $input = [
                     'customer_id' => $id,
-                    'medical_history' => $request->bio
+                    'medical_history' => $request->historial
                 ];
                 MetadataUsers::create($input);
+            }
+        }
+        if (isset($request->bio)) {
+            $getSpecialist = Specialist::where('user_id', '=', $id)->get();
+            if (count($getSpecialist) >= 1) {
+                $input = [
+                    'bio' => $request->bio
+                ];
+                $update = Specialist::find($getSpecialist[0]['id']);
+                $update->update($input);
+            } else {
+                $input = [
+                    'user_id' => $id,
+                    'bio' => $request->bio
+                ];
+                Specialist::create($input);
             }
         }
         if (isset($request->address)) {

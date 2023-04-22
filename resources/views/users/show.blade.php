@@ -54,7 +54,13 @@
                             echo $data['role'];
                         @endphp
                     </a></li>
-                    <li class="breadcrumb-item"><a href="javascript:void(0)">#P-000{{ $user->id }}</a></li>
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">#
+                        @if ($data['role'] == 'Especialista')
+                            E
+                        @else
+                            P
+                        @endif
+                        - {{ $user->id }}</a></li>
                 </ol>
             </div>
         </div>
@@ -94,7 +100,13 @@
                                     <div class="card-info d-flex align-items-start">
                                         <div class="mr-auto pr-3">
                                             <h2 class="font-w600 mb-2 text-black">{{ $user->name }}</h2>
-                                            <p class="mb-2">#P-000{{ $user->id }}</p>
+                                            <p class="mb-2">#
+                                            @if ($data['role'] == 'Especialista')
+                                                E
+                                            @else
+                                                P
+                                            @endif
+                                            - {{ $user->id }}</a></li></p>
                                             <span class="date">
                                             <i class="las la-clock"></i>
                                             Fecha de registro {{ $user->created_at }}</span>
@@ -113,6 +125,16 @@
 
                                     </div>
                                 </div>
+                                    @if ($data['role'] == 'Especialista')
+                                    <h4 class="fs-20 text-black font-w600">Biografía <a class="btn-editar-historial" href="javascript:void(0)" data-toggle="modal" data-target="#upBio"><i class="fa-solid fa-pen"></i></a></h4>
+                                    
+                                    <p>
+                                        {{ $specialist[0]['bio'] }}
+                                    </p>
+                                        
+                                    @endif
+                                        
+                                    
                                     <h4 class="fs-20 text-black font-w600">
                                 @php
                                     if ($data['role'] == 'Especialista') {

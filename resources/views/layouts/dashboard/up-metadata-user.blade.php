@@ -52,6 +52,7 @@
 <!--**********************************
     FORMULARIO GUARDAR medical_history
 ***********************************-->
+
 <div class="modal fade" id="upHistorial">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -74,7 +75,7 @@
                     </div>
                     @endif
 
-                    {!! Form::textarea('bio', $data['historial'], array('placeholder' => $data['historial'],'class' => 'form-control')) !!}
+                    {!! Form::textarea('historial', $data['historial'], array('placeholder' => $data['historial'],'class' => 'form-control')) !!}
 
                     <button type="submit" name="submit" class="btn btn-outline-danger btn-block mt-4">
                         Guardar
@@ -84,8 +85,49 @@
         </div>
     </div>
 </div>
+
 <!--**********************************
     FORMULARIO GUARDAR medical_history end
+***********************************-->
+<!--**********************************
+    FORMULARIO GUARDAR bio
+***********************************-->
+@if (Auth::user()->id == $id)
+<div class="modal fade" id="upBio">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Biografía</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {!! Form::model($user, ['method' => 'PATCH','route' => ['users.update', $user->id]]) !!}
+                <form action="{{route('users.update', Auth::user()->id)}}" method="PATCH">
+                    @csrf
+                    @if (count($errors) > 0)
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    @endif
+
+                    {!! Form::textarea('bio', $data['bio'], array('placeholder' => $data['bio'],'class' => 'form-control')) !!}
+
+                    <button type="submit" name="submit" class="btn btn-outline-danger btn-block mt-4">
+                        Guardar
+                    </button>
+                    {!! Form::close() !!}
+            </div>
+        </div>
+    </div>
+</div>
+@endif
+<!--**********************************
+    FORMULARIO GUARDAR bio end
 ***********************************-->
 <!--**********************************
     FORMULARIO GUARDAR direccion
