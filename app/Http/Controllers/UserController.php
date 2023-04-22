@@ -26,9 +26,9 @@ class UserController extends Controller
     {
         $auth_id = Auth::user()->id;
         $notificaciones = Notification::where('to_id', $auth_id)->get();
-        $data = User::orderBy('id', 'DESC')->paginate(5);
+        $data = User::orderBy('id', 'DESC')->paginate(10);
         return view('users.index', compact('data', 'notificaciones'))
-            ->with('i', ($request->input('page', 1) - 1) * 5);
+            ->with('i', ($request->input('page', 1) - 1) * 10);
     }
 
     /**
