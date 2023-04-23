@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Notification;
 use App\Models\ScoreCustomer;
 use App\Models\Score;
+use App\Models\User;
 use App\Models\UserUploadImages;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -109,11 +110,15 @@ class HomeController extends Controller
             $datos = [];
             $citas = DB::Table('citas')->orderBy('created_at', 'DESC')->get();
             $specialist = DB::Table('specialists')->select('id', 'name', 'email', 'degree', 'specialty', 'user_id')->where('status', '=', 1)->get();
+            $countCustomers = User::where('status', '=', '1')->count('id');
+            $countSpecialist = count($specialist);
+            $numCustomers = $countCustomers - $countSpecialist;
             for ($i = 0; $i < count($citas); $i++) {
                 $myspecialist = DB::Table('specialists')->select('id', 'name', 'email', 'degree', 'specialty', 'user_id')->where('id', '=', $citas[$i]->specialist_id)->get();
                 $paciente = DB::Table('users')->select('id', 'name', 'email')->where('id', '=', $citas[$i]->user_id)->get();
                 $getAvatar = UserUploadImages::where('customer_id', '=', $myspecialist[0]->user_id)->where('type', '=', 'avatar')->get();
                 (count($getAvatar) >= 1 ? $avatar = $getAvatar[0]['image_name'] : $avatar = "generic-user.png");
+                
                 $array =
                     [
                         'cita_id' => $citas[$i]->id,
@@ -137,7 +142,7 @@ class HomeController extends Controller
                     ];
                 array_push($datos, $array);
             }
-            return view('home', compact('datos', 'specialist', 'id', 'notificaciones'));
+            return view('home', compact('datos', 'specialist', 'id', 'notificaciones', 'numCustomers', 'countSpecialist'));
         }
     }
 }

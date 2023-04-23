@@ -91,7 +91,7 @@
                     <div class="card-body">
                         <div class="media align-items-center">
                             <div class="media-body mr-3">
-                                <h2 class="fs-34 text-black font-w600">124,551</h2>
+                                <h2 class="fs-34 text-black font-w600">{{ $numCustomers }}</h2>
                                 <span>Total Pacientes</span>
                             </div>
                             <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -111,7 +111,7 @@
                     <div class="card-body">
                         <div class="media align-items-center">
                             <div class="media-body mr-3">
-                                <h2 class="fs-34 text-black font-w600">442</h2>
+                                <h2 class="fs-34 text-black font-w600">{{ $countSpecialist }}</h2>
                                 <span>Total Especialistas</span>
                             </div>
                             <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
