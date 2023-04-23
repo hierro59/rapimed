@@ -204,111 +204,38 @@
                                                     <div class="settings-form">
                                                         <h4 class="text-primary">Solicitar una cita</h4>
                                                         {!! Form::open(array('route' => 'citas.store','method'=>'POST')) !!}
-                                                        @csrf
-                                                            <div class="form-row">
-                                                                <div class="form-group col-md-6">
-                                                                    <label>Nombre *</label>
-                                                                    <input type="text" class="form-control" placeholder="Su nombre..." name="nombre" required>
-                                                                </div>
-                                                                <div class="form-group col-md-6">
-                                                                    <label>Email *</label>
-                                                                    {!! Form::email('email', null, array('placeholder' => 'Email...','class' => 'form-control', 'required')) !!}
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-row">
-                                                                <div class="form-group col-md-6">
-                                                                    <label>Teléfono *</label>
-                                                                    <input type="text" class="form-control" placeholder="Teléfono..." name="telefono" required>
-                                                                </div>
-                                                                <div class="form-group col-md-6">
-                                                                    <label>Tipo de consulta</label>
-                                                                    <select name="tipo" id="tc" class="custom-select" required>
-                                                                        <option value="Virtual" selected>Virtual</option>
-                                                                        <option value="Consultorio">Consultorio</option>
-                                                                        <option value="Domicilio">Domicilio</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-row">
-                                                                <div class="form-group col-md-6">
-                                                                    <label>Ciudad de residencia</label>
-                                                                    <input type="text" class="form-control" placeholder="Ciudad..." name="ciudad">
-                                                                </div>
-                                                                <div class="form-group col-md-6">
-                                                                    <label>Fecha de la cita *</label>
-                                                                    <input type="date" class="form-control" name="fecha_cita" required>
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-row">
-                                                                <div class="form-group col-md-12">
-                                                                    <label>Describa brevemente su situación de salud</label>
-                                                                    <textarea name="mensaje" id="message" class="form-control" rows="6" placeholder="Esciba un mensaje.."></textarea>
-                                                                </div>
-                                                            </div>
-                                                            {{-- <div class="form-group">
-                                                                <div class="custom-control custom-checkbox">
-																	<input type="checkbox" class="custom-control-input" id="gridCheck">
-																	<label class="custom-control-label" for="gridCheck"> Check me out</label>
-																</div>
-                                                            </div> --}}
-                                                            <input type="text" name="specialist_id" value="{{ $data['specialist_id'] }}" hidden>
-                                                            <input type="text" name="especialista" value="{{ $data['email'] }}" hidden>
-                                                            <button class="btn btn-primary" type="submit">Solicitar cita</button>
+                                                        <input type="text" name="specialist_id" value="{{ $data['specialist_id'] }}" hidden>
+                                                        <div class="form-group">
+                                                            <label class="text-black font-w500">Fecha de cita</label>
+                                                            {!! Form::date('fecha_cita', null, array('placeholder' => 'Fecha de la cita','class' => 'form-control')) !!}
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="text-black font-w500">Hora de cita</label>
+                                                            {!! Form::time('hora_cita', null, array('placeholder' => 'Hora de la cita','class' => 'form-control')) !!}
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="text-black font-w500">Tipo de cita</label>
+                                                            @php
+                                                                $optionsTipo = [
+                                                                    'Domicilio' => 'En mi casa',
+                                                                    'Consultorio' => 'En el consultorio',
+                                                                    'Virtual' => 'Virtual'
+                                                                ];
+                                                            @endphp
+                                                            {!! Form::select('tipo', $optionsTipo,[], array('placeholder' => 'Seleccione el tipo de cita','class' => 'form-control','simple')) !!}
+                                                        </div>
+
+                                                        {!! Form::text('user_id', $data['user_id'], array('hidden')) !!}
+                                                        <small>Le notificaremos cuando le sea asignado un especialista y sea aceptada su solicitud.</small>
+                                                        <div class="form-group">
+                                                            <button type="submit" class="btn btn-primary">Solicitar</button>
+                                                        </div>
                                                         {!! Form::close() !!}
                                                     </div>
                                                 </div>
                                             </div>
                                             <!--**********************************
                                                 Form Cita end
-                                            ***********************************-->
-                                            <!--**********************************
-                                                Form Registro start
-                                            ***********************************-->
-                                            <div id="register" class="tab-pane fade">
-                                                <div class="pt-3">
-                                                    <div class="settings-form">
-                                                        <h4 class="text-primary">Registro</h4>
-                                                        <p>Para solicitar una cita debes estar regitrado.</p>
-                                                        <form method="POST" action="{{ route('register') }}">
-                                                            @csrf
-                                                            <div class="form-group">
-                                                                <label class="mb-1"><strong>Nombres y Apellidos</strong></label>
-                                                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
-                                                                @error('name')
-                                                                    <span class="invalid-feedback" role="alert">
-                                                                        <strong>{{ $message }}</strong>
-                                                                    </span>
-                                                                @enderror
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label class="mb-1"><strong>Email</strong></label>
-                                                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" placeholder="ejemplo@correo.com" required autocomplete="email">
-                                                                @error('email')
-                                                                    <span class="invalid-feedback" role="alert">
-                                                                        <strong>{{ $message }}</strong>
-                                                                    </span>
-                                                                @enderror
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label class="mb-1"><strong>Contraseña</strong></label>
-                                                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label class="mb-1"><strong>Repita contraseña</strong></label>
-                                                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
-                                                            </div>
-                                                            <input type="text" name="roles" value="Customer" hidden>
-                                                            <div class="text-center mt-4">
-                                                                <button type="submit" class="btn bg-secondary text-white btn-block">
-                                                                    {{ __('Registrar') }}
-                                                                </button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!--**********************************
-                                                Form Registro end
                                             ***********************************-->
                                         </div>
                                     </div>
@@ -384,8 +311,6 @@
                                                                 <small>{{ $data['especialidad'] }}</small>
                                                             </div>
                                                         </div>
-                                                        
-                                                        
                                                     </div>
                                                     <input type="text" name="specialist_id" value="{{ $data['specialist_id'] }}" hidden>
                                                     <div class="form-group">
@@ -414,7 +339,6 @@
                                                         <button type="submit" class="btn btn-primary">Solicitar</button>
                                                     </div>
                                                     {!! Form::close() !!}
-													
 												</div>
 											</div>
 										</div>
