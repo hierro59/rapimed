@@ -52,8 +52,13 @@
                                         <ul class="nav nav-tabs">
                                             <li class="nav-item"><a href="#about-me" data-toggle="tab" class="nav-link active show">Sobre mi</a>
                                             </li>
+                                            @auth
                                             <li class="nav-item"><a href="#appoiment" data-toggle="tab" class="nav-link">Solicitar cita</a>
                                             </li>
+                                            @else
+                                            <li class="nav-item"><a href="javascript:void()" data-toggle="modal" data-target="#registerModal" class="nav-link">Solicitar cita</a>
+                                            </li>
+                                            @endauth
                                             <li class="nav-item"><a href="#my-posts" data-toggle="tab" class="nav-link">Posts  <span class="badge badge-secondary" style="font-size: 10px">Pronto</span></a>
                                             </li>
                                         </ul>
@@ -106,13 +111,26 @@
                                                 <div class="profile-skills mb-5">
                                                     <h4 class="text-primary mb-2">Tipo de consulta</h4>
                                                     @if ($data['tc_domicilio'] == true)
-                                                    <a href="javascript:void()" class="btn btn-primary light btn-xs mb-1" data-toggle="modal" data-target="#sendMessageModal"><i class="fa-solid fa-house-medical-circle-check"></i> Domicilio</a>
+                                                        @auth
+                                                            <a href="javascript:void()" class="btn btn-primary light btn-xs mb-1" data-toggle="modal" data-target="#sendMessageModal"><i class="fa-solid fa-house-medical-circle-check"></i> Domicilio</a>
+                                                        @else
+                                                            <a href="javascript:void()" class="btn btn-primary light btn-xs mb-1" data-toggle="modal" data-target="#registerModal"><i class="fa-solid fa-house-medical-circle-check"></i> Domicilio</a>
+                                                        @endauth
                                                     @endif
                                                     @if ($data['tc_virtual'] == true)
-                                                    <a href="javascript:void()" class="btn btn-primary light btn-xs mb-1" data-toggle="modal" data-target="#sendMessageModal"><i class="fa-solid fa-house-medical-circle-check"></i> Virtual</a>
+                                                        @auth
+                                                            <a href="javascript:void()" class="btn btn-primary light btn-xs mb-1" data-toggle="modal" data-target="#sendMessageModal"><i class="fa-solid fa-house-medical-circle-check"></i> Virtual</a>
+                                                        @else
+                                                            <a href="javascript:void()" class="btn btn-primary light btn-xs mb-1" data-toggle="modal" data-target="#registerModal"><i class="fa-solid fa-house-medical-circle-check"></i> Virtual</a>
+                                                        @endauth
                                                     @endif
                                                     @if ($data['tc_consultorio'] == true)
-                                                    <a href="javascript:void()" class="btn btn-primary light btn-xs mb-1" data-toggle="modal" data-target="#sendMessageModal"><i class="fa-solid fa-house-medical-circle-check"></i> Consultorio</a>
+                                                        @auth
+                                                            <a href="javascript:void()" class="btn btn-primary light btn-xs mb-1" data-toggle="modal" data-target="#sendMessageModal"><i class="fa-solid fa-house-medical-circle-check"></i> Consultorio</a>
+                                                        @else
+                                                            <a href="javascript:void()" class="btn btn-primary light btn-xs mb-1" data-toggle="modal" data-target="#registerModal"><i class="fa-solid fa-house-medical-circle-check"></i> Consultorio</a>
+                                                        @endauth
+                                                    
                                                     @endif
                                                 </div>
                                                 <div class="profile-personal-info">
@@ -178,6 +196,9 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <!--**********************************
+                                                Form Cita start
+                                            ***********************************-->
                                             <div id="appoiment" class="tab-pane fade">
                                                 <div class="pt-3">
                                                     <div class="settings-form">
@@ -237,6 +258,58 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <!--**********************************
+                                                Form Cita end
+                                            ***********************************-->
+                                            <!--**********************************
+                                                Form Registro start
+                                            ***********************************-->
+                                            <div id="register" class="tab-pane fade">
+                                                <div class="pt-3">
+                                                    <div class="settings-form">
+                                                        <h4 class="text-primary">Registro</h4>
+                                                        <p>Para solicitar una cita debes estar regitrado.</p>
+                                                        <form method="POST" action="{{ route('register') }}">
+                                                            @csrf
+                                                            <div class="form-group">
+                                                                <label class="mb-1"><strong>Nombres y Apellidos</strong></label>
+                                                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                                                                @error('name')
+                                                                    <span class="invalid-feedback" role="alert">
+                                                                        <strong>{{ $message }}</strong>
+                                                                    </span>
+                                                                @enderror
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="mb-1"><strong>Email</strong></label>
+                                                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" placeholder="ejemplo@correo.com" required autocomplete="email">
+                                                                @error('email')
+                                                                    <span class="invalid-feedback" role="alert">
+                                                                        <strong>{{ $message }}</strong>
+                                                                    </span>
+                                                                @enderror
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="mb-1"><strong>Contraseña</strong></label>
+                                                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="mb-1"><strong>Repita contraseña</strong></label>
+                                                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                                                            </div>
+                                                            <input type="text" name="roles" value="Customer" hidden>
+                                                            <div class="text-center mt-4">
+                                                                <button type="submit" class="btn bg-secondary text-white btn-block">
+                                                                    {{ __('Registrar') }}
+                                                                </button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--**********************************
+                                                Form Registro end
+                                            ***********************************-->
                                         </div>
                                     </div>
 									<!-- Modal -->
@@ -281,10 +354,16 @@
                                         </div>
                                         <div class="mt-4">
 											<a href="javascript:void()" class="btn btn-primary mb-1 mr-1">Seguir <span class="badge badge-secondary" style="font-size: 10px">Pronto</span></a> 
-											<a href="javascript:void()" class="btn btn-primary mb-1" data-toggle="modal" data-target="#sendMessageModal">Pedir cita</a>
+                                            @auth
+                                            <a href="javascript:void()" class="btn btn-primary mb-1" data-toggle="modal" data-target="#sendMessageModal">Pedir cita</a>
+                                            @else
+                                            <a href="javascript:void()" class="btn btn-primary mb-1" data-toggle="modal" data-target="#registerModal">Pedir cita</a>
+                                            @endauth
                                         </div>
                                     </div>
-									<!-- Modal -->
+									<!--**********************************
+                                        Modal Form Cita start
+                                    ***********************************-->
 									<div class="modal fade" id="sendMessageModal">
 										<div class="modal-dialog modal-dialog-centered" role="document">
 											<div class="modal-content">
@@ -293,63 +372,159 @@
 													<button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
 												</div>
 												<div class="modal-body">
-													{!! Form::open(array('route' => 'citas.store','method'=>'POST')) !!}
-                                                        @csrf
-                                                            <div class="form-row">
-                                                                <div class="form-group col-md-6">
-                                                                    <label>Nombre *</label>
-                                                                    <input type="text" class="form-control" placeholder="Su nombre..." name="nombre" required>
-                                                                </div>
-                                                                <div class="form-group col-md-6">
-                                                                    <label>Email *</label>
-                                                                    {!! Form::email('email', null, array('placeholder' => 'Email...','class' => 'form-control', 'required')) !!}
-                                                                </div>
+                                                    {!! Form::open(array('route' => 'citas.store','method'=>'POST')) !!}
+                                                    <div class="form-group">
+                                                        <div class="row">
+                                                            <div class="col-sm-4">
+                                                                <img src="{{ asset('thumbnail/profile/' . $data['avatar']) }}" class="img-fluid rounded-circle" alt="">
                                                             </div>
-                                                            <div class="form-row">
-                                                                <div class="form-group col-md-6">
-                                                                    <label>Teléfono *</label>
-                                                                    <input type="text" class="form-control" placeholder="Teléfono..." name="telefono" required>
-                                                                </div>
-                                                                <div class="form-group col-md-6">
-                                                                    <label>Tipo de consulta</label>
-                                                                    <select name="tipo" id="tc" class="custom-select" required>
-                                                                        <option value="Virtual" selected>Virtual</option>
-                                                                        <option value="Consultorio">Consultorio</option>
-                                                                        <option value="Domicilio">Domicilio</option>
-                                                                    </select>
-                                                                </div>
+                                                            <div class="col-sm-8">
+                                                                Especialista: 
+                                                                <h4>{{ $data['degree'] . " " . $data['nombre'] }}</h4>
+                                                                <small>{{ $data['especialidad'] }}</small>
                                                             </div>
-                                                            <div class="form-row">
-                                                                <div class="form-group col-md-6">
-                                                                    <label>Ciudad de residencia</label>
-                                                                    <input type="text" class="form-control" placeholder="Ciudad..." name="ciudad">
-                                                                </div>
-                                                                <div class="form-group col-md-6">
-                                                                    <label>Fecha de la cita *</label>
-                                                                    <input type="date" class="form-control" name="fecha_cita" required>
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-row">
-                                                                <div class="form-group col-md-12">
-                                                                    <label>Describa brevemente su situación de salud</label>
-                                                                    <textarea name="mensaje" id="message" class="form-control" rows="6" placeholder="Esciba un mensaje.."></textarea>
-                                                                </div>
-                                                            </div>
-                                                            {{-- <div class="form-group">
-                                                                <div class="custom-control custom-checkbox">
-																	<input type="checkbox" class="custom-control-input" id="gridCheck">
-																	<label class="custom-control-label" for="gridCheck"> Check me out</label>
-																</div>
-                                                            </div> --}}
-                                                            <input type="text" name="specialist_id" value="{{ $data['specialist_id'] }}" hidden>
-                                                            <input type="text" name="especialista" value="{{ $data['email'] }}" hidden>
-                                                            <input type="text" name="user_id" value="{{ $data['user_id'] }}" hidden>
-                                                            <button class="btn btn-primary" type="submit">Solicitar cita</button>
-                                                        {!! Form::close() !!}
+                                                        </div>
+                                                        
+                                                        
+                                                    </div>
+                                                    <input type="text" name="specialist_id" value="{{ $data['specialist_id'] }}" hidden>
+                                                    <div class="form-group">
+                                                        <label class="text-black font-w500">Fecha de cita</label>
+                                                        {!! Form::date('fecha_cita', null, array('placeholder' => 'Fecha de la cita','class' => 'form-control')) !!}
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="text-black font-w500">Hora de cita</label>
+                                                        {!! Form::time('hora_cita', null, array('placeholder' => 'Hora de la cita','class' => 'form-control')) !!}
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="text-black font-w500">Tipo de cita</label>
+                                                        @php
+                                                            $optionsTipo = [
+                                                                'Domicilio' => 'En mi casa',
+                                                                'Consultorio' => 'En el consultorio',
+                                                                'Virtual' => 'Virtual'
+                                                            ];
+                                                        @endphp
+                                                        {!! Form::select('tipo', $optionsTipo,[], array('placeholder' => 'Seleccione el tipo de cita','class' => 'form-control','simple')) !!}
+                                                    </div>
+
+                                                    {!! Form::text('user_id', $data['user_id'], array('hidden')) !!}
+                                                    <small>Le notificaremos cuando le sea asignado un especialista y sea aceptada su solicitud.</small>
+                                                    <div class="form-group">
+                                                        <button type="submit" class="btn btn-primary">Solicitar</button>
+                                                    </div>
+                                                    {!! Form::close() !!}
+													
 												</div>
 											</div>
 										</div>
 									</div>
+                                    <!--**********************************
+                                        Modal Form Cita end
+                                    ***********************************-->
+                                    
+                                    <!--**********************************
+                                        Modal Form Registro start
+                                    ***********************************-->
+                                    <div class="modal fade" id="registerModal">
+										<div class="modal-dialog modal-dialog-centered" role="document">
+											<div class="modal-content">
+												<div class="modal-header">
+													<h5 class="modal-title">Inicie sesión</h5>
+													<button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+												</div>
+												<div class="modal-body">
+                                                    <form method="POST" action="{{ route('login') }}">
+                                                        @csrf
+                                                        <div class="form-group">
+                                                            <label class=""><strong>Email</strong></label>
+                                                            {{-- <input type="email" class="form-control" value="hello@example.com"> --}}
+                                                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                                                            @error('email')
+                                                                <span class="invalid-feedback" role="alert">
+                                                                    <strong>{{ $message }}</strong>
+                                                                </span>
+                                                            @enderror
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class=""><strong>Password</strong></label>
+                                                            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                                                            @error('password')
+                                                                <span class="invalid-feedback" role="alert">
+                                                                    <strong>{{ $message }}</strong>
+                                                                </span>
+                                                            @enderror
+                                                        </div>
+                                                        <div class="form-row d-flex justify-content-between mt-4 mb-2">
+                                                            <div class="form-group">
+                                                            <div class="custom-control custom-checkbox ml-1">
+                                                                    <input class="custom-control-input" type="checkbox" name="remember" id="basic_checkbox_1" {{ old('remember') ? 'checked' : '' }}>
+                                                                    <label class="custom-control-label" for="basic_checkbox_1">
+                                                                        {{ __('Recordarme') }}
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <a class="" href="{{ route('password.request') }}">¿Olvidó su contraseña?</a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="text-center">
+                                                            
+                                                            <button type="submit" class="btn bg-secondary text-white btn-block">
+                                                                {{ __('Iniciar sesión') }}
+                                                            </button>
+                                                        </div>
+                                                    </form>
+
+                                                    <hr>
+                                                    <div class="modal-header bg-light">
+                                                        <h5 class="modal-title">Regístrese</h5>
+                                                    </div>
+                                                    <div class="bg-light p-4">
+                                                    {{-- Registrar --}}
+													<form method="POST" action="{{ route('register') }}">
+                                                        @csrf
+                                                        <div class="form-group">
+                                                            <label class="mb-1"><strong>Nombres y Apellidos</strong></label>
+                                                            <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                                                            @error('name')
+                                                                <span class="invalid-feedback" role="alert">
+                                                                    <strong>{{ $message }}</strong>
+                                                                </span>
+                                                            @enderror
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="mb-1"><strong>Email</strong></label>
+                                                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" placeholder="ejemplo@correo.com" required autocomplete="email">
+                                                            @error('email')
+                                                                <span class="invalid-feedback" role="alert">
+                                                                    <strong>{{ $message }}</strong>
+                                                                </span>
+                                                            @enderror
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="mb-1"><strong>Contraseña</strong></label>
+                                                            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="mb-1"><strong>Repita contraseña</strong></label>
+                                                            <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                                                        </div>
+                                                        <input type="text" name="roles" value="Customer" hidden>
+                                                        <div class="text-center mt-4">
+                                                            <button type="submit" class="btn bg-secondary text-white btn-block">
+                                                                {{ __('Registrar') }}
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+												</div>
+											</div>
+										</div>
+									</div>
+                                    <!--**********************************
+                                        Modal Form Registro end
+                                    ***********************************-->
                                 </div>
 
                                 <hr>

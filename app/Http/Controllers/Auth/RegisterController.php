@@ -67,6 +67,10 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        /* if ($data['redirect_to']) {
+            session()->put('redirect_to', $data['redirect_to']);
+        } */
+
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
