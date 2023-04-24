@@ -20,11 +20,23 @@
   <script src="https://kit.fontawesome.com/13d4eb0966.js" crossorigin="anonymous"></script>
 
   <!-- Metas -->
+  @if (Route::currentRouteName() == 'doctors')
+  <meta property="og:title" content="Directorio Médico · RapiMed" />
+  <meta property="og:description" content="Busca, consigue y contacta fácilmente con un Especialista de la Salud en nuestro amplio directorio. Afiliate gratis y tendrás total acceso a nuestros servicios." />
+  <meta property="og:image" content="https://rapimed.website/img/portada-og-v01.webp" />
+  @elseif (Route::currentRouteName() == 'perfil')
+  <meta property="og:title" content="{{ $data['degree'] . " " . $data['nombre'] . " - " . $data['especialidad'] }} · RapiMed" />
+  <meta property="og:description" content="{{ $data['historial'] }} Afiliate gratis y tendrás total acceso a nuestros servicios." />
+  <meta property="og:image" content="https://rapimed.website/thumbnail/profile/{{ $data['avatar'] }}" />
+  @else
   <meta property="og:title" content="RapiMed · Profesionales de la salud a un click" />
+  <meta property="og:description" content="Asignación de consultas médicas especializadas presenciales, a domicilio u online, asignadas por geolocalización. Afiliate gratis y tendrás total acceso a nuestros servicios." />
+  <meta property="og:image" content="https://rapimed.website/img/portada-og-v01.webp" />
+  @endif
   <meta property="og:type" content="WebApp" />
   <meta property="og:url" content="https://rapimed.website" />
-  <meta property="og:image" content="https://rapimed.website/img/portada-og-v01.webp" />
-  <meta property="og:description" content="Asignación de consultas médicas especializadas presenciales, a domicilio u online, asignadas por geolocalización. Afiliate gratis y tendrás total acceso a nuestros servicios." />
+  
+  
 </head>
 <body>
     <!--*******************
@@ -40,6 +52,8 @@
     <!--*******************
         Preloader end
     ********************-->
+
+
     <!--*******************
         Header start
     ********************-->

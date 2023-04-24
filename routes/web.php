@@ -59,6 +59,8 @@ Route::get('/', function () {
         ];
         array_push($data, $line);
     }
+    /* $ruta = ['ruta' => 'Home'];
+    array_push($data, $ruta); */
     
     return view('welcome', compact('data'));
 })->name('welcome');
@@ -176,6 +178,7 @@ Route::get('/doctors', function () {
         ];
         array_push($data, $line);
     }
+    
     
     return view('doctors', compact('data'));
 })->name('doctors');
