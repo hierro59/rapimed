@@ -48,7 +48,7 @@
           <div class="col-lg-6 py-3 wow fadeInUp">
             <h1>Bienvenido a tu<br>Asistente de Salud</h1>
             <p class="text-grey mb-4"><b>RapiMed</b> conecta los mundos físico y digital con solo tocar un botón. Porque creemos en un mundo accesible. Para que puedas moverte y ganar con seguridad, de una manera que sea sostenible para nuestro planeta. Sin importar género, raza, religión, habilidades u orientación sexual; defendemos su derecho a moverse libremente, sin miedo.</p>
-            <p class="text-grey mb-4">Afiliantote a <b>RapiMed</b>, tendrás total acceso (Full Access) a nuestros servicios. Asignación de consultas médicas especializadas presenciales, a domicilio u online; asignadas por geolocalización.</p>
+            <p class="text-grey mb-4">Afiliandote a <b>RapiMed</b>, tendrás total acceso (Full Access) a nuestros servicios. Asignación de consultas médicas especializadas presenciales, a domicilio u online, asignadas por geolocalización.</p>
             @auth
             <a href="{{ route('home') }}" class="btn btn-primary">Ir al Dashboard</a>
             @else

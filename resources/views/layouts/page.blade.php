@@ -1,23 +1,30 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('img/fav-ico.png') }}">
-    <title>{{ config('app.name', 'Rapimed') }}</title>
-    <!-- Assets -->
-    <link rel="stylesheet" href="{{ asset('assets/css/maicons.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/vendor/owl-carousel/css/owl.carousel.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/vendor/animate/animate.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}">
-    <link href="{{ asset('assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
-	<link href="{{ asset('assets/vendor/lightgallery/css/lightgallery.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/css/mystyles.css') }}" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/13d4eb0966.js" crossorigin="anonymous"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!-- CSRF Token -->
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('img/fav-ico.png') }}">
+  <title>{{ config('app.name', 'Rapimed') }}</title>
+  <!-- Assets -->
+  <link rel="stylesheet" href="{{ asset('assets/css/maicons.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/vendor/owl-carousel/css/owl.carousel.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/vendor/animate/animate.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}">
+  <link href="{{ asset('assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
+  <link href="{{ asset('assets/vendor/lightgallery/css/lightgallery.min.css') }}" rel="stylesheet">
+  <link href="{{ asset('assets/css/mystyles.css') }}" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/13d4eb0966.js" crossorigin="anonymous"></script>
+
+  <!-- Metas -->
+  <meta property="og:title" content="RapiMed · Profesionales de la salud a un click" />
+  <meta property="og:type" content="WebApp" />
+  <meta property="og:url" content="https://rapimed.website" />
+  <meta property="og:image" content="https://rapimed.website/img/portada-og-v01.webp" />
+  <meta property="og:description" content="Asignación de consultas médicas especializadas presenciales, a domicilio u online, asignadas por geolocalización. Afiliate gratis y tendrás total acceso a nuestros servicios." />
 </head>
 <body>
     <!--*******************

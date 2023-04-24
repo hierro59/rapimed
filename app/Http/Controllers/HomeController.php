@@ -118,7 +118,6 @@ class HomeController extends Controller
                 $paciente = DB::Table('users')->select('id', 'name', 'email')->where('id', '=', $citas[$i]->user_id)->get();
                 $getAvatar = UserUploadImages::where('customer_id', '=', $myspecialist[0]->user_id)->where('type', '=', 'avatar')->get();
                 (count($getAvatar) >= 1 ? $avatar = $getAvatar[0]['image_name'] : $avatar = "generic-user.png");
-                
                 $array =
                     [
                         'cita_id' => $citas[$i]->id,
@@ -132,6 +131,7 @@ class HomeController extends Controller
                         'specialist_email' => $myspecialist[0]->email,
                         'specialist_degree' => $myspecialist[0]->degree,
                         'specialist_specialty' => $myspecialist[0]->specialty,
+                        'paciente_id' => $paciente[0]->id,
                         'paciente_name' => $paciente[0]->name,
                         'paciente_avatar' => $avatar,
                         'score_customers' => (isset($score_customers[0]->score) ? $score_customers[0]->score : NULL),
