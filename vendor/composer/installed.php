@@ -3,13 +3,22 @@
         'name' => 'laravel/laravel',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '6217c61489f36bdcd536e6d5187459b969a96419',
+        'reference' => '7d20bb04328db7986fcc92edeb6ba2cec535e22c',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
         'dev' => true,
     ),
     'versions' => array(
+        'biscolab/laravel-recaptcha' => array(
+            'pretty_version' => 'v6.0.0',
+            'version' => '6.0.0.0',
+            'reference' => 'c3d742e6a082cefe2ffce1e13b17a104abfc7234',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../biscolab/laravel-recaptcha',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'brick/math' => array(
             'pretty_version' => '0.10.2',
             'version' => '0.10.2.0',
@@ -385,7 +394,7 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '6217c61489f36bdcd536e6d5187459b969a96419',
+            'reference' => '7d20bb04328db7986fcc92edeb6ba2cec535e22c',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
