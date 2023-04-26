@@ -108,15 +108,17 @@ class HomeController extends Controller
             return view('home', compact('citas', 'specialist', 'datos', 'id', 'notificaciones'));
         } else { //SuperAdmin
             $datos = [];
-            $citas = DB::Table('citas')->orderBy('created_at', 'DESC')->get();
+            $citas = DB::Table('citas')->orderBy('created_at', 'DESC')->limit(20)->get();
             $specialist = DB::Table('specialists')->select('id', 'name', 'email', 'degree', 'specialty', 'user_id')->where('status', '=', 1)->get();
-            $countCustomers = User::where('status', '=', '1')->count('id');
+            $customers = User::where('status', '=', '1')->count('id');
             $countSpecialist = count($specialist);
-            $numCustomers = $countCustomers - $countSpecialist;
+            $numCustomers = $customers - $countSpecialist;
             for ($i = 0; $i < count($citas); $i++) {
                 $myspecialist = DB::Table('specialists')->select('id', 'name', 'email', 'degree', 'specialty', 'user_id')->where('id', '=', $citas[$i]->specialist_id)->get();
                 $paciente = DB::Table('users')->select('id', 'name', 'email')->where('id', '=', $citas[$i]->user_id)->get();
                 $getAvatar = UserUploadImages::where('customer_id', '=', $myspecialist[0]->user_id)->where('type', '=', 'avatar')->get();
+                $score = Score::where('cita_id', '=', $citas[$i]->id)->get();
+                
                 (count($getAvatar) >= 1 ? $avatar = $getAvatar[0]['image_name'] : $avatar = "generic-user.png");
                 $array =
                     [
@@ -134,15 +136,42 @@ class HomeController extends Controller
                         'paciente_id' => $paciente[0]->id,
                         'paciente_name' => $paciente[0]->name,
                         'paciente_avatar' => $avatar,
-                        'score_customers' => (isset($score_customers[0]->score) ? $score_customers[0]->score : NULL),
-                        'score_customers_commit' => (isset($score_customers[0]->commit) ? $score_customers[0]->commit : "Sin opinión."),
-                        'score_customers_date' => (isset($score_customers[0]->created_at) ? $score_customers[0]->created_at : NULL),
-                        'score' => (isset($score[0]->score) ? $score[0]->score : NULL),
                         'role' => 'SuperAdmin'
                     ];
                 array_push($datos, $array);
             }
-            return view('home', compact('datos', 'specialist', 'id', 'notificaciones', 'numCustomers', 'countSpecialist'));
+            $score_customers = [];
+            $get_score_customers = ScoreCustomer::where('status', '=', 1)->limit(20)->get();
+            for ($j = 0; $j < count($get_score_customers); $j++) {
+                $get_specialist = DB::Table('specialists')->select('id', 'name', 'email', 'degree', 'specialty', 'user_id')->where('id', '=', $get_score_customers[$j]->specialist_id)->get();
+                $paciente = DB::Table('users')->select('id', 'name', 'email')->where('id', '=', $get_score_customers[$j]->customer_id)->get();
+                $getAvatarCustomer = UserUploadImages::where('customer_id', '=', $get_score_customers[0]->customer_id)->where('type', '=', 'avatar')->get();
+                $getAvatarSpecialist = UserUploadImages::where('customer_id', '=', $get_specialist[0]->user_id)->where('type', '=', 'avatar')->get();
+                 
+                (count($getAvatarCustomer) >= 1 ? $avatarCustomer = $getAvatarCustomer[0]['image_name'] : $avatarCustomer = "generic-user.png");
+                (count($getAvatarSpecialist) >= 1 ? $avatarSpecialist = $getAvatarSpecialist[0]['image_name'] : $avatarSpecialist = "generic-user.png");
+                $array2 =
+                    [
+                        'cita_id' => $get_score_customers[$j]->id,
+                        'specialist_id' => $get_specialist[0]->id,
+                        'specialist_user_id' => $get_specialist[0]->user_id,
+                        'specialist_name' => $get_specialist[0]->name,
+                        'specialist_degree' => $get_specialist[0]->degree,
+                        'specialist_specialty' => $get_specialist[0]->specialty,
+                        'specialist_avatar' => $avatarSpecialist,
+                        'paciente_id' => $paciente[0]->id,
+                        'paciente_name' => $paciente[0]->name,
+                        'paciente_avatar' => $avatarCustomer,
+                        'score_customers' => (isset($get_score_customers[$j]->score) ? $get_score_customers[$j]->score : NULL),
+                        'score_customers_commit' => (isset($get_score_customers[$j]->commit) ? $get_score_customers[$j]->commit : "Sin opinión."),
+                        'score_customers_date' => (isset($get_score_customers[$j]->created_at) ? $get_score_customers[$j]->created_at : NULL),
+                        'score' => (isset($score[0]->score) ? $score[0]->score : NULL),
+                        'role' => 'SuperAdmin'
+                    ];
+                array_push($score_customers, $array2);
+            }
+            $role = 'SuperAdmin';
+            return view('home', compact('datos', 'specialist', 'id', 'notificaciones', 'numCustomers', 'countSpecialist', 'score_customers', 'role'));
         }
     }
 }

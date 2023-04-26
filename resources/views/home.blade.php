@@ -1102,6 +1102,10 @@
                             </div>
                         </div>
                     </div>
+
+                    <!--**********************************
+                        Calificaciones start
+                    ***********************************-->
                     <div class="col-xl-12">
                         <div class="card patient-activity">
                             <div class="card-header border-0 pb-0">
@@ -1115,7 +1119,6 @@
                                         </svg>
                                     </div>
                                     <div class="dropdown-menu dropdown-menu-right">
-                                        {{-- <a class="dropdown-item text-black" href="javascript:;">Info</a> --}}
                                         <a class="dropdown-item text-black" href="javascript:;">Ver todas</a>
                                     </div>
                                 </div>
@@ -1125,7 +1128,7 @@
                                     <table class="table table-responsive-sm">
                                         <tbody>
                             @php
-                                for ($sc=0; $sc < count($datos); $sc++) { 
+                               /*  for ($sc=0; $sc < count($datos); $sc++) { 
                                     if ($datos[$sc]['score_customers'] != NULL) {
                                         echo '<tr>
                                                 <td>
@@ -1134,7 +1137,8 @@
                                                         <div>
                                                             
                                                             <h6 class="fs-16 mb-1"><a href="' . route('users.show', ($datos[$sc]['role'] != "Customer" ? $datos[$sc]['paciente_id'] : $datos[$sc]['specialist_user_id'])) . '" class="text-black">' . ($datos[$sc]['role'] != "Customer" ? $datos[$sc]['paciente_name'] : $datos[$sc]['specialist_name']) . '</a></h6>
-                                                            <small class="text-muted">Fecha: ' . $datos[$sc]['score_customers_date'] . '</small>
+                                                            <small class="text-muted">Fecha: ' . $datos[$sc]['score_customers_date'] . '</small><br>
+                                                            <small class="text-muted">Cita  #' . $datos[$sc]['cita_id'] . '</small>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -1164,17 +1168,69 @@
                                                 </td>
                                             </tr>';
                                     }
-                                }
+                                } */
                             @endphp
+                            @php
+                                
+                            
+                            if (isset($role) == 'SuperAdmin') {
+                                
+                                for ($sc=0; $sc < count($score_customers); $sc++) { 
+                                    
+                                        echo '<tr>
+                                                <td>
+                                                    <div class="d-flex">
+                                                        <img src="thumbnail/profile/' . $score_customers[$sc]['paciente_avatar'] . '" alt="" class="img-2 mr-3">
+                                                        <div>
+                                                            
+                                                            <h6 class="fs-16 mb-1"><a href="' . route('users.show', ($score_customers[$sc]['role'] != "Customer" ? $score_customers[$sc]['paciente_id'] : $score_customers[$sc]['specialist_user_id'])) . '" class="text-black">' . ($score_customers[$sc]['role'] != "Customer" ? $score_customers[$sc]['paciente_name'] : $score_customers[$sc]['specialist_name']) . '</a></h6>
+                                                            <small class="text-muted">Fecha: ' . $score_customers[$sc]['score_customers_date'] . '</small><br>
+                                                            <small class="text-muted">Cita  #' . $score_customers[$sc]['cita_id'] . '</small>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div>
+                                                        <p class="fs-14 mb-1">Comentario</p>
+                                                        <span class="text-primary font-w600 mb-auto">' . $score_customers[$sc]['score_customers_commit'] . '</span>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div>
+                                                        <p class="fs-14 mb-1">Calificación</p>
+                                                        <span class="font-w600 mb-2 d-block text-nowrap"><i class="fa-solid fa-heart';
+                                                    if ($score_customers[$sc]['score_customers'] < 0) {
+                                                        echo '-crack';
+                                                    } else {
+                                                        echo '';
+                                                    }
+                                                    echo        '" style="color:'; 
+                                                    if ($score_customers[$sc]['score_customers'] < 0) {
+                                                        echo 'black';
+                                                    } else {
+                                                        echo 'red';
+                                                    }
+                                                    echo '"></i> ' . $score_customers[$sc]['score_customers'] . '</span>
+                                                    </div>
+                                                </td>
+                                            </tr>';
+                                   
+                                }
+                            }
+                                @endphp
+                            
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                             <div class="card-footer text-center border-0">
-                                <a href="#" class="btn-link">See More >></a>
+                                <a href="#" class="btn-link">Ver más >></a>
                             </div>
                         </div>
                     </div>
+                    <!--**********************************
+                        Calificaciones end
+                    ***********************************-->
                 </div>
             </div>
         </div>

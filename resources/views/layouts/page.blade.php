@@ -35,39 +35,24 @@
   @endif
   <meta property="og:type" content="WebApp" />
   <meta property="og:url" content="https://rapimed.website" />
+
   <script type="text/javascript">
-
     function callbackThen(response){
-
-    // read HTTP status
-
-    console.log(response.status);
-
-    // read Promise object
-
-    response.json().then(function(data){
-
-    console.log(data);
-
-    });
-
+      // read HTTP status
+      console.log(response.status);
+      // read Promise object
+      response.json().then(function(data){
+      console.log(data);
+      });
     }
-
     function callbackCatch(error){
-
-    console.error('Error:', error)
-
+      console.error('Error:', error)
     }
-
-    </script>
-
-    {!! htmlScriptTagJsApi([
-
+  </script>
+  {!! htmlScriptTagJsApi([
     'callback_then' => 'callbackThen',
-
     'callback_catch' => 'callbackCatch'
-
-    ]) !!}
+  ]) !!}
   
 </head>
 <body>
@@ -102,10 +87,10 @@
               </div>
               <div class="col-sm-4 text-right text-sm">
                 <div class="social-mini-button">
-                  <a href="#"><span class="mai-logo-facebook-f"></span></a>
-                  <a href="#"><span class="mai-logo-twitter"></span></a>
-                  <a href="#"><span class="mai-logo-dribbble"></span></a>
-                  <a href="#"><span class="mai-logo-instagram"></span></a>
+                  <a href="https://www.facebook.com/profile.php?id=100092237409463" target="_blank"><span class="mai-logo-facebook-f"></span></a>
+                  <a href="https://twitter.com/RicardoInterni1" target="_blank"><span class="mai-logo-twitter"></span></a>
+                  <a href="https://t.me/RapiMed" target="_blank"><span class="mai-logo-telegram"></span></a>
+                  <a href="https://www.instagram.com/rapi.medi" target="_blank"><span class="mai-logo-instagram"></span></a>
                 </div>
               </div>
             </div> <!-- .row -->
@@ -225,18 +210,17 @@
     
                 <h5 class="mt-3">Social Media</h5>
                 <div class="footer-sosmed mt-3">
-                <a href="#pronto" target="_blank"><span class="mai-logo-facebook-f"></span></a>
-                <a href="#pronto" target="_blank"><span class="mai-logo-twitter"></span></a>
-                <a href="#pronto" target="_blank"><span class="mai-logo-google-plus-g"></span></a>
-                <a href="#pronto" target="_blank"><span class="mai-logo-instagram"></span></a>
-                <a href="#pronto" target="_blank"><span class="mai-logo-linkedin"></span></a>
+                  <a href="https://www.facebook.com/profile.php?id=100092237409463" target="_blank"><span class="mai-logo-facebook-f"></span></a>
+                  <a href="https://twitter.com/RicardoInterni1" target="_blank"><span class="mai-logo-twitter"></span></a>
+                  <a href="https://t.me/RapiMed" target="_blank"><span class="mai-logo-telegram"></span></a>
+                  <a href="https://www.instagram.com/rapi.medi" target="_blank"><span class="mai-logo-instagram"></span></a>
                 </div>
             </div>
             </div>
     
             <hr>
     
-            <p id="copyright">Copyright &copy; 2023 <a href="https://quantlas.tech/" target="_blank">Quantlas.tech</a>. All right reserved</p>
+            <p id="copyright">Copyright &copy; 2023 <a href="#" target="_blank">Quantlas</a>. All right reserved</p>
         </div>
     </footer>
     <!--*******************

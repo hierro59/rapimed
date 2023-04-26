@@ -85,7 +85,7 @@
         </ul>
         <div class="copyright">
             <p><strong>RapiMed</strong> © 2023 All Rights Reserved</p>
-            <p>Made with ♥ by <a style="text-decoration: none" href="https://quantlas.tech" target="_BLANK">Quantlas</a></p>
+            <p>Made with ♥ by <a style="text-decoration: none" href="#" target="_BLANK">Quantlas</a></p>
         </div>
     </div>
 </div>
