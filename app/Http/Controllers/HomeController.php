@@ -149,6 +149,7 @@ class HomeController extends Controller
                         'paciente_id' => $paciente[0]->id,
                         'paciente_name' => $paciente[0]->name,
                         'paciente_avatar' => $avatar,
+                        'score' => (isset($score[0]->score) ? $score[0]->score : NULL),
                         'role' => 'SuperAdmin'
                     ];
                 array_push($datos, $array);
