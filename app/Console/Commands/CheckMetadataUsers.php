@@ -33,46 +33,34 @@ class CheckMetadataUsers extends Command
     public function handle()
     {
         $getMetadata = MetadataUsers::where('status', '=', 1)->get();
-        //logger($getMetadata);
         
         for ($i=0; $i < count($getMetadata); $i++) { 
-            
+                $user_id = $getMetadata[$i]['customer_id'];
+                $get_email = User::select('name', 'email')->where('id', '=', $user_id)->get();
+                $user_email = $get_email[0]['email'];
+                $objData = new \stdClass();
+                $objData->sender = 'RapiMed';
+                $objData->receiver = $get_email[0]['name'];
+                
                 if ($getMetadata[$i]['address'] == 'Sin datos') {
-                    
-                    $user_id = $getMetadata[$i]['customer_id'];
-                    $get_email = User::select('name', 'email')->where('id', '=', $user_id)->get();
-                    $user_email = $get_email[0]['email'];
-                    if ($user_email == 'hierro59@gmail.com') {
-                        $objData = new \stdClass();
-                        $objData->sender = 'RapiMed';
-                        $objData->receiver = $get_email[0]['name'];
-                        Mail::to($user_email)->send(new CheckMetadataEmail($objData));
-                    }
-                    
+                    Mail::to($user_email)->send(new CheckMetadataEmail($objData));
                     continue;
                 }
                 if ($getMetadata[$i]['city'] == 'Sin datos') {
-                    
-                    logger($getMetadata[$i]['id'] . ' Sin dato city');
-                    
+                    Mail::to($user_email)->send(new CheckMetadataEmail($objData));
                     continue;
                 }
                 if ($getMetadata[$i]['state'] == 'Sin datos') {
                     
-                    logger($getMetadata[$i]['id'] . ' Sin dato state');
-                    
+                    Mail::to($user_email)->send(new CheckMetadataEmail($objData));
                     continue;
                 }
                 if ($getMetadata[$i]['country'] == 'Sin datos') {
-                    
-                    logger($getMetadata[$i]['id'] . ' Sin dato country');
-                    
+                    Mail::to($user_email)->send(new CheckMetadataEmail($objData));
                     continue;
                 }
                 if ($getMetadata[$i]['phone'] == 'Sin teléfono') {
-                    
-                    logger($getMetadata[$i]['id'] . ' Sin dato phone');
-                    
+                    Mail::to($user_email)->send(new CheckMetadataEmail($objData));
                     continue;
                 }
                 

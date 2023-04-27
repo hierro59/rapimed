@@ -96,7 +96,7 @@
 <tbody>
 <tr>
 <td>
-<table align="center" border="0" cellpadding="0" cellspacing="0" class="row row-1" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #e8e2dd; background-image: url('img/emails/46c29c73-0768-49a8-9357-549223ff913d.jpg'); background-repeat: no-repeat; background-size: cover;" width="100%">
+<table align="center" border="0" cellpadding="0" cellspacing="0" class="row row-1" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #e8e2dd; background-image: url('https://rapimed.website/img/emails/46c29c73-0768-49a8-9357-549223ff913d.jpg'); background-repeat: no-repeat; background-size: cover;" width="100%">
 <tbody>
 <tr>
 <td>
@@ -110,7 +110,7 @@
 <td class="pad" style="vertical-align: middle; color: #000000; font-family: inherit; font-size: 14px; text-align: left;">
 <table align="left" cellpadding="0" cellspacing="0" class="alignment" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
 <tr>
-<td style="vertical-align: middle; text-align: center; padding-top: 5px; padding-bottom: 15px; padding-left: 5px; padding-right: 5px;"><img align="center" alt="Company Logo" class="icon" height="64" src="img/emails/LogoRapimedNegativo.png" style="display: block; height: auto; margin: 0 auto; border: 0;" width="271"/></td>
+<td style="vertical-align: middle; text-align: center; padding-top: 5px; padding-bottom: 15px; padding-left: 5px; padding-right: 5px;"><img align="center" alt="Company Logo" class="icon" height="64" src="https://rapimed.website/img/emails/LogoRapimedNegativo.png" style="display: block; height: auto; margin: 0 auto; border: 0;" width="271"/></td>
 </tr>
 </table>
 </td>
@@ -257,7 +257,7 @@
 <td class="pad" style="vertical-align: middle; color: #000000; font-family: inherit; font-size: 14px; padding-left: 10px; text-align: left;">
 <table align="left" cellpadding="0" cellspacing="0" class="alignment" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
 <tr>
-<td style="vertical-align: middle; text-align: center; padding-top: 5px; padding-bottom: 5px; padding-left: 5px; padding-right: 5px;"><img align="center" alt="Company Logo" class="icon" height="32" src="img/emails/69b2e9a3-c168-4b06-8f34-17f56406f002.png" style="display: block; height: auto; margin: 0 auto; border: 0;" width="134"/></td>
+<td style="vertical-align: middle; text-align: center; padding-top: 5px; padding-bottom: 5px; padding-left: 5px; padding-right: 5px;"><img align="center" alt="Company Logo" class="icon" height="32" src="https://rapimed.website/img/emails/69b2e9a3-c168-4b06-8f34-17f56406f002.png" style="display: block; height: auto; margin: 0 auto; border: 0;" width="134"/></td>
 </tr>
 </table>
 </td>
@@ -331,10 +331,10 @@
 <div align="left" class="alignment">
 <table border="0" cellpadding="0" cellspacing="0" class="social-table" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; display: inline-block;" width="144px">
 <tr>
-<td style="padding:0 4px 0 0;"><a href="https://www.facebook.com/profile.php?id=100092237409463" target="_blank"><img alt="Facebook" height="32" src="img/emails/facebook2x.png" style="display: block; height: auto; border: 0;" title="facebook" width="32"/></a></td>
-<td style="padding:0 4px 0 0;"><a href="https://twitter.com/RicardoInterni1" target="_blank"><img alt="Twitter" height="32" src="img/emails/twitter2x.png" style="display: block; height: auto; border: 0;" title="twitter" width="32"/></a></td>
-<td style="padding:0 4px 0 0;"><a href="https://www.instagram.com/rapi.medi" target="_blank"><img alt="Instagram" height="32" src="img/emails/instagram2x.png" style="display: block; height: auto; border: 0;" title="instagram" width="32"/></a></td>
-<td style="padding:0 4px 0 0;"><a href="https://t.me/RapiMed" target="_blank"><img alt="Telegram" height="32" src="img/emails/telegram2x.png" style="display: block; height: auto; border: 0;" title="Telegram" width="32"/></a></td>
+<td style="padding:0 4px 0 0;"><a href="https://www.facebook.com/profile.php?id=100092237409463" target="_blank"><img alt="Facebook" height="32" src="https://rapimed.website/img/emails/facebook2x.png" style="display: block; height: auto; border: 0;" title="facebook" width="32"/></a></td>
+<td style="padding:0 4px 0 0;"><a href="https://twitter.com/RicardoInterni1" target="_blank"><img alt="Twitter" height="32" src="https://rapimed.website/img/emails/twitter2x.png" style="display: block; height: auto; border: 0;" title="twitter" width="32"/></a></td>
+<td style="padding:0 4px 0 0;"><a href="https://www.instagram.com/rapi.medi" target="_blank"><img alt="Instagram" height="32" src="https://rapimed.website/img/emails/instagram2x.png" style="display: block; height: auto; border: 0;" title="instagram" width="32"/></a></td>
+<td style="padding:0 4px 0 0;"><a href="https://t.me/RapiMed" target="_blank"><img alt="Telegram" height="32" src="https://rapimed.website/img/emails/telegram2x.png" style="display: block; height: auto; border: 0;" title="Telegram" width="32"/></a></td>
 </tr>
 </table>
 </div>

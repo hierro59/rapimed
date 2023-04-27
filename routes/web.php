@@ -28,28 +28,17 @@ use App\Http\Controllers\WelcomePublicController;
 |
 */
 
-/* Route::get('/', function () {
+//Auth::routes();
+Auth::routes(['verify' => true]);
 
-})->name('welcome'); */
 
-/* Route::get('/welcome', function () {
-    return view('welcome');
-})->name('welcome'); */
-
-/* Route::get('services', function () {
-    return view('services');
-})->name('services'); */
-
-Auth::routes();
-
-Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::post('send', [MailController::class, 'send'])->name('send');
 Route::get('/perfil/{id}', PerfilPublicController::class)->name('perfil');
 Route::get('/doctors', DoctorsPublicController::class)->name('doctors');
 Route::get('/', WelcomePublicController::class)->name('welcome');
 //Route::get('/welcome', WelcomePublicController::class)->name('welcome');
 
-Route::group(['middleware' => ['auth']], function () {
+Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::resource('roles', RoleController::class)->middleware('permission:super-admin');
     Route::resource('users', UserController::class);
     Route::resource('products', ProductController::class);
@@ -61,6 +50,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/file-resize', [ResizeController::class, 'index']);
     Route::post('/resize-file', [ResizeController::class, 'resizeImage'])->name('resizeImage');
     Route::get('specialistdata', [UserController::class, 'specialist'])->name('specialistdata');
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
 });
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+

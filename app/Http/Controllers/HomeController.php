@@ -10,6 +10,7 @@ use App\Models\UserUploadImages;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Models\MetadataUsers;
 
 class HomeController extends Controller
 {
@@ -30,7 +31,19 @@ class HomeController extends Controller
      */
     public function index()
     {
+        function CheckMetadata($id) {
+            $getMetadata = MetadataUsers::where('customer_id', '=', $id)->get();
+            if ($getMetadata[0]['address'] == 'Sin datos' OR $getMetadata[0]['city'] == 'Sin datos' OR $getMetadata[0]['state'] == 'Sin datos' OR $getMetadata[0]['country'] == 'Sin datos' OR $getMetadata[0]['phone'] == 'Sin teléfono') {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
         $id = Auth::user()->id;
+
+        $completedMetadata = CheckMetadata($id);
+
         $role = DB::Table('model_has_roles')->where('model_id', '=', $id)->get();
         $notificaciones = Notification::where('to_id', $id)->get();
         if ($role[0]->role_id === 3) { // Especialista
@@ -69,7 +82,7 @@ class HomeController extends Controller
                     ];
                 array_push($datos, $array);
             }
-            return view('home', compact('datos', 'specialist', 'id', 'notificaciones'));
+            return view('home', compact('datos', 'specialist', 'id', 'notificaciones', 'completedMetadata'));
         } elseif ($role[0]->role_id === 2) { //Customer
             $datos = [];
             $specialist = DB::Table('specialists')->select('id', 'name', 'email', 'degree', 'specialty')->where('status', '=', 1)->get();
@@ -105,7 +118,7 @@ class HomeController extends Controller
                     ];
                 array_push($datos, $array);
             }
-            return view('home', compact('citas', 'specialist', 'datos', 'id', 'notificaciones'));
+            return view('home', compact('citas', 'specialist', 'datos', 'id', 'notificaciones', 'completedMetadata'));
         } else { //SuperAdmin
             $datos = [];
             $citas = DB::Table('citas')->orderBy('created_at', 'DESC')->limit(20)->get();
@@ -171,7 +184,7 @@ class HomeController extends Controller
                 array_push($score_customers, $array2);
             }
             $role = 'SuperAdmin';
-            return view('home', compact('datos', 'specialist', 'id', 'notificaciones', 'numCustomers', 'countSpecialist', 'score_customers', 'role'));
+            return view('home', compact('datos', 'specialist', 'id', 'notificaciones', 'numCustomers', 'countSpecialist', 'score_customers', 'role', 'completedMetadata'));
         }
     }
 }
