@@ -2,6 +2,8 @@
 /public/build
 /public/hot
 /public/storage
+/public/thumbnail
+/public/uploads
 /storage/*.key
 .env
 .env.backup

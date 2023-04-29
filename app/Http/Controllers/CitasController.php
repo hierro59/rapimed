@@ -124,14 +124,34 @@ class CitasController extends Controller
             }
             return view('citas.index', compact('citas', 'specialist', 'datos', 'id', 'notificaciones'));
         } else {
-            $array = [];
+            $datos = [];
+            $specialist = DB::Table('specialists')->select('id', 'user_id', 'name', 'email', 'degree', 'specialty')->where('status', '=', 1)->get();
             $citas = DB::Table('citas')->orderBy('created_at', 'DESC')->get();
-            $specialist = DB::Table('specialists')->select('id', 'name', 'email', 'degree', 'specialty')->where('status', '=', 1)->get();
+            $paciente = DB::Table('users')->select('id', 'name', 'email')->where('id', '=', $id)->get();
             for ($i = 0; $i < count($citas); $i++) {
-                $myspecialist = DB::Table('specialists')->select('id', 'name', 'email', 'degree', 'specialty')->where('id', '=', $citas[$i]->specialist_id)->get();
-                array_push($array, $myspecialist);
+                $myspecialist = DB::Table('specialists')->select('id', 'user_id', 'name', 'email', 'degree', 'specialty')->where('id', '=', $citas[$i]->specialist_id)->get();
+                $score = Score::where('cita_id', '=', $citas[$i]->id)->get();
+                $array =
+                    [
+                        'cita_id' => $citas[$i]->id,
+                        'cita_fecha' => $citas[$i]->fecha_cita,
+                        'cita_hora' => $citas[$i]->hora_cita,
+                        'cita_tipo' => $citas[$i]->tipo,
+                        'cita_status' => $citas[$i]->status,
+                        'specialist_id' => $myspecialist[0]->id,
+                        'specialist_user_id' => $myspecialist[0]->user_id,
+                        'specialist_name' => $myspecialist[0]->name,
+                        'specialist_email' => $myspecialist[0]->email,
+                        'specialist_degree' => $myspecialist[0]->degree,
+                        'specialist_specialty' => $myspecialist[0]->specialty,
+                        'paciente_id' => $paciente[0]->id,
+                        'paciente_name' => $paciente[0]->name,
+                        'score' => (isset($score[0]->score) ? $score[0]->score : "NULL"),
+                        'score_commit' => (isset($score[0]->commit) ? $score[0]->commit : "Sin opinión."),
+                    ];
+                array_push($datos, $array);
             }
-            return view('citas.index', compact('citas', 'array', 'specialist', 'id', 'notificaciones'));
+            return view('citas.index', compact('citas', 'specialist', 'datos', 'id', 'notificaciones'));
         }
     }
 

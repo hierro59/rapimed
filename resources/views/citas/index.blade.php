@@ -532,6 +532,8 @@
                             }
                         @endphp
                     </tbody>
+                    @elsecan('coordcitas-view')
+                        @include('layouts.citas.coordcitas')
                     @endcan
                     </table>
                 </div>

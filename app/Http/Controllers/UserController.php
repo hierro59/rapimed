@@ -202,6 +202,45 @@ class UserController extends Controller
             $specialist = DB::Table('specialists')->select('id', 'name', 'email', 'degree', 'specialty')->where('status', '=', 1)->get();
             $user = User::find($id);
             return view('users.show', compact('user', 'specialist', 'id', 'data', 'notificaciones'));
+        } elseif ($role[0]->role_id === 5) { //CoordCitas
+            $getAvatar = UserUploadImages::where('customer_id', '=', $id)->where('type', '=', 'avatar')->orderBy('created_at', 'DESC')->get();
+            $getPortada = UserUploadImages::where('customer_id', '=', $id)->where('type', '=', 'portada')->orderBy('created_at', 'DESC')->get();
+            $getMetadata = MetadataUsers::distinct('customer_id')->where('customer_id', '=', $id)->get();
+            (count($getAvatar) >= 1 ? $avatar = $getAvatar[0]['image_name'] : $avatar = "generic-user.png");
+            (count($getPortada) >= 1 ? $portada = $getPortada[0]['image_name'] : $portada = "generic-portada.jpg");
+            if (count($getMetadata) >= 1) {
+                if ($getMetadata[0]['sex'] == 1) {
+                    $genero = 'la-mars';
+                } elseif ($getMetadata[0]['sex'] == 2) {
+                    $genero = 'la-venus';
+                } else {
+                    $genero = 'la-transgender';
+                }
+            } else {
+                $genero = 'la-transgender';
+            }
+            (count($getMetadata) >= 1 ? $historial = $getMetadata[0]['medical_history'] : $historial = "Historial Médico");
+            (count($getMetadata) >= 1 ? $direccion = $getMetadata[0]['address'] : $direccion = "Sin datos");
+            (count($getMetadata) >= 1 ? $ciudad = $getMetadata[0]['city'] : $ciudad = "Sin datos");
+            (count($getMetadata) >= 1 ? $estado = $getMetadata[0]['state'] : $estado = "Sin datos");
+            (count($getMetadata) >= 1 ? $pais = $getMetadata[0]['country'] : $pais = "Sin datos");
+            (count($getMetadata) >= 1 ? $phone = $getMetadata[0]['phone'] : $phone = "Sin teléfono");
+
+            $data = [
+                'role' => 'SuperAdmin',
+                'avatar' => $avatar,
+                'portada' => $portada,
+                'genero' => $genero,
+                'historial' => $historial,
+                'direccion' => $direccion,
+                'ciudad' => $ciudad,
+                'estado' => $estado,
+                'pais' => $pais,
+                'phone' => $phone
+            ];
+            $specialist = DB::Table('specialists')->select('id', 'name', 'email', 'degree', 'specialty')->where('status', '=', 1)->get();
+            $user = User::find($id);
+            return view('users.show', compact('user', 'specialist', 'id', 'data', 'notificaciones'));
         }
     }
 
