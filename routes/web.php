@@ -28,8 +28,8 @@ use App\Http\Controllers\WelcomePublicController;
 |
 */
 
-Auth::routes();
-//Auth::routes(['verify' => true]);
+//Auth::routes();
+Auth::routes(['verify' => true]);
 
 
 Route::post('send', [MailController::class, 'send'])->name('send');
@@ -38,8 +38,8 @@ Route::get('/doctors', DoctorsPublicController::class)->name('doctors');
 Route::get('/', WelcomePublicController::class)->name('welcome');
 //Route::get('/welcome', WelcomePublicController::class)->name('welcome');
 
-Route::group(['middleware' => ['auth']], function () {
-//Route::group(['middleware' => ['auth', 'verified']], function () {
+//Route::group(['middleware' => ['auth']], function () {
+Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::resource('roles', RoleController::class)->middleware('permission:super-admin');
     Route::resource('users', UserController::class);
     Route::resource('products', ProductController::class);
