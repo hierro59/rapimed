@@ -55,7 +55,7 @@
                         break;
                     case 1:
                     case 7:
-                        echo    Form::submit('Reprogramar', ['class' => 'btn btn-info']);
+                        echo '<a href="' . route("citas.edit", $datos[$i]['cita_id']) . '" class="btn btn-info">Reprogramar</a>';
                         $cancelar = array('cita' => $citaid, 'id' => $citaid, 'status' => 4);
                         echo Form::open(['method' => 'PATCH','route' => ['citas.update', $cancelar], 'style'=>'display:inline']);
                         echo    Form::submit('Cancelar', ['class' => 'btn btn-danger light']);
@@ -63,7 +63,7 @@
                         break;
                     case 2:
                     case 3:
-                        echo    Form::submit('Reprogramar', ['class' => 'btn btn-info']);
+                        echo '<a href="' . route("citas.edit", $datos[$i]['cita_id']) . '" class="btn btn-info">Reprogramar</a>';
                         break;
                 }
                 echo '</td>';
