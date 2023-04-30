@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Models\MetadataUsers;
+use App\Http\Controllers\OperationServicesController;
 
 class HomeController extends Controller
 {
@@ -31,22 +32,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        function CheckMetadata($id) {
-            $getMetadata = MetadataUsers::where('customer_id', '=', $id)->get();
-            if (count($getMetadata) >= 1) {
-                if ($getMetadata[0]['address'] == 'Sin datos' OR $getMetadata[0]['city'] == 'Sin datos' OR $getMetadata[0]['state'] == 'Sin datos' OR $getMetadata[0]['phone'] == 'Sin teléfono') {
-                    return true;
-                } else {
-                    return false;
-                }
-            }else{
-                return false;
-            }
-        }
-
         $id = Auth::user()->id;
 
-        $completedMetadata = CheckMetadata($id);
+        $getMetadata = new OperationServicesController;
+        $completedMetadata = $getMetadata->CheckMetadata($id);
 
         $role = DB::Table('model_has_roles')->where('model_id', '=', $id)->get();
         $notificaciones = Notification::where('to_id', $id)->get();

@@ -8,11 +8,13 @@ use App\Models\LogUser;
 use App\Models\Operation;
 use App\Mail\NewCitaEmail;
 use App\Models\Specialist;
+use Exception;
 use Illuminate\Http\Request;
 use App\Models\ScoreCustomer;
 use App\Mail\AcceptedCitaEmail;
 use App\Mail\RejectedCitaEmail;
 use App\Mail\CancelledCitaEmail;
+use App\Mail\ReprogramadaCitaEmail;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
@@ -127,10 +129,11 @@ class CitasController extends Controller
             $datos = [];
             $specialist = DB::Table('specialists')->select('id', 'user_id', 'name', 'email', 'degree', 'specialty')->where('status', '=', 1)->get();
             $citas = DB::Table('citas')->orderBy('created_at', 'DESC')->get();
-            $paciente = DB::Table('users')->select('id', 'name', 'email')->where('id', '=', $id)->get();
+            
             for ($i = 0; $i < count($citas); $i++) {
                 $myspecialist = DB::Table('specialists')->select('id', 'user_id', 'name', 'email', 'degree', 'specialty')->where('id', '=', $citas[$i]->specialist_id)->get();
                 $score = Score::where('cita_id', '=', $citas[$i]->id)->get();
+                $paciente = DB::Table('users')->select('id', 'name', 'email')->where('id', '=', $citas[$i]->user_id)->get();
                 $array =
                     [
                         'cita_id' => $citas[$i]->id,
@@ -189,8 +192,6 @@ class CitasController extends Controller
         $input = $request->all();
         $cita = Citas::create($input);
 
-        logger($cita);
-
         $specialist = DB::Table('specialists')->select('id', 'name', 'email', 'degree')->where('id', '=', $request['specialist_id'])->get();
 
         (isset($request['email']) ? $paciente = $request['nombre'] : $paciente = Auth::user()->name);
@@ -237,7 +238,12 @@ class CitasController extends Controller
      */
     public function show($id)
     {
-        return view('citas.show');
+        $auth_id = Auth::user()->id;
+        $notificaciones = Notification::where('to_id', $auth_id)->get();
+        $cita = Citas::find($id);
+        $especialista = Specialist::find($cita->specialist_id);
+        $paciente = User::find($cita->user_id);
+        return view('citas.edit', compact('cita', 'especialista', 'paciente', 'notificaciones'));
     }
 
     /**
@@ -248,7 +254,14 @@ class CitasController extends Controller
      */
     public function edit($id)
     {
-        return view('citas.edit');
+        $auth_id = Auth::user()->id;
+        $notificaciones = Notification::where('to_id', $auth_id)->get();
+        $cita = Citas::find($id);
+        $especialista = Specialist::find($cita->specialist_id);
+        $paciente = User::find($cita->user_id);
+
+        return view('citas.edit', compact('cita', 'especialista', 'paciente', 'notificaciones'));
+
     }
 
     /**
@@ -265,28 +278,56 @@ class CitasController extends Controller
             'id' => 'required',
             'status' => 'required'
         ]);
-
+        
         $input = $request->all();
         $citas = Citas::find($request->cita);
         $citas->update($input);
 
+        if (isset($request->accion) == 'reprogramar') {
+            $paciente = User::find($citas->user_id);
+            $objData = new \stdClass();
+            $objData->sender = 'RapiMed';
+            $objData->receiver = $paciente->name;
+            $objData->email = $paciente->email;
+            $objData->especialista = $request->especialista;
+            $objData->fecha = $citas->fecha_cita;
+            $objData->hora = $citas->hora_cita;
+            $objData->tipo = $citas->tipo;
+            try {
+                Mail::to($paciente->email)->send(new ReprogramadaCitaEmail($objData));
+            } catch (Exception $e) {
+                logger($e);
+            }
+        }
+
         switch ($request->status) {
+            case 0:
             case 1:
             case 7:
-                $detail = "Cita |$request->id| Aceptada";
-
-                $paciente = User::find($citas->user_id);
-                $objData = new \stdClass();
-                $objData->sender = 'RapiMed';
-                $objData->receiver = $paciente->name;
-                $objData->email = $paciente->email;
-                $objData->fecha = $citas->fecha_cita;
-                $objData->hora = $citas->hora_cita;
-                $objData->tipo = $citas->tipo;
-                Mail::to($paciente->email)->send(new AcceptedCitaEmail($objData));
+                if (isset($request->accion) == 'reprogramar') {
+                    $title = "Solicitud de cita";
+                    $detail = "Cita |$request->id| Reprogramada";
+                } else {
+                    $title = "Solicitud de cita";
+                    $detail = "Cita |$request->id| Aceptada";
+                    $paciente = User::find($citas->user_id);
+                    $objData = new \stdClass();
+                    $objData->sender = 'RapiMed';
+                    $objData->receiver = $paciente->name;
+                    $objData->email = $paciente->email;
+                    $objData->fecha = $citas->fecha_cita;
+                    $objData->hora = $citas->hora_cita;
+                    $objData->tipo = $citas->tipo;
+                    try {
+                        Mail::to($paciente->email)->send(new AcceptedCitaEmail($objData));
+                    } catch (Exception $e) {
+                        logger($e);
+                    }
+                }
                 break;
             case 2:
             case 3:
+                $title = "Solicitud de cita";
                 $detail = "Cita |$request->id| Rechazada";
 
                 $paciente = User::find($citas->user_id);
@@ -297,9 +338,14 @@ class CitasController extends Controller
                 $objData->fecha = $citas->fecha_cita;
                 $objData->hora = $citas->hora_cita;
                 $objData->tipo = $citas->tipo;
-                Mail::to($paciente->email)->send(new RejectedCitaEmail($objData));
+                try {
+                    Mail::to($paciente->email)->send(new RejectedCitaEmail($objData));
+                } catch (Exception $e) {
+                    logger($e);
+                }
                 break;
             case 4:
+                $title = "Solicitud de cita";
                 $detail = "Cita |$request->id| Cancelada";
 
                 $paciente = User::find($citas->user_id);
@@ -310,20 +356,26 @@ class CitasController extends Controller
                 $objData->fecha = $citas->fecha_cita;
                 $objData->hora = $citas->hora_cita;
                 $objData->tipo = $citas->tipo;
-                Mail::to($paciente->email)->send(new CancelledCitaEmail($objData));
+                try {
+                    Mail::to($paciente->email)->send(new CancelledCitaEmail($objData));
+                } catch (Exception $e) {
+                    logger($e);
+                }
                 break;
             case 5:
             case 6:
+                $title = "Solicitud de cita";
                 $detail = "Cita |$request->id| Cancelada";
                 break;
             case 8:
+                $title = "Solicitud de cita";
                 $detail = "Cita |$request->id| Realizada";
                 break;
         }
         $datosNotificacion = [
             "to_id" => $citas->user_id,
             "data" => json_encode([
-                "titulo" => "Solicitud de consulta.",
+                "titulo" => $title,
                 "detalle" => $detail,
                 "tipo" => $citas->tipo,
                 "id_cita" => $citas->id
@@ -337,7 +389,7 @@ class CitasController extends Controller
             "activity" => 'Actualizacion de cita',
             "details" => $detail
         ];
-        $save = LogUser::create($log);
+        LogUser::create($log);
 
         return redirect()->route('citas.index')
             ->with('success', 'Cita modificada correctamente');

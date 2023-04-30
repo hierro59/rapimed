@@ -16,6 +16,7 @@ use App\Http\Controllers\ScoreCustomerController;
 use App\Http\Controllers\PerfilPublicController;
 use App\Http\Controllers\DoctorsPublicController;
 use App\Http\Controllers\WelcomePublicController;
+use App\Http\Controllers\ControlCitasController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,6 +53,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::post('/resize-file', [ResizeController::class, 'resizeImage'])->name('resizeImage');
     Route::get('specialistdata', [UserController::class, 'specialist'])->name('specialistdata');
     Route::get('/home', [HomeController::class, 'index'])->name('home');
+    /* Route::get('checkmetadata', [OperationServicesController::class, 'CheckMetadata']); */
 });
 
 
