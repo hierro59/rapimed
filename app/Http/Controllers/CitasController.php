@@ -100,10 +100,11 @@ class CitasController extends Controller
             $datos = [];
             $specialist = DB::Table('specialists')->select('id', 'user_id', 'name', 'email', 'degree', 'specialty')->where('status', '=', 1)->get();
             $citas = DB::Table('citas')->orderBy('created_at', 'DESC')->get();
-            $paciente = DB::Table('users')->select('id', 'name', 'email')->where('id', '=', $id)->get();
+            //$paciente = DB::Table('users')->select('id', 'name', 'email')->where('id', '=', $id)->get();
             for ($i = 0; $i < count($citas); $i++) {
                 $myspecialist = DB::Table('specialists')->select('id', 'user_id', 'name', 'email', 'degree', 'specialty')->where('id', '=', $citas[$i]->specialist_id)->get();
                 $score = Score::where('cita_id', '=', $citas[$i]->id)->get();
+                $paciente = DB::Table('users')->select('id', 'name', 'email')->where('id', '=', $citas[$i]->user_id)->get();
                 $array =
                     [
                         'cita_id' => $citas[$i]->id,
@@ -125,7 +126,7 @@ class CitasController extends Controller
                 array_push($datos, $array);
             }
             return view('citas.index', compact('citas', 'specialist', 'datos', 'id', 'notificaciones'));
-        } else {
+        } elseif ($role[0]->role_id === 5) { // CoordCitas
             $datos = [];
             $specialist = DB::Table('specialists')->select('id', 'user_id', 'name', 'email', 'degree', 'specialty')->where('status', '=', 1)->get();
             $citas = DB::Table('citas')->orderBy('created_at', 'DESC')->get();

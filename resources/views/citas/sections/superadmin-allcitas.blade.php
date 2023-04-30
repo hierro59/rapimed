@@ -39,7 +39,7 @@
             }
             echo "</td>";
             echo "<td>" . strftime("%d/%m/%Y, ", strtotime($datos[$i]['cita_fecha'])) . $datos[$i]['cita_hora'] . "</td>";
-            echo "<td>" . $datos[$i]['specialist_name'] . "</td>";
+            echo "<td>" . $datos[$i]['paciente_name'] . "</td>";
             echo "<td>" . $datos[$i]['specialist_degree'] . " " . $datos[$i]['specialist_name'] . "</td>";
             echo "<td>" . $datos[$i]['specialist_specialty'] . "</td>";
             echo "<td>" . $datos[$i]['cita_tipo'] . "</td>";
