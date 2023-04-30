@@ -42,7 +42,7 @@ for ($i=0; $i < count($datos); $i++) {
                         break;
                     case 1:
                     case 7:
-                        echo    Form::submit('Reprogramar', ['class' => 'btn btn-info']);
+                        echo '<a href="' . route("citas.edit", $datos[$i]['cita_id']) . '" class="btn btn-info">Reprogramar</a>';
                         $cancelar = array('cita' => $datos[$i]['cita_id'], 'id' => $datos[$i]['cita_id'], 'status' => 4);
                         echo Form::open(['method' => 'PATCH','route' => ['citas.update', $cancelar], 'style'=>'display:inline']);
                         echo    Form::submit('Cancelar', ['class' => 'btn btn-danger light']);
@@ -50,7 +50,7 @@ for ($i=0; $i < count($datos); $i++) {
                         break;
                     case 2:
                     case 3:
-                        echo    Form::submit('Reprogramar', ['class' => 'btn btn-info']);
+                        echo '<a href="' . route("citas.edit", $datos[$i]['cita_id']) . '" class="btn btn-info">Reprogramar</a>';
                         break;
                 }
 
