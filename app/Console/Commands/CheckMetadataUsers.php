@@ -51,7 +51,6 @@ class CheckMetadataUsers extends Command
                     continue;
                 }
                 if ($getMetadata[$i]['state'] == 'Sin datos') {
-                    
                     Mail::to($user_email)->send(new CheckMetadataEmail($objData));
                     continue;
                 }

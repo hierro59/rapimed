@@ -17,6 +17,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('check:metadata')->weekly();
+        $schedule->command('check:controlcitas')->everyMinute();
     }
 
     /**
@@ -31,5 +32,6 @@ class Kernel extends ConsoleKernel
         require base_path('routes/console.php');
 
         'App\Console\Commands\CheckMetadataUsers';
+        'App\Console\Commands\ControlCitasAutomated';
     }
 }

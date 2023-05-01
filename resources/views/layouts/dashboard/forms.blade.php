@@ -1,6 +1,9 @@
 <!--**********************************
     Nueva Cita start
 ***********************************-->
+@php
+    $hoy = date('Y-m-d');
+@endphp
 <div class="modal fade" id="addOrderModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -24,11 +27,11 @@
                     </div>
                     <div class="form-group">
                         <label class="text-black font-w500">Fecha de cita</label>
-                        {!! Form::date('fecha_cita', null, array('placeholder' => 'Fecha de la cita','class' => 'form-control')) !!}
+                        {!! Form::date('fecha_cita', null, array('placeholder' => 'Fecha de la cita','class' => 'form-control', 'min' => $hoy)) !!}
                     </div>
                     <div class="form-group">
                         <label class="text-black font-w500">Hora de cita</label>
-                        {!! Form::time('hora_cita', null, array('placeholder' => 'Hora de la cita','class' => 'form-control')) !!}
+                        {!! Form::time('hora_cita', null, array('placeholder' => 'Hora de la cita','class' => 'form-control', 'min' => '08:00', 'max' => '17:00')) !!}
                     </div>
                     <div class="form-group">
                         <label class="text-black font-w500">Tipo de cita</label>

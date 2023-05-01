@@ -53,7 +53,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::post('/resize-file', [ResizeController::class, 'resizeImage'])->name('resizeImage');
     Route::get('specialistdata', [UserController::class, 'specialist'])->name('specialistdata');
     Route::get('/home', [HomeController::class, 'index'])->name('home');
-    /* Route::get('checkmetadata', [OperationServicesController::class, 'CheckMetadata']); */
+    Route::get('/citas/consultorio-virtual/{id}', [ControlCitasController::class, 'DetalleCita'])->name('consultorio-virtual');
 });
 
 

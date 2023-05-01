@@ -27,6 +27,18 @@
                 <strong>¡Alerta!</strong> Hemos notado que aún no completa sus datos. Para tener una mejor experiencia con nuestros servicios, le recomendamos <a href="{{ route('users.show', Auth::user()->id) }}" style="color: #fff">completar su perfil.</a>
             </div>
         @endif
+        @if ($getCitasInfo)
+            <div class="alert alert-{{ $getCitasInfo[0]['tipo'] }} solid alert-right-icon alert-dismissible fade show">
+                <span><i class="mdi mdi-alert"></i></span>
+                <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close"><span><i class="mdi mdi-close"></i></span>
+                </button>
+                <strong>{{ $getCitasInfo[0]['titulo'] }}</strong> 
+                <p>{{ $getCitasInfo[0]['detalle'] }}</p>
+                @if (isset($getCitasInfo[0]['tipo_cita']) == 'Virtual')
+                    <a href="{{ route('consultorio-virtual', $getCitasInfo[0]['cita_id']) }}" class="btn btn-primary">Ingresar a consulta virtual</a>
+                @endif
+            </div>
+        @endif
         <!--**********************************
             Seccion Botones start
         ***********************************-->

@@ -5,6 +5,9 @@
       background-image: url("{{ asset('thumbnail/profile/' . $data['portada']) }}");
     }
 </style>
+@php
+    $hoy = date('Y-m-d');
+@endphp
     <!--**********************************
         Main wrapper start
     ***********************************-->
@@ -207,11 +210,11 @@
                                                         <input type="text" name="specialist_id" value="{{ $data['specialist_id'] }}" hidden>
                                                         <div class="form-group">
                                                             <label class="text-black font-w500">Fecha de cita</label>
-                                                            {!! Form::date('fecha_cita', null, array('placeholder' => 'Fecha de la cita','class' => 'form-control')) !!}
+                                                            {!! Form::date('fecha_cita', null, array('placeholder' => 'Fecha de la cita','class' => 'form-control', 'min' => $hoy)) !!}
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="text-black font-w500">Hora de cita</label>
-                                                            {!! Form::time('hora_cita', null, array('placeholder' => 'Hora de la cita','class' => 'form-control')) !!}
+                                                            {!! Form::time('hora_cita', null, array('placeholder' => 'Hora de la cita','class' => 'form-control', 'min' => '08:00', 'max' => '17:00')) !!}
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="text-black font-w500">Tipo de cita</label>
@@ -315,11 +318,11 @@
                                                     <input type="text" name="specialist_id" value="{{ $data['specialist_id'] }}" hidden>
                                                     <div class="form-group">
                                                         <label class="text-black font-w500">Fecha de cita</label>
-                                                        {!! Form::date('fecha_cita', null, array('placeholder' => 'Fecha de la cita','class' => 'form-control')) !!}
+                                                        {!! Form::date('fecha_cita', null, array('placeholder' => 'Fecha de la cita','class' => 'form-control', 'min' => $hoy)) !!}
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="text-black font-w500">Hora de cita</label>
-                                                        {!! Form::time('hora_cita', null, array('placeholder' => 'Hora de la cita','class' => 'form-control')) !!}
+                                                        {!! Form::time('hora_cita', null, array('placeholder' => 'Hora de la cita','class' => 'form-control', 'min' => '08:00', 'max' => '17:00')) !!}
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="text-black font-w500">Tipo de cita</label>

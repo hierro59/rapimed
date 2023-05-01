@@ -34,8 +34,10 @@ class HomeController extends Controller
     {
         $id = Auth::user()->id;
 
-        $getMetadata = new OperationServicesController;
-        $completedMetadata = $getMetadata->CheckMetadata($id);
+        $OperatonServices = new OperationServicesController;
+        $completedMetadata = $OperatonServices->CheckMetadata($id);
+
+        $getCitasInfo = $OperatonServices->CheckCitas($id);
 
         $role = DB::Table('model_has_roles')->where('model_id', '=', $id)->get();
         $notificaciones = Notification::where('to_id', $id)->get();
@@ -75,7 +77,7 @@ class HomeController extends Controller
                     ];
                 array_push($datos, $array);
             }
-            return view('home', compact('datos', 'specialist', 'id', 'notificaciones', 'completedMetadata'));
+            return view('home', compact('datos', 'specialist', 'id', 'notificaciones', 'completedMetadata', 'getCitasInfo'));
         } elseif ($role[0]->role_id === 2) { //Customer
             $datos = [];
             $specialist = DB::Table('specialists')->select('id', 'name', 'email', 'degree', 'specialty')->where('status', '=', 1)->get();
@@ -111,7 +113,7 @@ class HomeController extends Controller
                     ];
                 array_push($datos, $array);
             }
-            return view('home', compact('citas', 'specialist', 'datos', 'id', 'notificaciones', 'completedMetadata'));
+            return view('home', compact('citas', 'specialist', 'datos', 'id', 'notificaciones', 'completedMetadata', 'getCitasInfo'));
         } else { //SuperAdmin
             $datos = [];
             $citas = DB::Table('citas')->orderBy('created_at', 'DESC')->limit(20)->get();
@@ -178,7 +180,7 @@ class HomeController extends Controller
                 array_push($score_customers, $array2);
             }
             $role = 'SuperAdmin';
-            return view('home', compact('datos', 'specialist', 'id', 'notificaciones', 'numCustomers', 'countSpecialist', 'score_customers', 'role', 'completedMetadata'));
+            return view('home', compact('datos', 'specialist', 'id', 'notificaciones', 'numCustomers', 'countSpecialist', 'score_customers', 'role', 'completedMetadata', 'getCitasInfo'));
         }
     }
 }

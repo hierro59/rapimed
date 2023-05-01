@@ -44,7 +44,7 @@
     <input type="text" name="accion" value="reprogramar" hidden>
     <input type="text" name="especialista" value="{{ $especialista->degree . " " . $especialista->name }}" hidden>
     <div class="form-group">
-        <button type="submit" class="btn btn-primary">Solicitar</button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
     </div>
     {!! Form::close() !!}
 </div>

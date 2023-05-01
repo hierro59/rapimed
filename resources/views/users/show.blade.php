@@ -179,7 +179,7 @@
                                                 @endphp
                                                 </span>
                                                 <p class="fs-18 mb-0 text-black">{{ $data['direccion'] }}, {{ $data['ciudad'] }}, <strong class="d-block">{{ $data['estado'] }}</strong></p>
-                                                <small><a href="https://www.openstreetmap.org/#map=7/8.135/-66.456" targ>Ver mapa más grande</a></small>
+                                                {{-- <small><a href="https://www.openstreetmap.org/#map=7/8.135/-66.456" targ>Ver mapa más grande</a></small> --}}
                                             </div>
                                         </div>
                                     </div>
