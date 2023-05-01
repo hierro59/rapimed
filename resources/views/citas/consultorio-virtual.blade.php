@@ -11,7 +11,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-9">
-                <embed src="https://meet.jit.si/Cita-Rapimed-{{ $datosCita['especialista'] . '-' . $datosCita['cita_id'] }}#config.prejoinConfig.enabled=false" style="width: 100%;" height="400">
+                <iframe src="https://meet.jit.si/Cita-Rapimed-{{ $datosCita['especialista'] . '-' . $datosCita['cita_id'] }}#config.prejoinConfig.enabled=false" style="width: 100%;" height="400"></iframe>
             </div>
             <div class="col-sm-3">
                 <form action="{{ route('scorecustomer.store') }}" method="POST">
