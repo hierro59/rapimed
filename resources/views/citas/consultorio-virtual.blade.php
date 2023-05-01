@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-
+<script src="https://meet.jit.si/external_api.js"></script>
 <div class="content-body">
     <div class="form-head d-flex align-items-center mb-sm-4 mb-3">
         <div class="mr-auto">
@@ -11,7 +11,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-9">
-                <iframe src="https://meet.jit.si/Cita-Rapimed-{{ $datosCita['especialista'] . '-' . $datosCita['cita_id'] }}#config.prejoinConfig.enabled=false" style="width: 100%;" height="400"></iframe>
+                <div id="meet" style="width: 100%; height: 400px;"></div>
             </div>
             <div class="col-sm-3">
                 <form action="{{ route('scorecustomer.store') }}" method="POST">
@@ -39,4 +39,15 @@
         </div>
     </div>
 </div>
+<script>
+    var domain = "meet.jit.si";
+    var options = {
+        roomName: "Cita-Rapimed-{{ $datosCita['especialista'] . '-' . $datosCita['cita_id'] }}",
+        parentNode: document.querySelector('#meet'),
+        lang: 'es',
+        configOverwrite: {},
+        interfaceConfigOverwrite: {}
+    }
+    var api = new JitsiMeetExternalAPI(domain, options);
+</script>
 @endsection
