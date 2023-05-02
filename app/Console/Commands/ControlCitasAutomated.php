@@ -70,10 +70,10 @@ class ControlCitasAutomated extends Command
                 $minutoActual = date('i');
                 $minutoCita = $horaCita[1];
 
-                logger('-------------------');
+                /* logger('-------------------');
                 logger($getCitas[$i]['id']);
                 logger($fechaCompuestaCita);
-                logger($masundia);
+                logger($masundia); */
 
                 /**
                  * Chequea citas que le faltan 10 minutos para inicar
