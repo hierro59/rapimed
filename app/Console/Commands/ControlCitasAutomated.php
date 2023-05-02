@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\ScoreCustomer;
 use Illuminate\Console\Command;
 use App\Models\Citas;
 use App\Models\User;
@@ -50,6 +51,7 @@ class ControlCitasAutomated extends Command
                 $ncc_menos_diez = (count($ncc) >= 1) ? $ncc[0]['ncc_menos_diez'] : NULL;
                 $ncc_menos_cinco = (count($ncc) >= 1) ? $ncc[0]['ncc_menos_cinco'] : NULL;
                 $ncc_menos_un_dia = (count($ncc) >= 1) ? $ncc[0]['ncc_menos_un_dia'] : NULL;
+                $ncc_mas_un_dia = (count($ncc) >= 1) ? $ncc[0]['ncc_mas_un_dia'] : NULL;
                 $ncc_inicio = (count($ncc) >= 1) ? $ncc[0]['ncc_inicio'] : NULL;
 
                 $fechaCita = explode(" ", $getCitas[$i]['fecha_cita']);
@@ -59,6 +61,8 @@ class ControlCitasAutomated extends Command
                 $horaMenos10 = date('Y-m-d H:i:s', strtotime('-10 minute' , strtotime($fechaCompuestaCita)));
                 $horaMenos5 = date('Y-m-d H:i:s', strtotime('-5 minute' , strtotime($fechaCompuestaCita)));
                 $fechaMasUnaHora = date('Y-m-d H:i:s', strtotime('+60 minute' , strtotime($fechaCompuestaCita)));
+
+                $masundia = date('Y-m-d H:i:s', strtotime('+1 day', strtotime($fechaCompuestaCita)));
                 
                 $menosundia = date('Y-m-d H:i:s', strtotime('-1 day', strtotime($fechaCompuestaCita)));
                 
@@ -67,8 +71,9 @@ class ControlCitasAutomated extends Command
                 $minutoCita = $horaCita[1];
 
                 logger('-------------------');
-                logger(json_encode($paciente));
                 logger($getCitas[$i]['id']);
+                logger($fechaCompuestaCita);
+                logger($masundia);
 
                 /**
                  * Chequea citas que le faltan 10 minutos para inicar
@@ -134,6 +139,32 @@ class ControlCitasAutomated extends Command
                             'updated_at' => $fechaActual
                         ];
                         DB::table('notifications_control_citas')->where('id', '=', $ncc[0]['id'])->update($saveDB);
+                    } elseif (count($ncc) == 0) {
+                        $saveDB = [
+                            'ncc_cita_id' => $getCitas[$i]['id'],
+                            'ncc_menos_diez' => 1,
+                            'ncc_menos_cinco' => 1,
+                            'created_at' => $fechaActual,
+                            'updated_at' => $fechaActual
+                        ];
+                        DB::table('notifications_control_citas')->insert($saveDB);
+                    }
+                    try {
+                        $objData = new \stdClass();
+                        $objData->sender = 'RapiMed';
+                        $objData->paciente = $paciente->name;
+                        $objData->email = $paciente->email;
+                        $objData->especialistaDegree = $especialista->degree;
+                        $objData->especialistaNombre = $especialista->name;
+                        $objData->detalle = 'Su cita #' . $getCitas[$i]['id'] . ' inciará en ' . $minRestantes . ' minutos';
+                        $objData->citaId = $getCitas[$i]['id'];
+                        $objData->fecha = $fechaCita[0];
+                        $objData->hora = $getCitas[$i]['hora_cita'];
+                        $objData->tipo = $getCitas[$i]['tipo'];
+                        Mail::to($paciente->email)->send(new RecordatorioCita($objData));
+                        Mail::to($especialista->email)->send(new RecordatorioCita($objData));
+                    } catch (Exception $e) {
+                        logger($e);
                     }
                     logger(json_encode($response));
                 }
@@ -142,7 +173,7 @@ class ControlCitasAutomated extends Command
                  * Chequea citas que Iniciaron
                  */
 
-                 if ($fechaActual >= $fechaCompuestaCita && $ncc_inicio == NULL) {
+                if ($fechaActual >= $fechaCompuestaCita && $ncc_inicio == NULL) {
                     $minRestantes = (int)$minutoCita - (int)$minutoActual;
                     $array = [
                         'titulo' => 'Cita Iniciada',
@@ -160,8 +191,92 @@ class ControlCitasAutomated extends Command
                             'updated_at' => $fechaActual
                         ];
                         DB::table('notifications_control_citas')->where('id', '=', $ncc[0]['id'])->update($saveDB);
+                    } elseif (count($ncc) == 0) {
+                        $saveDB = [
+                            'ncc_cita_id' => $getCitas[$i]['id'],
+                            'ncc_menos_diez' => 1,
+                            'ncc_menos_cinco' => 1,
+                            'ncc_inicio' => 1,
+                            'created_at' => $fechaActual,
+                            'updated_at' => $fechaActual
+                        ];
+                        DB::table('notifications_control_citas')->insert($saveDB);
+                    }
+                    try {
+                        $objData = new \stdClass();
+                        $objData->sender = 'RapiMed';
+                        $objData->paciente = $paciente->name;
+                        $objData->email = $paciente->email;
+                        $objData->especialistaDegree = $especialista->degree;
+                        $objData->especialistaNombre = $especialista->name;
+                        $objData->detalle = '¡Ya es la hora! Su cita #' . $getCitas[$i]['id'] . ' inició.';
+                        $objData->citaId = $getCitas[$i]['id'];
+                        $objData->fecha = $fechaCita[0];
+                        $objData->hora = $getCitas[$i]['hora_cita'];
+                        $objData->tipo = $getCitas[$i]['tipo'];
+                        Mail::to($paciente->email)->send(new RecordatorioCita($objData));
+                        Mail::to($especialista->email)->send(new RecordatorioCita($objData));
+                    } catch (Exception $e) {
+                        logger($e);
                     }
                     logger(json_encode($response));
+                }
+
+                /**
+                 * Chequea citas que termiaron hace un dia y no han calificado
+                 */
+
+                if ($fechaActual >= $masundia && $ncc_mas_un_dia == NULL) {
+                    $score = ScoreCustomer::where('cita_id', '=', $getCitas[$i]['id'])->get();
+                    
+                    if (count($score) <= 0) {
+                        $minRestantes = (int)$minutoCita - (int)$minutoActual;
+                        $array = [
+                            'titulo' => 'Calificar',
+                            'detalle' => 'Su cita #' . $getCitas[$i]['id'] . ' se realizó ayer y notamos que aún no ha calificado su experiencia. Le recordamos que para nosotros su opinión es muy importante y nos ayuda a mejorar nuestros servicios. Lo invitamos a ingresar al sistema para que nos cuente como le fue.',
+                            'tipo' => 'info',
+                            'fecha' => $fechaCompuestaCita,
+                            'cita_id' => $getCitas[$i]['id'],
+                            'tipo_cita' => $getCitas[$i]['tipo']
+                        ];
+                        array_push($response, $array);
+                        try {
+                            $objData = new \stdClass();
+                            $objData->sender = 'RapiMed';
+                            $objData->paciente = $paciente->name;
+                            $objData->email = $paciente->email;
+                            $objData->especialistaDegree = $especialista->degree;
+                            $objData->especialistaNombre = $especialista->name;
+                            $objData->detalle = 'Su cita #' . $getCitas[$i]['id'] . ' se realizó ayer y notamos que aún no ha calificado su experiencia. Le recordamos que para nosotros su opinión es muy importante y nos ayuda a mejorar nuestros servicios. Lo invitamos a ingresar al sistema para que nos cuente como le fue.';
+                            $objData->citaId = $getCitas[$i]['id'];
+                            $objData->fecha = $fechaCita[0];
+                            $objData->hora = $getCitas[$i]['hora_cita'];
+                            $objData->tipo = 'Calificar';
+                            Mail::to($paciente->email)->send(new RecordatorioCita($objData));
+                            /* Mail::to($especialista->email)->send(new RecordatorioCita($objData)); */
+                        } catch (Exception $e) {
+                            logger($e);
+                        }
+                        if (count($ncc) >= 1) {
+                            $saveDB = [
+                                'ncc_mas_un_dia' => 1,
+                                'updated_at' => $fechaActual
+                            ];
+                            DB::table('notifications_control_citas')->where('id', '=', $ncc[0]['id'])->update($saveDB);
+                        } elseif (count($ncc) == 0) {
+                            $saveDB = [
+                                'ncc_cita_id' => $getCitas[$i]['id'],
+                                'ncc_menos_diez' => 1,
+                                'ncc_menos_cinco' => 1,
+                                'ncc_inicio' => 1,
+                                'ncc_mas_un_dia' => 1,
+                                'created_at' => $fechaActual,
+                                'updated_at' => $fechaActual
+                            ];
+                            DB::table('notifications_control_citas')->insert($saveDB);
+                        }
+                        logger(json_encode($response));
+                    }
                 }
             }
         } else {

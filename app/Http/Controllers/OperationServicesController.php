@@ -41,14 +41,12 @@ class OperationServicesController extends Controller
                 $minutoActual = date('i');
                 $minutoCita = $horaCita[1];
 
-                logger('-------------------');
-                /* logger($fechaActual);
-                logger($horaMenos10); */
-
                 if ($fechaActual >= $horaMenos10 && $fechaActual <= $fechaCompuestaCita) {
                     $minRestantes = (int)$minutoCita - (int)$minutoActual;
+                    logger('-------------------');
                     logger($minutoActual);
                     logger($minutoCita);
+                    logger($getCitas[$i]['id']);
                     $array = [
                         'titulo' => 'Cita por iniciar',
                         'detalle' => 'Su cita #' . $getCitas[$i]['id'] . ' inciará en ' . $minRestantes . ' minutos',
@@ -58,6 +56,7 @@ class OperationServicesController extends Controller
                         'tipo_cita' => (isset($getCitas[$i]['tipo']) ? $getCitas[$i]['tipo'] : "")
                     ];
                     array_push($response, $array);
+                    logger($getCitas[$i]['tipo']);
                 }
                 /* if (date('Y-m-d', strtotime($fechaCita[0])) >= date('Y-m-d')) {
                     $array = [

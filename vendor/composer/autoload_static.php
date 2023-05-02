@@ -587,6 +587,7 @@ class ComposerStaticInit0aa68b7696d6bccff8f675ebe198e6e1
         'App\\Mail\\DemoEmail' => __DIR__ . '/../..' . '/app/Mail/DemoEmail.php',
         'App\\Mail\\NewCitaEmail' => __DIR__ . '/../..' . '/app/Mail/NewCitaEmail.php',
         'App\\Mail\\NewSpecialistEmail' => __DIR__ . '/../..' . '/app/Mail/NewSpecialistEmail.php',
+        'App\\Mail\\RecordatorioCita' => __DIR__ . '/../..' . '/app/Mail/RecordatorioCita.php',
         'App\\Mail\\RegisterEmail' => __DIR__ . '/../..' . '/app/Mail/RegisterEmail.php',
         'App\\Mail\\RejectedCitaEmail' => __DIR__ . '/../..' . '/app/Mail/RejectedCitaEmail.php',
         'App\\Mail\\ReprogramadaCitaEmail' => __DIR__ . '/../..' . '/app/Mail/ReprogramadaCitaEmail.php',

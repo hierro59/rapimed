@@ -34,7 +34,7 @@
                 </button>
                 <strong>{{ $getCitasInfo[0]['titulo'] }}</strong> 
                 <p>{{ $getCitasInfo[0]['detalle'] }}</p>
-                @if (isset($getCitasInfo[0]['tipo_cita']) == 'Virtual')
+                @if ($getCitasInfo[0]['tipo_cita'] == 'Virtual')
                     <a href="{{ route('consultorio-virtual', $getCitasInfo[0]['cita_id']) }}" class="btn btn-primary">Ingresar a consulta virtual</a>
                 @endif
             </div>

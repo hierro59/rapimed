@@ -51,6 +51,7 @@ return array(
     'App\\Mail\\DemoEmail' => $baseDir . '/app/Mail/DemoEmail.php',
     'App\\Mail\\NewCitaEmail' => $baseDir . '/app/Mail/NewCitaEmail.php',
     'App\\Mail\\NewSpecialistEmail' => $baseDir . '/app/Mail/NewSpecialistEmail.php',
+    'App\\Mail\\RecordatorioCita' => $baseDir . '/app/Mail/RecordatorioCita.php',
     'App\\Mail\\RegisterEmail' => $baseDir . '/app/Mail/RegisterEmail.php',
     'App\\Mail\\RejectedCitaEmail' => $baseDir . '/app/Mail/RejectedCitaEmail.php',
     'App\\Mail\\ReprogramadaCitaEmail' => $baseDir . '/app/Mail/ReprogramadaCitaEmail.php',

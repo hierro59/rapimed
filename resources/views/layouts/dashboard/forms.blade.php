@@ -23,15 +23,15 @@
                                 array_push($line);
                             }
                         @endphp
-                        {!! Form::select('specialist_id', $line,[], array('placeholder' => 'Seleccione un especialista','class' => 'form-control')) !!}
+                        {!! Form::select('specialist_id', $line,[], array('placeholder' => 'Seleccione un especialista','class' => 'form-control', 'required')) !!}
                     </div>
                     <div class="form-group">
                         <label class="text-black font-w500">Fecha de cita</label>
-                        {!! Form::date('fecha_cita', null, array('placeholder' => 'Fecha de la cita','class' => 'form-control', 'min' => $hoy)) !!}
+                        {!! Form::date('fecha_cita', null, array('placeholder' => 'Fecha de la cita','class' => 'form-control', 'min' => $hoy, 'required')) !!}
                     </div>
                     <div class="form-group">
                         <label class="text-black font-w500">Hora de cita</label>
-                        {!! Form::time('hora_cita', null, array('placeholder' => 'Hora de la cita','class' => 'form-control', 'min' => '08:00', 'max' => '17:00')) !!}
+                        {!! Form::time('hora_cita', null, array('placeholder' => 'Hora de la cita','class' => 'form-control', 'min' => '08:00', 'max' => '17:00', 'required')) !!}
                     </div>
                     <div class="form-group">
                         <label class="text-black font-w500">Tipo de cita</label>
@@ -42,7 +42,7 @@
                                 'Virtual' => 'Virtual'
                             ];
                         @endphp
-                        {!! Form::select('tipo', $optionsTipo,[], array('placeholder' => 'Seleccione el tipo de cita','class' => 'form-control','simple')) !!}
+                        {!! Form::select('tipo', $optionsTipo,[], array('placeholder' => 'Seleccione el tipo de cita','class' => 'form-control','simple', 'required')) !!}
                     </div>
 
                     {!! Form::text('user_id', $id, array('hidden')) !!}
