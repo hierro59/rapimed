@@ -15,6 +15,7 @@ use App\Http\Controllers\SpecialistController;
 use App\Http\Controllers\ScoreCustomerController;
 use App\Http\Controllers\PerfilPublicController;
 use App\Http\Controllers\DoctorsPublicController;
+use App\Http\Controllers\TerapeutasPublicController;
 use App\Http\Controllers\WelcomePublicController;
 use App\Http\Controllers\ControlCitasController;
 
@@ -36,6 +37,7 @@ Auth::routes(['verify' => true]);
 Route::post('send', [MailController::class, 'send'])->name('send');
 Route::get('/perfil/{id}', PerfilPublicController::class)->name('perfil');
 Route::get('/doctors', DoctorsPublicController::class)->name('doctors');
+Route::get('/terapeutas', TerapeutasPublicController::class)->name('terapeutas');
 Route::get('/', WelcomePublicController::class)->name('welcome');
 //Route::get('/welcome', WelcomePublicController::class)->name('welcome');
 

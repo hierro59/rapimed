@@ -32,7 +32,8 @@ class Specialist extends Authenticatable
         'tc_virtual',
         'tc_consultorio',
         'dob',
-        'dog'
+        'dog',
+        'tipo_especialista'
     ];
 
     /**

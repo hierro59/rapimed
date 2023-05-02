@@ -5,11 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Specialist;
 use App\Models\UserUploadImages;
 
-class DoctorsPublicController extends Controller
+class TerapeutasPublicController extends Controller
 {
     public function __invoke()
     {
-        $especialistas = Specialist::where('status', '=', 1)->where('tipo_especialista', '=', 1)->inRandomOrder()->get();
+        $especialistas = Specialist::where('status', '=', 1)->where('tipo_especialista', '=', 2)->inRandomOrder()->get();
 
         $data = [];
 

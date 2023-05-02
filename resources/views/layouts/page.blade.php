@@ -121,11 +121,14 @@
                   <a class="nav-link" href="{{ route('welcome') }}">Home</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="{{ route('doctors') }}">Doctores</a>
+                  <a class="dropdown-item" href="{{ route('doctors') }}">Doctores</a>
+                </li>
+                <li class="nav-item">
+                  <a class="dropdown-item" href="{{ route('terapeutas') }}">Terapeutas</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#pronto">Servicios</a>
-                  </li>
+                </li>
                 <li class="nav-item">
                   <a class="nav-link" href="blog">Blog</a>
                 </li>
