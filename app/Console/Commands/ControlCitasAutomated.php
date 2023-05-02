@@ -44,7 +44,7 @@ class ControlCitasAutomated extends Command
             for ($i=0; $i < count($getCitas); $i++) { 
 
                 $paciente = User::find($getCitas[$i]['user_id']);
-                $especialista = User::find($getCitas[$i]['specialist_id']);
+                $especialista = Specialist::find($getCitas[$i]['specialist_id']);
 
                 $ncc = NotificationsControlCitas::where('ncc_cita_id', '=', $getCitas[$i]['id'])->get();
                 
