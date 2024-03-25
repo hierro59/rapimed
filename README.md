@@ -1,10 +1,4 @@
-# Sistema base de usuarios, roles y productos.
-
-## Sobre el sistema
-
-Para el desarrollo de este sistema se siguió en tutorial de [ Mywebtuts.com](https://www.mywebtuts.com/blog/laravel-9-user-roles-and-permissions-tutorial-example?ref=morioh.com&utm_source=morioh.com) corrigiendo algunas inconsistencias y errores.
-
-Adicionalmente se ajustaron algunos estilos de diseño en las plantillas.
+# Sistema de Citas para profecionales de la salud.
 
 ## Tecnologías
 
