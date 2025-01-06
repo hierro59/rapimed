@@ -1,4 +1,4 @@
-# Sistema de Citas para profecionales de la salud.
+# Sistema de Citas para profesionales de la salud.
 
 ## Tecnologías
 
@@ -9,7 +9,7 @@
 -   Bootsatrap
 -   entre otras.
 
-## Concideraqciones generales
+## Consideraciones generales
 
 Este sistema fue compilado con la intención de ponerlo disponible ante la comunidad y pueda ser usado de manera libre.
 
